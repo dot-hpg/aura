@@ -1,0 +1,1113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AURA Automation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="AURA Automation designs and installs smart homes in Hyderabad: smart touch switch boards, smart door locks, video door bells, CCTV, smart lighting and motorised curtains. Visit our experience centre at E-Galleria Mall, Hitech City.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "AURA Automation",
+  "alternateName": "Smart Homes Telangana",
+  "description": "Smart home automation in Hyderabad: smart switch boards, smart door locks, video door bells, CCTV, smart lighting and curtains.",
+  "telephone": "+91-7386664612",
+  "address": {"@type": "PostalAddress","streetAddress": "E-Galleria Mall, Hitech City","addressLocality": "Hyderabad","addressRegion": "Telangana","addressCountry": "IN"},
+  "areaServed": "Hyderabad",
+  "sameAs": ["https://www.instagram.com/smarthomes_aura/"]
+}
+</script>
+<style>
+/* Layout concept: the page is a wall, the hero is one glass switch plate; each section is a room you walk through, and cyan is the LED backlight that marks what's "on". */
+:root{
+  --bg:#F2F5F8;
+  --bg-2:#E8EDF2;
+  --surface:#FFFFFF;
+  --ink:#0D1A2B;
+  --muted:#556479;
+  --line:#D7DFE8;
+  --navy:#173253;
+  --cyan:#0A9EC0;
+  --cyan-soft:rgba(10,158,192,.10);
+  --glow:#33D4F2;
+  --on-accent:#FFFFFF;
+  --panel:#0A0E13;
+  --panel-edge:#2A323D;
+  --panel-ink:#9AA6B4;
+  --wall:#E9E3DA;
+  --wall-dim:#C9C2B8;
+  --floor:#CDBFAD;
+  --wa:#1FA855;
+  --logo:#173253;
+  --shadow:0 1px 2px rgba(13,26,43,.06),0 12px 32px -12px rgba(13,26,43,.18);
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --s-1:.8125rem;--s0:1rem;--s1:1.125rem;--s2:1.375rem;--s3:1.75rem;--s4:clamp(2rem,4vw,2.75rem);--s5:clamp(2.5rem,6.2vw,4.75rem);
+  --r:14px;
+  --max:1200px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#07101B;--bg-2:#0B1624;--surface:#0F1C2C;--ink:#E7EDF4;--muted:#93A3B7;--line:#1D2C3F;
+  --navy:#9CC3EA;--cyan:#3CCFEE;--cyan-soft:rgba(60,207,238,.12);--glow:#4FDCF5;--on-accent:#04131C;
+  --logo:#3A6798;--wall:#1A2330;--wall-dim:#121A25;--floor:#151D28;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 16px 40px -16px rgba(0,0,0,.6);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#07101B;--bg-2:#0B1624;--surface:#0F1C2C;--ink:#E7EDF4;--muted:#93A3B7;--line:#1D2C3F;
+  --navy:#9CC3EA;--cyan:#3CCFEE;--cyan-soft:rgba(60,207,238,.12);--glow:#4FDCF5;--on-accent:#04131C;
+  --logo:#3A6798;--wall:#1A2330;--wall-dim:#121A25;--floor:#151D28;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 16px 40px -16px rgba(0,0,0,.6);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+h1,h2,h3{font-family:var(--f-display);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--f-mono);font-size:var(--s-1);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);display:inline-flex;align-items:center;gap:.6em}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--glow);box-shadow:0 0 10px var(--glow)}
+.lede{color:var(--muted);font-size:var(--s1);max-width:58ch}
+.sec{padding-block:clamp(64px,9vw,112px)}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(32px,5vw,52px);max-width:760px}
+.sec-head h2{font-size:var(--s4)}
+.mono{font-family:var(--f-mono)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55em;padding:.85em 1.35em;border-radius:999px;border:1px solid transparent;font-weight:600;text-decoration:none;cursor:pointer;transition:transform .15s,background .2s,border-color .2s,box-shadow .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{box-shadow:0 8px 24px -8px var(--cyan)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-ghost{border-color:var(--line);background:var(--surface)}
+.btn-ghost:hover{border-color:var(--cyan)}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* Header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hdr .wrap{display:flex;align-items:center;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:34px;height:34px}
+.brand b{font-family:var(--f-display);font-weight:700;font-size:1.3rem;letter-spacing:.14em}
+.brand small{display:block;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.32em;color:var(--muted);margin-top:-3px}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:500;padding:8px 11px;border-radius:999px;font-size:.95rem}
+.nav a:hover{color:var(--ink);background:var(--bg-2)}
+.hdr-cta{display:flex;gap:8px}
+.menu-btn{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:10px;width:42px;height:42px;cursor:pointer}
+@media (max-width:1240px){.hdr-cta .btn-ghost{display:none}}
+@media (max-width:1060px){
+  .nav{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--surface);border-bottom:1px solid var(--line);padding:12px max(20px,env(safe-area-inset-left,0px)) 20px;box-shadow:var(--shadow)}
+  .nav.open{display:flex}
+  .nav a{padding:12px}
+  .menu-btn{display:grid;place-items:center}
+  .hdr-cta .btn-ghost{display:none}
+}
+@media (max-width:520px){.hdr-cta{display:none}}
+
+/* Hero */
+.hero{padding-block:clamp(40px,6vw,80px) clamp(56px,7vw,96px);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:-20% -10% auto auto;width:60vw;height:60vw;max-width:760px;max-height:760px;background:radial-gradient(closest-side,var(--cyan-soft),transparent);pointer-events:none;z-index:-1}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero-copy{display:grid;gap:22px;min-width:0}
+.hero h1{font-size:var(--s5);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--cyan);text-shadow:0 0 28px var(--cyan-soft)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:10px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.93rem}
+.hero-facts span{display:inline-flex;align-items:center;gap:8px}
+.hero-facts svg{width:18px;height:18px;color:var(--cyan);flex:none}
+
+/* Live demo: room + switch plate */
+.demo{position:relative;min-width:0}
+.room{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:5/4;max-width:100%;background:var(--wall);box-shadow:var(--shadow);border:1px solid var(--line);transition:background .6s}
+.room svg.scene{position:absolute;inset:0;width:100%;height:100%}
+.room .dimmer{position:absolute;inset:0;background:#050a12;opacity:.0;transition:opacity .7s;pointer-events:none}
+.room[data-lights="off"] .dimmer{opacity:.55}
+.lamp-glow{transition:opacity .6s}
+.room[data-lights="off"] .lamp-glow{opacity:0}
+.curtain{transition:transform 1.1s cubic-bezier(.6,.05,.2,1)}
+.room[data-curtains="open"] .curtain-l{transform:translateX(-62px)}
+.room[data-curtains="open"] .curtain-r{transform:translateX(62px)}
+.sky{transition:fill .6s}
+.lockdot{transition:fill .3s}
+.ac-air{transition:opacity .5s}
+.room[data-ac="off"] .ac-air{opacity:0}
+.tv-screen{transition:fill .5s}
+.room[data-scene="movie"] .tv-screen{fill:#2b6fd6}
+.status{position:absolute;left:16px;top:16px;display:flex;flex-wrap:wrap;gap:6px;max-width:70%}
+.chip{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(10,14,19,.72);color:#E6EEF6;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:6px}
+.chip i{width:6px;height:6px;border-radius:50%;background:#5c6672}
+.chip.on i{background:#4FDCF5;box-shadow:0 0 8px #4FDCF5}
+.plate{position:absolute;right:-14px;bottom:-26px;width:min(300px,62%);background:linear-gradient(160deg,#1a2129,var(--panel) 45%);border:1px solid var(--panel-edge);border-radius:18px;padding:18px 18px 16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);color:var(--panel-ink)}
+.plate-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.24em;margin-bottom:14px}
+.plate-top b{color:#cfd8e2;font-weight:500}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.key{aspect-ratio:1;border-radius:12px;border:1px solid #1f2731;background:#0d1218;display:grid;place-items:center;cursor:pointer;position:relative;color:#5d6873;transition:color .25s,box-shadow .25s,border-color .25s}
+.key svg{width:22px;height:22px}
+.key[aria-pressed="true"]{color:#4FDCF5;border-color:#1f3e4a;box-shadow:inset 0 0 14px rgba(79,220,245,.15),0 0 16px -4px rgba(79,220,245,.6)}
+.key:focus-visible{outline-color:#4FDCF5}
+.key-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px;font-size:.62rem;text-align:center;letter-spacing:.04em}
+.scenes{display:flex;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid #1d242d}
+.scene-btn{flex:1;background:none;border:1px solid #232c36;border-radius:999px;padding:6px 0;font-size:.68rem;color:#aeb9c5;cursor:pointer;font-family:var(--f-mono)}
+.scene-btn[aria-pressed="true"]{border-color:#2f6474;color:#4FDCF5}
+.demo-note{margin-top:22px;max-width:calc(100% - 330px);font-size:.85rem;color:var(--muted);font-family:var(--f-mono)}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}.plate{right:12px;bottom:-30px;width:min(290px,78%)}.demo{margin-bottom:24px}}
+@media (max-width:640px){.plate{position:relative;right:auto;bottom:auto;margin:-36px auto 0;width:92%}.demo-note{max-width:none;text-align:center}.demo{margin-bottom:0}}
+@media (prefers-reduced-motion:no-preference){
+  .hero-copy>*{animation:rise .7s both}
+  .hero-copy>*:nth-child(2){animation-delay:.06s}.hero-copy>*:nth-child(3){animation-delay:.12s}.hero-copy>*:nth-child(4){animation-delay:.18s}.hero-copy>*:nth-child(5){animation-delay:.24s}
+  .plate{animation:plate .9s .2s both}
+}
+@keyframes rise{from{transform:translateY(12px)}to{transform:none}}
+@keyframes plate{from{transform:translateY(16px)}to{transform:none}}
+
+/* Brand strip */
+.strip{border-block:1px solid var(--line);background:var(--surface)}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:12px 40px;align-items:center;justify-content:space-between;padding-block:20px}
+.strip p{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted);letter-spacing:.06em}
+.strip ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 28px;font-weight:600;color:var(--ink)}
+.strip li{display:flex;align-items:center;gap:8px}
+.strip li::before{content:"";width:5px;height:5px;background:var(--cyan);border-radius:50%}
+
+/* Products */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.prod{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;transition:border-color .2s,transform .2s}
+.prod:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.prod-vis{height:170px;background:linear-gradient(180deg,var(--bg-2),var(--surface));display:grid;place-items:center;border-bottom:1px solid var(--line);color:var(--ink);position:relative}
+.prod-vis svg{height:120px;width:auto;max-width:80%}
+.prod-tag{position:absolute;top:12px;left:12px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;background:var(--cyan-soft);color:var(--cyan);padding:4px 9px;border-radius:999px}
+.prod-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.prod h3{font-size:var(--s2);font-weight:700}
+.prod p{color:var(--muted);font-size:.95rem}
+.feat{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.feat li{font-size:.78rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--ink)}
+.prod-foot{margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px dashed var(--line)}
+.prod-foot .from{font-family:var(--f-mono);font-size:.82rem;color:var(--muted)}
+.prod-foot .from b{color:var(--ink);font-size:.95rem}
+.prod-foot a{font-weight:600;font-size:.9rem;color:var(--cyan);text-decoration:none;white-space:nowrap}
+.prod-foot a:hover{text-decoration:underline}
+@media (max-width:980px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.prod-grid{grid-template-columns:1fr}}
+
+/* Estimator */
+.est-band{background:var(--navy);color:#EAF2FA}
+:root .est-band{--e-bg:#0E2440;--e-card:#132E50;--e-line:#24426A;--e-muted:#A9BED6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .est-band{--e-bg:#0B1A2C;--e-card:#10233A;--e-line:#1F3653;--e-muted:#93A9C3}}
+:root[data-theme="dark"] .est-band{--e-bg:#0B1A2C;--e-card:#10233A;--e-line:#1F3653;--e-muted:#93A9C3}
+.est-band{background:var(--e-bg)}
+.est-band .lede{color:var(--e-muted)}
+.est-band .eyebrow{color:#4FDCF5}
+.est{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
+.est-left{display:grid;gap:18px;min-width:0}
+.ptypes{display:flex;flex-wrap:wrap;gap:8px}
+.ptype{border:1px solid var(--e-line);background:transparent;color:#EAF2FA;border-radius:999px;padding:9px 16px;cursor:pointer;font-weight:500}
+.ptype[aria-pressed="true"]{background:#4FDCF5;color:#04131C;border-color:#4FDCF5}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{display:flex;align-items:center;gap:12px;background:var(--e-card);border:1px solid var(--e-line);border-radius:12px;padding:12px 12px 12px 14px;min-width:0}
+.item .ic{width:36px;height:36px;border-radius:10px;background:rgba(79,220,245,.1);display:grid;place-items:center;color:#4FDCF5;flex:none}
+.item .ic svg{width:20px;height:20px}
+.item .meta{flex:1;min-width:0}
+.item .meta b{display:block;font-weight:600;font-size:.93rem;line-height:1.25}
+.item .meta span{font-family:var(--f-mono);font-size:.72rem;color:var(--e-muted)}
+.step{display:flex;align-items:center;border:1px solid var(--e-line);border-radius:999px;flex:none}
+.step button{width:30px;height:30px;border:0;background:none;color:#EAF2FA;cursor:pointer;font-size:1.1rem;border-radius:50%}
+.step button:hover{background:rgba(255,255,255,.08)}
+.step output{min-width:24px;text-align:center;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.est-sum{position:sticky;top:96px;background:#F7FAFC;color:#0D1A2B;border-radius:18px;padding:26px;display:grid;gap:16px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.est-sum .lbl{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#556479}
+.est-total{font-family:var(--f-display);font-size:clamp(1.9rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;font-variant-numeric:tabular-nums}
+.est-lines{list-style:none;margin:0;padding:12px 0;border-block:1px solid #D7DFE8;display:grid;gap:6px;font-size:.88rem;max-height:220px;overflow:auto}
+.est-lines li{display:flex;justify-content:space-between;gap:12px}
+.est-lines li span:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:#556479;white-space:nowrap}
+.est-sum small{color:#556479;font-size:.8rem;line-height:1.5}
+.est-sum .btn-wa{width:100%}
+@media (max-width:980px){.est{grid-template-columns:minmax(0,1fr)}.est-sum{position:static}}
+@media (max-width:620px){.items{grid-template-columns:minmax(0,1fr)}.ptype{padding:8px 13px;font-size:.9rem}}
+
+/* Packages */
+.pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.pk{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:16px}
+.pk.feature{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),var(--shadow);position:relative}
+.pk .badge{position:absolute;top:-12px;left:28px;background:var(--cyan);color:var(--on-accent);font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.pk h3{font-size:var(--s2)}
+.pk .for{color:var(--muted);font-size:.93rem}
+.price{display:flex;align-items:baseline;gap:8px;font-variant-numeric:tabular-nums}
+.price small{font-family:var(--f-mono);color:var(--muted);font-size:.78rem}
+.price b{font-family:var(--f-display);font-size:2.2rem;letter-spacing:-.02em}
+.pk ul{list-style:none;margin:0;padding:16px 0 0;border-top:1px solid var(--line);display:grid;gap:10px;font-size:.95rem}
+.pk li{display:flex;gap:10px;align-items:flex-start}
+.pk li svg{width:18px;height:18px;flex:none;margin-top:3px;color:var(--cyan)}
+.pk .btn{margin-top:auto}
+@media (max-width:980px){.pk-grid{grid-template-columns:1fr;max-width:560px}}
+
+/* Process */
+.proc{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:p;border-top:1px solid var(--line)}
+.proc li{list-style:none;padding:26px 22px 8px 0;position:relative;display:grid;gap:10px;align-content:start}
+.proc li::before{counter-increment:p;content:"0" counter(p);font-family:var(--f-mono);font-size:.8rem;color:var(--cyan);letter-spacing:.1em}
+.proc li::after{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan)}
+.proc h3{font-size:var(--s1);font-weight:700}
+.proc p{color:var(--muted);font-size:.93rem}
+.proc{padding:0;margin:0}
+@media (max-width:980px){.proc{grid-template-columns:1fr;border-top:0;border-left:1px solid var(--line);margin-left:4px}.proc li{padding:0 0 28px 26px}.proc li::after{left:-5px;top:3px}}
+
+/* Why */
+.why{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(32px,6vw,80px);align-items:start}
+.quote{font-family:var(--f-display);font-size:clamp(1.5rem,2.8vw,2.1rem);line-height:1.2;letter-spacing:-.015em;font-weight:600;text-wrap:balance}
+.quote span{color:var(--cyan)}
+.quote-by{margin-top:18px;color:var(--muted);font-size:.95rem}
+.why-list{display:grid;grid-template-columns:1fr 1fr;gap:28px 32px}
+.why-list div{display:grid;gap:8px;align-content:start}
+.why-list svg{width:28px;height:28px;color:var(--cyan)}
+.why-list h3{font-size:var(--s1);font-weight:700}
+.why-list p{color:var(--muted);font-size:.95rem}
+@media (max-width:900px){.why{grid-template-columns:1fr}}
+@media (max-width:560px){.why-list{grid-template-columns:1fr}}
+
+/* Projects */
+.proj-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto;gap:18px}
+.proj{position:relative;border-radius:var(--r);overflow:hidden;min-height:260px;display:flex;align-items:flex-end;color:#fff;background:#0f1a27;isolation:isolate}
+.proj:first-child{grid-row:span 2;min-height:540px}
+.proj canvas,.proj .art{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.proj::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(5,10,18,.92) 75%);z-index:-1}
+.proj-body{padding:22px;display:grid;gap:6px}
+.proj-body .mono{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#8FE6F7}
+.proj h3{font-size:var(--s2)}
+.proj p{color:#C9D4E0;font-size:.92rem;max-width:44ch}
+.proj-note{margin-top:14px;font-size:.85rem;color:var(--muted)}
+@media (max-width:900px){.proj-grid{grid-template-columns:1fr 1fr}.proj:first-child{grid-column:span 2;grid-row:auto;min-height:340px}}
+@media (max-width:560px){.proj-grid{grid-template-columns:1fr}.proj:first-child{grid-column:auto}}
+
+/* Experience centre */
+.visit{display:grid;grid-template-columns:1.1fr 1fr;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.visit-art{position:relative;min-height:340px;background:var(--panel)}
+.visit-art svg{position:absolute;inset:0;width:100%;height:100%}
+.visit-body{padding:clamp(28px,4vw,48px);display:grid;gap:18px;align-content:center}
+.visit-body h2{font-size:var(--s4)}
+.addr{display:grid;gap:12px;font-size:.98rem}
+.addr div{display:flex;gap:12px;align-items:flex-start}
+.addr svg{width:20px;height:20px;color:var(--cyan);flex:none;margin-top:3px}
+.addr b{display:block}
+.copy{background:none;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.75rem;cursor:pointer;margin-left:6px;color:var(--muted)}
+.copy:hover{border-color:var(--cyan);color:var(--ink)}
+.visit-ctas{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:900px){.visit{grid-template-columns:1fr}.visit-art{min-height:240px}}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(32px,6vw,80px);align-items:start}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-weight:600;font-size:var(--s1)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--cyan);font-size:1.3rem;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);margin-top:10px;max-width:62ch}
+@media (max-width:900px){.faq-grid{grid-template-columns:1fr}}
+
+/* Consultation form */
+.book{background:var(--bg-2);border-top:1px solid var(--line)}
+.book-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(32px,6vw,72px);align-items:start}
+.book-points{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:14px}
+.book-points li{display:flex;gap:12px}
+.book-points svg{width:20px;height:20px;color:var(--cyan);flex:none;margin-top:3px}
+form.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3.5vw,36px);display:grid;gap:16px;box-shadow:var(--shadow)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{display:grid;gap:6px;min-width:0}
+.fld label,.fld legend{font-size:.85rem;font-weight:600}
+.fld input,.fld select,.fld textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);transition:border-color .2s}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-soft)}
+.fld textarea{min-height:84px;resize:vertical}
+fieldset.fld{border:0;padding:0;margin:0}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:500;font-size:.88rem;cursor:pointer;background:var(--bg)}
+.checks input{accent-color:var(--cyan);margin:0}
+.checks label:has(input:checked){border-color:var(--cyan);background:var(--cyan-soft)}
+.err{color:#D2453A;font-size:.82rem;min-height:1em}
+.form-done{display:grid;gap:14px;text-align:left}
+.form-done h3{font-size:var(--s3)}
+.form-done pre{white-space:pre-wrap;font-family:var(--f-mono);font-size:.82rem;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;margin:0;color:var(--muted)}
+@media (max-width:900px){.book-grid{grid-template-columns:1fr}}
+@media (max-width:520px){.row{grid-template-columns:1fr}}
+
+/* Footer */
+.ftr{background:var(--panel);color:#AEB9C6;padding-block:56px 32px}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.ftr .brand b{color:#fff}
+.ftr .brand small{color:#7f8b98}
+.ftr h4{margin:0 0 12px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#6d7a88;font-weight:500}
+.ftr ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.93rem}
+.ftr a{text-decoration:none}
+.ftr a:hover{color:#4FDCF5}
+.ftr-bottom{margin-top:44px;padding-top:22px;border-top:1px solid #1d242d;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:.82rem;color:#6d7a88}
+@media (max-width:900px){.ftr-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.ftr-grid{grid-template-columns:1fr}}
+
+/* Floating contact */
+.float{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;gap:10px}
+.float a{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(0,0,0,.45);text-decoration:none;transition:transform .15s}
+.float a:hover{transform:scale(1.06)}
+.float .f-wa{background:var(--wa);color:#fff}
+.float .f-call{background:var(--ink);color:var(--bg)}
+.float svg{width:26px;height:26px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:.9rem;z-index:70}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm5.8 14.08c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.23.54.77 1.87.84 2.01.07.13.11.3.02.47-.09.18-.13.29-.27.45-.13.16-.28.35-.4.47-.13.13-.27.28-.12.55.16.27.7 1.15 1.5 1.86 1.03.92 1.9 1.2 2.17 1.34.27.13.43.11.58-.07.16-.18.67-.78.85-1.05.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.88.27.13.45.2.51.31.07.11.07.65-.17 1.33Z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z"/></g></symbol>
+    <symbol id="i-curtain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18M5 4c0 6 1 11 4 16H5M19 4c0 6-1 11-4 16h4"/></g></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2.5"/></g></symbol>
+    <symbol id="i-snow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/></g></symbol>
+    <symbol id="i-switch" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="10" r="1.2" fill="currentColor"/><circle cx="16" cy="10" r="1.2" fill="currentColor"/><circle cx="8" cy="14.5" r="1.2" fill="currentColor"/><circle cx="12" cy="14.5" r="1.2" fill="currentColor"/><circle cx="16" cy="14.5" r="1.2" fill="currentColor"/></g></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="3"/><circle cx="12" cy="8" r="2.2"/><circle cx="12" cy="16" r="1.6"/></g></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9a7 7 0 0 1 14 0v2a7 7 0 0 1-14 0Z"/><circle cx="12" cy="10.5" r="2.5"/><path d="M9 19.5h6M12 18v1.5"/></g></symbol>
+    <symbol id="i-cab" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 12h17M10 8h4M10 16h4"/></g></symbol>
+    <symbol id="i-voice" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8h12v9a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3Z"/><ellipse cx="12" cy="8" rx="6" ry="2"/><path d="M9.5 14h5"/></g></symbol>
+    <symbol id="i-tools" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5a4 4 0 0 1-5 5L4 17v3h3l5.5-5.5a4 4 0 0 1 5-5L15 7Z"/><path d="M14.5 6.5 17 4l3 3-2.5 2.5"/></g></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16v10.5H4ZM9.5 20v-5h5v5"/></g></symbol>
+    <symbol id="i-plan" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3ZM3 11h7v8M10 5v3M14 11h7"/></g></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6Z"/><path d="m9 12 2 2 4-4"/></g></symbol>
+    <symbol id="i-handshake" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.5 7 8.5l3 1 3-2 4 1 4 4"/><path d="m7 15 2.5 2.5a1.4 1.4 0 0 0 2-2L13 17a1.4 1.4 0 0 0 2-2l.5.5a1.4 1.4 0 0 0 2-2l-4-4"/><path d="m3 12.5 4 4"/></g></symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="i-logo" viewBox="0 0 64 64"><path d="M32 4 60 56H20Z" fill="#173253"/><g fill="none" stroke="#2BC6EA" stroke-width="5" stroke-linecap="round"><path d="M14 44a14 14 0 0 1 14 14"/><path d="M14 34a24 24 0 0 1 24 24"/><path d="M14 24a34 34 0 0 1 34 34" opacity=".0"/></g><circle cx="14.5" cy="57" r="4" fill="#2BC6EA"/></symbol>
+  </defs>
+</svg>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="AURA Automation home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M33 5 61 57H21Z" fill="var(--logo)"/>
+        <g fill="none" stroke="#2BC6EA" stroke-width="5.5" stroke-linecap="round"><path d="M8 41a16 16 0 0 1 16 16"/><path d="M8 29a28 28 0 0 1 28 28"/></g>
+        <circle cx="9" cy="56" r="4.5" fill="#2BC6EA"/>
+      </svg>
+      <span><b>AURA</b><small>AUTOMATION</small></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#products">Products</a>
+      <a href="#estimate">Cost estimator</a>
+      <a href="#packages">Packages</a>
+      <a href="#projects">Projects</a>
+      <a href="#visit">Experience centre</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="hdr-cta">
+      <a class="btn btn-ghost" href="tel:+917386664612"><svg><use href="#i-phone"/></svg>73866 64612</a>
+      <a class="btn btn-primary" href="#book">Book free consultation</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Smart home automation · Hyderabad</span>
+      <h1>Your whole home,<br>on <em>one touch.</em></h1>
+      <p class="lede">AURA designs, supplies and installs smart switch boards, smart door locks, video door bells, cameras, lighting and curtains. One team handles it all, from the wiring plan to handover, for new builds and finished homes.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#book">Book a free home consultation</a>
+        <a class="btn btn-wa" id="heroWa" href="https://wa.me/917386664612?text=Hi%20AURA%2C%20I%27d%20like%20to%20know%20more%20about%20smart%20home%20automation." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Chat on WhatsApp</a>
+      </div>
+      <div class="hero-facts">
+        <span><svg><use href="#i-store"/></svg>Experience centre at E-Galleria Mall, Hitech City</span>
+        <span><svg><use href="#i-shield"/></svg>Up to 5-year warranty on smart switches</span>
+        <span><svg><use href="#i-tools"/></svg>Expert installation and handover</span>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="room" id="room" data-lights="on" data-curtains="open" data-ac="off" data-lock="locked" data-scene="">
+        <svg class="scene" viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice" aria-label="Illustration of a living room that responds to the switch panel" role="img">
+          <defs>
+            <radialGradient id="lampG" cx="50%" cy="0%" r="75%"><stop offset="0" stop-color="#FFE7B0" stop-opacity=".95"/><stop offset=".55" stop-color="#FFD98A" stop-opacity=".25"/><stop offset="1" stop-color="#FFD98A" stop-opacity="0"/></radialGradient>
+            <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD3F0"/><stop offset="1" stop-color="#D9F1FA"/></linearGradient>
+            <clipPath id="winClip"><rect x="60" y="70" width="170" height="180" rx="4"/></clipPath>
+          </defs>
+          <rect width="500" height="400" fill="var(--wall)"/>
+          <rect y="310" width="500" height="90" fill="var(--floor)"/>
+          <rect y="306" width="500" height="6" fill="var(--wall-dim)"/>
+          <!-- window -->
+          <rect x="54" y="64" width="182" height="192" rx="6" fill="var(--wall-dim)"/>
+          <g clip-path="url(#winClip)">
+            <rect class="sky" id="sky" x="60" y="70" width="170" height="180" fill="url(#skyG)"/>
+            <path d="M60 220 L95 185 L120 200 L150 160 L185 195 L230 170 V250 H60Z" fill="#7FB3C9" opacity=".6"/>
+            <rect x="85" y="195" width="18" height="55" fill="#6C9DB3" opacity=".7"/><rect x="160" y="180" width="24" height="70" fill="#6C9DB3" opacity=".7"/>
+            <rect x="143" y="70" width="4" height="180" fill="var(--wall-dim)"/>
+            <rect class="curtain curtain-l" x="60" y="70" width="86" height="180" fill="#B7A48C"/>
+            <rect class="curtain curtain-r" x="144" y="70" width="86" height="180" fill="#B7A48C"/>
+            <g class="curtain curtain-l" stroke="#9E8B74" stroke-width="2" opacity=".7"><path d="M80 70v180M100 70v180M120 70v180"/></g>
+            <g class="curtain curtain-r" stroke="#9E8B74" stroke-width="2" opacity=".7"><path d="M170 70v180M190 70v180M210 70v180"/></g>
+          </g>
+          <rect x="44" y="58" width="202" height="8" rx="3" fill="#3a3f46"/>
+          <!-- AC -->
+          <rect x="300" y="60" width="150" height="40" rx="10" fill="#F6F7F8" stroke="#D5D9DE"/>
+          <rect x="312" y="88" width="126" height="4" rx="2" fill="#CBD1D7"/>
+          <circle cx="436" cy="72" r="3" fill="#4FDCF5" class="ac-air"/>
+          <g class="ac-air" stroke="#7FD9F0" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".9"><path d="M330 108c6 8 0 16 6 24"/><path d="M375 108c6 8 0 16 6 24"/><path d="M420 108c6 8 0 16 6 24"/></g>
+          <!-- TV + console -->
+          <rect x="300" y="160" width="150" height="86" rx="4" fill="#111418"/>
+          <rect class="tv-screen" x="305" y="165" width="140" height="76" rx="2" fill="#1b2128"/>
+          <rect x="290" y="276" width="170" height="30" rx="4" fill="#5B4A3A"/>
+          <!-- sofa -->
+          <rect x="40" y="262" width="220" height="50" rx="16" fill="#3F5A73"/>
+          <rect x="52" y="240" width="196" height="40" rx="14" fill="#4D6A85"/>
+          <rect x="40" y="306" width="10" height="14" fill="#2c2c2c"/><rect x="250" y="306" width="10" height="14" fill="#2c2c2c"/>
+          <!-- lamp -->
+          <path d="M255 0V36" stroke="#2b2f35" stroke-width="2"/>
+          <path d="M238 36h34l-6 20h-22Z" fill="#2b2f35"/>
+          <ellipse class="lamp-glow" cx="255" cy="58" rx="160" ry="230" fill="url(#lampG)"/>
+          <circle class="lamp-glow" cx="255" cy="58" r="6" fill="#FFF3D1"/>
+          <!-- door -->
+          <rect x="470" y="130" width="40" height="180" fill="#6B5240"/>
+          <rect x="474" y="200" width="8" height="34" rx="2" fill="#0f1216"/>
+          <circle class="lockdot" id="lockdot" cx="478" cy="208" r="2.4" fill="#ff5b5b"/>
+          <!-- plant -->
+          <path d="M275 306c-4-26 6-44 14-56M281 306c2-22-8-40-18-52M287 306c6-20 18-30 28-34" stroke="#3F7D58" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <rect x="268" y="292" width="26" height="18" rx="3" fill="#C9B79F"/>
+        </svg>
+        <div class="dimmer"></div>
+        <div class="status" aria-live="polite">
+          <span class="chip on" id="cLights"><i></i>Lights on</span>
+          <span class="chip on" id="cCurt"><i></i>Curtains open</span>
+          <span class="chip" id="cAc"><i></i>AC off</span>
+          <span class="chip on" id="cLock"><i></i>Door locked</span>
+        </div>
+      </div>
+
+      <div class="plate" role="group" aria-label="Try the AURA smart switch">
+        <div class="plate-top"><b>AURA</b><span>TOUCH · LIVE</span></div>
+        <div class="keys">
+          <button class="key" id="kLights" aria-pressed="true" aria-label="Lights"><svg><use href="#i-bulb"/></svg></button>
+          <button class="key" id="kCurt" aria-pressed="true" aria-label="Curtains"><svg><use href="#i-curtain"/></svg></button>
+          <button class="key" id="kAc" aria-pressed="false" aria-label="Air conditioner"><svg><use href="#i-snow"/></svg></button>
+          <button class="key" id="kLock" aria-pressed="true" aria-label="Door lock"><svg><use href="#i-lock"/></svg></button>
+        </div>
+        <div class="key-labels" aria-hidden="true"><span>Lights</span><span>Curtains</span><span>AC</span><span>Lock</span></div>
+        <div class="scenes">
+          <button class="scene-btn" data-scene="morning" aria-pressed="false">Morning</button>
+          <button class="scene-btn" data-scene="movie" aria-pressed="false">Movie</button>
+          <button class="scene-btn" data-scene="away" aria-pressed="false">Away</button>
+        </div>
+      </div>
+      <p class="demo-note">↑ Tap the panel. This is how an AURA home responds.</p>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <p>WORKS WITH THE APPS YOU ALREADY USE</p>
+    <ul>
+      <li>Amazon Alexa</li><li>Google Assistant</li><li>Mobile app, anywhere</li><li>Wired &amp; wireless options</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="sec" id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">What we install</span>
+      <h2>Everything your home needs to get smarter, from one team.</h2>
+      <p class="lede">See and touch every product at our Hitech City experience centre before you decide. Each one is installed, set up on your phone and explained to your family by our engineers.</p>
+    </div>
+    <div class="prod-grid">
+      <article class="prod">
+        <div class="prod-vis"><span class="prod-tag">Bestseller</span>
+          <svg viewBox="0 0 200 120" aria-hidden="true"><rect x="10" y="20" width="180" height="80" rx="8" fill="#0B0F14" stroke="#2A323D"/><rect x="14" y="24" width="172" height="72" rx="6" fill="none" stroke="#1d242c"/><g fill="#4FDCF5"><circle cx="50" cy="48" r="4"/><circle cx="80" cy="48" r="4"/><circle cx="110" cy="48" r="4" opacity=".35"/><circle cx="50" cy="74" r="4" opacity=".35"/><circle cx="80" cy="74" r="4"/><circle cx="110" cy="74" r="4"/></g><rect x="134" y="40" width="36" height="40" rx="5" fill="none" stroke="#3a444f"/><circle cx="146" cy="60" r="3" fill="#3a444f"/><circle cx="158" cy="60" r="3" fill="#3a444f"/></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Smart switch boards</h3>
+          <p>Glass touch panels that replace your old switches. Control every light and fan from the wall, your phone or your voice.</p>
+          <ul class="feat"><li>Control from anywhere</li><li>All-off in one touch</li><li>Custom backlight</li><li>Child lock</li></ul>
+          <div class="prod-foot"><span class="from">from <b class="num">₹9,999</b></span><a href="#book" data-interest="Smart switch boards">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis"><span class="prod-tag">Security</span>
+          <svg viewBox="0 0 200 120" aria-hidden="true"><rect x="40" y="0" width="120" height="120" fill="#7a5a43" opacity=".35"/><rect x="82" y="8" width="36" height="104" rx="8" fill="#15191f"/><rect x="88" y="16" width="24" height="18" rx="4" fill="#0b2a33"/><circle cx="100" cy="25" r="5" fill="#4FDCF5" opacity=".8"/><g fill="#5f6a76"><circle cx="93" cy="46" r="2"/><circle cx="100" cy="46" r="2"/><circle cx="107" cy="46" r="2"/><circle cx="93" cy="54" r="2"/><circle cx="100" cy="54" r="2"/><circle cx="107" cy="54" r="2"/><circle cx="93" cy="62" r="2"/><circle cx="100" cy="62" r="2"/><circle cx="107" cy="62" r="2"/></g><rect x="70" y="72" width="34" height="9" rx="4.5" fill="#B0B8C2"/><circle cx="100" cy="96" r="7" fill="none" stroke="#4FDCF5" stroke-width="1.5"/></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Smart door locks</h3>
+          <p>Open your main door with your face, fingerprint, PIN, card, phone or key. Let guests in from anywhere and see who came home.</p>
+          <ul class="feat"><li>Face recognition</li><li>Fingerprint</li><li>Video intercom</li><li>Remote unlock</li></ul>
+          <div class="prod-foot"><span class="from">Range of models</span><a href="#book" data-interest="Smart door lock">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis">
+          <svg viewBox="0 0 200 120" aria-hidden="true"><rect x="40" y="14" width="34" height="92" rx="8" fill="#15191f"/><circle cx="57" cy="36" r="9" fill="#0b2a33"/><circle cx="57" cy="36" r="4" fill="#4FDCF5" opacity=".7"/><circle cx="57" cy="84" r="8" fill="none" stroke="#4FDCF5" stroke-width="2"/><rect x="96" y="26" width="84" height="64" rx="6" fill="#15191f"/><rect x="101" y="31" width="74" height="48" rx="3" fill="#2c4a63"/><circle cx="138" cy="50" r="10" fill="#d9c2a6"/><rect x="124" y="60" width="28" height="19" rx="8" fill="#3f5a73"/><g fill="#5f6a76"><circle cx="122" cy="84" r="1.6"/><circle cx="138" cy="84" r="1.6"/><circle cx="154" cy="84" r="1.6"/></g></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Video door bells &amp; intercom</h3>
+          <p>See and talk to visitors in HD on an indoor screen or your phone, even when you're away from home.</p>
+          <ul class="feat"><li>HD video</li><li>Two-way talk</li><li>Phone alerts</li></ul>
+          <div class="prod-foot"><span class="from">Wired &amp; Wi-Fi models</span><a href="#book" data-interest="Video door bell">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis">
+          <svg viewBox="0 0 200 120" aria-hidden="true"><ellipse cx="100" cy="104" rx="38" ry="6" fill="#000" opacity=".1"/><rect x="76" y="86" width="48" height="16" rx="6" fill="#E8ECEF" stroke="#C9D0D7"/><circle cx="100" cy="54" r="38" fill="#F4F6F8" stroke="#C9D0D7"/><rect x="66" y="40" width="68" height="30" rx="15" fill="#11161c"/><circle cx="100" cy="55" r="11" fill="#0b2a33"/><circle cx="100" cy="55" r="5" fill="#4FDCF5" opacity=".8"/><circle cx="122" cy="50" r="2" fill="#ff5b5b"/></svg>
+        </div>
+        <div class="prod-body">
+          <h3>CCTV &amp; Wi-Fi cameras</h3>
+          <p>Indoor and outdoor cameras with live view on your phone, so you can check on home, family and pets anytime.</p>
+          <ul class="feat"><li>Live view on phone</li><li>Night vision</li><li>Pan &amp; tilt</li></ul>
+          <div class="prod-foot"><span class="from">Indoor &amp; outdoor</span><a href="#book" data-interest="CCTV cameras">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis"><span class="prod-tag">New</span>
+          <svg viewBox="0 0 200 120" aria-hidden="true"><defs><linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE3A3" stop-opacity=".8"/><stop offset="1" stop-color="#FFE3A3" stop-opacity="0"/></linearGradient></defs><rect x="14" y="16" width="172" height="8" rx="4" fill="#15191f"/><g fill="url(#beam)"><path d="M44 28h16l14 84H30Z"/><path d="M92 28h16l14 84H78Z"/><path d="M140 28h16l14 84h-44Z"/></g><g fill="#15191f"><rect x="44" y="22" width="16" height="10" rx="2"/><rect x="92" y="22" width="16" height="10" rx="2"/><rect x="140" y="22" width="16" height="10" rx="2"/></g></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Smart lighting</h3>
+          <p>Magnetic track lights, COB spotlights and smart bulbs. Change brightness and colour mood from the app.</p>
+          <ul class="feat"><li>Magnetic track lights</li><li>Dimmable</li><li>Colour scenes</li></ul>
+          <div class="prod-foot"><span class="from">Per fitting or full home</span><a href="#book" data-interest="Smart lighting">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis">
+          <svg viewBox="0 0 200 120" aria-hidden="true"><rect x="20" y="12" width="160" height="6" rx="3" fill="#15191f"/><rect x="36" y="20" width="128" height="92" fill="#cfe8f3"/><path d="M28 20h44c-6 30-4 60 6 92H28Z" fill="#B7A48C"/><path d="M172 20h-44c6 30 4 60-6 92h50Z" fill="#B7A48C"/><g stroke="#9E8B74" stroke-width="1.5" opacity=".7"><path d="M40 20v92M54 20v92M146 20v92M160 20v92"/></g><rect x="150" y="9" width="22" height="12" rx="3" fill="#0b0f14"/><circle cx="166" cy="15" r="2" fill="#4FDCF5"/></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Motorised curtains</h3>
+          <p>Curtains and blinds that open with the morning scene, close at sunset, or follow your voice.</p>
+          <ul class="feat"><li>Schedules</li><li>Voice control</li><li>Quiet motor</li></ul>
+          <div class="prod-foot"><span class="from">Per window</span><a href="#book" data-interest="Motorised curtains">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis">
+          <svg viewBox="0 0 200 120" aria-hidden="true"><rect x="30" y="14" width="140" height="92" rx="6" fill="#B89573" opacity=".55"/><path d="M30 60h140" stroke="#8d6e52"/><rect x="88" y="26" width="24" height="26" rx="5" fill="#15191f"/><circle cx="100" cy="35" r="5" fill="none" stroke="#4FDCF5" stroke-width="1.6"/><rect x="88" y="68" width="24" height="26" rx="5" fill="#15191f"/><g fill="#5f6a76"><circle cx="95" cy="76" r="1.5"/><circle cx="100" cy="76" r="1.5"/><circle cx="105" cy="76" r="1.5"/><circle cx="95" cy="82" r="1.5"/><circle cx="100" cy="82" r="1.5"/><circle cx="105" cy="82" r="1.5"/></g></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Smart cabinet locks</h3>
+          <p>Fingerprint, e-key and password locks for wardrobes, drawers, lockers and office cabinets.</p>
+          <ul class="feat"><li>Fingerprint</li><li>E-key</li><li>Password</li></ul>
+          <div class="prod-foot"><span class="from">Homes &amp; offices</span><a href="#book" data-interest="Smart cabinet locks">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis"><span class="prod-tag">Hotels</span>
+          <svg viewBox="0 0 200 120" aria-hidden="true"><rect x="26" y="24" width="64" height="72" rx="6" fill="#0B0F14" stroke="#2A323D"/><g fill="#5f6a76"><circle cx="46" cy="50" r="3"/><circle cx="58" cy="50" r="3"/><circle cx="70" cy="50" r="3"/></g><circle cx="46" cy="72" r="5" fill="#ff5b5b"/><circle cx="70" cy="72" r="5" fill="#4FD38A"/><rect x="110" y="24" width="64" height="72" rx="6" fill="#F7F8F9" stroke="#C9D0D7"/><text x="142" y="56" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#11161c">123</text><circle cx="130" cy="76" r="5" fill="#ff5b5b"/><circle cx="154" cy="76" r="5" fill="#4FD38A"/></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Hotel &amp; office panels</h3>
+          <p>Touch "Do not disturb" and "Make up room" panels inside and outside the room, plus key-card power for hotels and serviced apartments.</p>
+          <ul class="feat"><li>DND / MUR</li><li>Room number display</li><li>Bulk projects</li></ul>
+          <div class="prod-foot"><span class="from">Project pricing</span><a href="#book" data-interest="Hotel / office panels">Get a quote →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="prod-vis">
+          <svg viewBox="0 0 200 120" aria-hidden="true"><rect x="40" y="18" width="120" height="84" rx="10" fill="#15191f"/><rect x="48" y="26" width="104" height="58" rx="4" fill="#24384c"/><path d="M58 76l22-24 16 14 14-10 32 20Z" fill="#3c5a74"/><circle cx="128" cy="40" r="7" fill="#FFD98A"/><rect x="88" y="90" width="24" height="5" rx="2.5" fill="#3a444f"/><circle cx="168" cy="92" r="12" fill="#1e252d"/><path d="M162 92h12M168 86v12" stroke="#4FDCF5" stroke-width="1.6" opacity=".0"/><ellipse cx="168" cy="86" rx="9" ry="3" fill="#4FDCF5" opacity=".6"/></svg>
+        </div>
+        <div class="prod-body">
+          <h3>Voice &amp; home theatre</h3>
+          <p>"Alexa, movie time." Dim the lights, close the curtains and start the projector with one command.</p>
+          <ul class="feat"><li>Alexa &amp; Google</li><li>Projector setup</li><li>Scenes</li></ul>
+          <div class="prod-foot"><span class="from">Custom setups</span><a href="#book" data-interest="Voice control / home theatre">Get a quote →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ESTIMATOR -->
+<section class="sec est-band" id="estimate">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Smart home cost estimator</span>
+      <h2>What would your smart home cost? Find out in 30 seconds.</h2>
+      <p class="lede">Pick your home type, adjust the devices, and send the estimate to us on WhatsApp. We'll confirm the exact price after a free site visit.</p>
+    </div>
+    <div class="est">
+      <div class="est-left">
+        <div class="ptypes" role="group" aria-label="Property type">
+          <button class="ptype" data-type="2bhk" aria-pressed="false">2 BHK apartment</button>
+          <button class="ptype" data-type="3bhk" aria-pressed="true">3 BHK apartment</button>
+          <button class="ptype" data-type="villa" aria-pressed="false">Villa / independent house</button>
+          <button class="ptype" data-type="office" aria-pressed="false">Office / hotel</button>
+        </div>
+        <div class="items" id="items"></div>
+      </div>
+      <aside class="est-sum" aria-live="polite">
+        <span class="lbl">Estimated budget</span>
+        <div class="est-total" id="estTotal">₹0</div>
+        <ul class="est-lines" id="estLines"></ul>
+        <small>Indicative price range for supply and installation. Final price depends on the models you choose and your wiring, and is confirmed after a free site visit.</small>
+        <a class="btn btn-wa" id="estWa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Send this estimate on WhatsApp</a>
+        <a class="btn btn-ghost" id="estCallback" href="#book" style="width:100%;color:#0D1A2B;background:#fff;border-color:#D7DFE8">Request a call back instead</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="sec" id="packages">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Packages</span>
+      <h2>Start with one room, or go smart across the whole home.</h2>
+      <p class="lede">Every package includes installation, app setup on your family's phones, and a walkthrough at handover.</p>
+    </div>
+    <div class="pk-grid">
+      <article class="pk">
+        <h3>Smart Start</h3>
+        <p class="for">Try automation in your living room or bedroom.</p>
+        <div class="price"><small>from</small><b>₹9,999</b></div>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Smart glass touch switch board</li>
+          <li><svg><use href="#i-check"/></svg>App and voice control</li>
+          <li><svg><use href="#i-check"/></svg>Fits in your existing switch box</li>
+          <li><svg><use href="#i-check"/></svg>Installation included</li>
+        </ul>
+        <a class="btn btn-ghost" href="#book" data-interest="Smart Start package">Choose Smart Start</a>
+      </article>
+      <article class="pk feature">
+        <span class="badge">Most popular</span>
+        <h3>Smart Home</h3>
+        <p class="for">For apartments that want comfort and security together.</p>
+        <div class="price"><small>from</small><b>₹29,999</b></div>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Smart switches in key rooms</li>
+          <li><svg><use href="#i-check"/></svg>Smart door lock or video door bell</li>
+          <li><svg><use href="#i-check"/></svg>Scenes like Morning, Movie and Away</li>
+          <li><svg><use href="#i-check"/></svg>Alexa / Google integration</li>
+          <li><svg><use href="#i-check"/></svg>Handover and family training</li>
+        </ul>
+        <a class="btn btn-primary" href="#book" data-interest="Smart Home package">Choose Smart Home</a>
+      </article>
+      <article class="pk">
+        <h3>Signature</h3>
+        <p class="for">Villas, new builds, offices and hotels, designed from the wiring plan up.</p>
+        <div class="price"><b style="font-size:1.6rem">Custom quote</b></div>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Automation planned with your architect</li>
+          <li><svg><use href="#i-check"/></svg>Lighting, curtains, locks, CCTV, theatre</li>
+          <li><svg><use href="#i-check"/></svg>Dedicated project engineer</li>
+          <li><svg><use href="#i-check"/></svg>Priority after-sales support</li>
+        </ul>
+        <a class="btn btn-ghost" href="#book" data-interest="Signature project">Plan my project</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From first visit to handover, one team owns it.</h2>
+    </div>
+    <ol class="proc">
+      <li><h3>Free consultation</h3><p>Visit our experience centre or we come to your site. We understand how your family lives.</p></li>
+      <li><h3>Design &amp; wiring plan</h3><p>We mark every switch, light, lock and camera point. Best done during construction, also possible in finished homes.</p></li>
+      <li><h3>Clear quotation</h3><p>Item-by-item pricing with the models you chose. No surprises later.</p></li>
+      <li><h3>Installation</h3><p>Our engineers install, test and tune every device and scene.</p></li>
+      <li><h3>Handover &amp; support</h3><p>We set up the app on your phones, train your family and stay on call after.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="sec" style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap why">
+    <div>
+      <span class="eyebrow">Why AURA</span>
+      <p class="quote" style="margin-top:18px">"Some know us for construction, some for interiors, some for automation. <span>We just want you to know who to call when it's time to build.</span>"</p>
+      <p class="quote-by">The AURA team, Hyderabad</p>
+    </div>
+    <div class="why-list">
+      <div><svg><use href="#i-plan"/></svg><h3>Engineers, not just sellers</h3><p>We come from construction and interiors, so automation is planned with your walls, wiring and furniture in mind.</p></div>
+      <div><svg><use href="#i-store"/></svg><h3>Try before you buy</h3><p>Touch every switch, lock and light at our experience centre in E-Galleria Mall, Hitech City.</p></div>
+      <div><svg><use href="#i-shield"/></svg><h3>Built to last</h3><p>Quality products with warranty, and smart switches backed by up to 5 years of warranty.</p></div>
+      <div><svg><use href="#i-handshake"/></svg><h3>One point of contact</h3><p>Switches, locks, cameras, lights and curtains from one team, with one number to call for support.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="sec" id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Recent work</span>
+      <h2>Homes we've handed over across Hyderabad.</h2>
+    </div>
+    <div class="proj-grid">
+      <article class="proj"><canvas class="art" data-art="0"></canvas>
+        <div class="proj-body"><span class="mono">Villa · Full automation</span><h3>Project Raaga Radhey</h3><p>Smart switches across every floor, smart main-door lock, lighting scenes and app control for the whole family.</p></div></article>
+      <article class="proj"><canvas class="art" data-art="1"></canvas>
+        <div class="proj-body"><span class="mono">Independent house · Handover</span><h3>"Another dream delivered"</h3><p>Smart switch boards, video door bell and CCTV, tested and tuned before handover.</p></div></article>
+      <article class="proj"><canvas class="art" data-art="2"></canvas>
+        <div class="proj-body"><span class="mono">Apartment · Lighting</span><h3>Magnetic track lights</h3><p>App-controlled track and spot lighting with dimming for a modern living room.</p></div></article>
+      <article class="proj"><canvas class="art" data-art="3"></canvas>
+        <div class="proj-body"><span class="mono">Home theatre</span><h3>Movie-room automation</h3><p>Projector, lights and curtains on one "Movie" scene.</p></div></article>
+      <article class="proj"><canvas class="art" data-art="4"></canvas>
+        <div class="proj-body"><span class="mono">Security</span><h3>Smart main-door locks</h3><p>Face-recognition and fingerprint locks fitted on premium wooden doors.</p></div></article>
+    </div>
+    <p class="proj-note">See more installations on <a href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener">Instagram @smarthomes_aura</a>.</p>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="sec" id="visit" style="padding-top:0">
+  <div class="wrap">
+    <div class="visit">
+      <div class="visit-art">
+        <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs><radialGradient id="vg" cx="50%" cy="20%" r="80%"><stop offset="0" stop-color="#16324a"/><stop offset="1" stop-color="#0A0E13"/></radialGradient></defs>
+          <rect width="600" height="400" fill="url(#vg)"/>
+          <rect y="300" width="600" height="100" fill="#0d141c"/>
+          <g fill="#1a2532"><rect x="60" y="90" width="110" height="210" rx="4"/><rect x="190" y="90" width="110" height="210" rx="4"/><rect x="320" y="90" width="110" height="210" rx="4"/><rect x="450" y="90" width="110" height="210" rx="4"/></g>
+          <g fill="#0A0E13" stroke="#2A323D"><rect x="80" y="140" width="70" height="40" rx="4"/><rect x="210" y="130" width="70" height="40" rx="4"/><rect x="345" y="120" width="20" height="90" rx="4"/><rect x="470" y="140" width="70" height="40" rx="4"/></g>
+          <g fill="#4FDCF5"><circle cx="98" cy="160" r="3"/><circle cx="115" cy="160" r="3"/><circle cx="132" cy="160" r="3" opacity=".4"/><circle cx="228" cy="150" r="3" opacity=".4"/><circle cx="245" cy="150" r="3"/><circle cx="262" cy="150" r="3"/><circle cx="355" cy="135" r="4"/><circle cx="488" cy="160" r="3"/><circle cx="505" cy="160" r="3"/><circle cx="522" cy="160" r="3"/></g>
+          <g stroke="#4FDCF5" stroke-width="2" opacity=".5"><path d="M60 82h110M190 82h110M320 82h110M450 82h110"/></g>
+          <text x="300" y="46" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" letter-spacing="6" fill="#7f8b98">SMART HOMES · TELANGANA</text>
+        </svg>
+      </div>
+      <div class="visit-body">
+        <span class="eyebrow">Experience centre</span>
+        <h2>Come touch it, try it, then decide.</h2>
+        <p class="lede">Walk through working displays of smart switches, door locks, video door bells, cameras and lighting at our showroom.</p>
+        <div class="addr">
+          <div><svg><use href="#i-pin"/></svg><span><b>Smart Homes Telangana · AURA Automation</b>E-Galleria Mall, Hitech City, Hyderabad, Telangana</span></div>
+          <div><svg><use href="#i-phone"/></svg><span><b>Aravind Rao</b><span class="num" id="phoneTxt">+91 73866 64612</span><button class="copy" data-copy="+91 7386664612">Copy</button></span></div>
+          <div><svg><use href="#i-insta"/></svg><span><b>Instagram</b><a href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener">@smarthomes_aura</a></span></div>
+        </div>
+        <div class="visit-ctas">
+          <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&amp;query=E-Galleria+Mall+Hitech+City+Hyderabad" target="_blank" rel="noopener"><svg><use href="#i-pin"/></svg>Get directions</a>
+          <a class="btn btn-ghost" href="#book">Book a showroom visit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap faq-grid">
+    <div class="sec-head" style="margin-bottom:0">
+      <span class="eyebrow">Questions</span>
+      <h2>Before you decide.</h2>
+      <p class="lede">Can't find your answer? Ask us on WhatsApp and an engineer will reply.</p>
+    </div>
+    <div class="faq">
+      <details open><summary>Can I automate my home if it's already built?</summary><p>Yes. Most smart switches fit into your existing switch boxes and wiring, so there's no need to break walls. For new builds we recommend planning automation during construction for the cleanest result.</p></details>
+      <details><summary>Will my switches still work if the internet goes down?</summary><p>Yes. The touch panels on the wall keep working as normal switches. You only need internet to control things from your phone when you're away.</p></details>
+      <details><summary>Does it work with Alexa and Google Assistant?</summary><p>Yes. We connect your switches, lights and curtains to Alexa or Google so you can control them by voice and create scenes.</p></details>
+      <details><summary>How long does installation take?</summary><p>A single room is usually done the same day. Full-home projects depend on the size and the stage of construction, and we share a timeline with your quotation.</p></details>
+      <details><summary>What about warranty and service?</summary><p>All products come with manufacturer warranty, and our smart switches carry up to 5 years. After handover, you call one number for support.</p></details>
+      <details><summary>Do you work with architects, builders and hotels?</summary><p>Yes. We plan automation with architects and interior designers, and take up bulk projects for builders, offices and hotels.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="sec book" id="book">
+  <div class="wrap book-grid">
+    <div>
+      <span class="eyebrow">Free home consultation</span>
+      <h2 style="font-size:var(--s4);margin-top:14px">Tell us about your home. We'll plan the rest.</h2>
+      <p class="lede" style="margin-top:14px">Share a few details and our team will call you to fix a site visit or showroom demo.</p>
+      <ul class="book-points">
+        <li><svg><use href="#i-check"/></svg><span>Free site visit in Hyderabad</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Clear, item-by-item quotation</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Live demo at our Hitech City experience centre</span></li>
+      </ul>
+    </div>
+    <form class="card" id="bookForm" name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="consultation">
+      <input type="hidden" name="estimate" id="fEstimate">
+      <div id="formFields" style="display:grid;gap:16px">
+        <div class="row">
+          <div class="fld"><label for="fName">Your name</label><input id="fName" name="name" autocomplete="name" placeholder="e.g. Ravi Kumar" required></div>
+          <div class="fld"><label for="fPhone">Mobile number</label><input id="fPhone" name="phone" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile" required></div>
+        </div>
+        <div class="row">
+          <div class="fld"><label for="fArea">Area / locality</label><input id="fArea" name="area" placeholder="e.g. Kondapur"></div>
+          <div class="fld"><label for="fType">Property</label>
+            <select id="fType" name="type"><option>2 BHK apartment</option><option selected>3 BHK apartment</option><option>Villa / independent house</option><option>Office / hotel</option><option>Other</option></select></div>
+        </div>
+        <div class="row">
+          <div class="fld"><label for="fStage">Stage of your home</label>
+            <select id="fStage" name="stage"><option>Under construction</option><option>Interiors in progress</option><option selected>Ready / living in</option></select></div>
+          <div class="fld"><label for="fDate">Preferred visit date</label><input id="fDate" name="date" type="date"></div>
+        </div>
+        <fieldset class="fld"><legend>I'm interested in</legend>
+          <div class="checks" id="fInterests">
+            <label><input type="checkbox" name="interests" id="iSw" value="Smart switch boards">Smart switches</label>
+            <label><input type="checkbox" name="interests" id="iLock" value="Smart door lock">Door lock</label>
+            <label><input type="checkbox" name="interests" id="iBell" value="Video door bell">Video door bell</label>
+            <label><input type="checkbox" name="interests" id="iCam" value="CCTV cameras">Cameras</label>
+            <label><input type="checkbox" name="interests" id="iLight" value="Smart lighting">Lighting</label>
+            <label><input type="checkbox" name="interests" id="iCurt" value="Motorised curtains">Curtains</label>
+            <label><input type="checkbox" name="interests" id="iFull" value="Full home automation">Full home</label>
+          </div>
+        </fieldset>
+        <div class="fld"><label for="fNote">Anything else? (optional)</label><textarea id="fNote" name="note" placeholder="Number of rooms, budget, timeline…"></textarea></div>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="fWebsite">Leave this empty</label><input id="fWebsite" name="bot-field" tabindex="-1" autocomplete="off"></div>
+        <p class="err" id="fErr" role="alert"></p>
+        <button class="btn btn-primary" type="submit" style="justify-self:start">Request free consultation</button>
+      </div>
+      <div class="form-done" id="formDone" hidden>
+        <span class="eyebrow" id="doneEyebrow">Almost done</span>
+        <h3 id="doneTitle">Send your request on WhatsApp to confirm.</h3>
+        <p class="lede" id="doneLede">Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.</p>
+        <pre id="doneMsg"></pre>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a class="btn btn-wa" id="doneWa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Send on WhatsApp</a>
+          <button class="btn btn-ghost" type="button" id="doneCopy">Copy details</button>
+          <button class="btn btn-ghost" type="button" id="doneEdit">Edit</button>
+        </div>
+        <p style="font-size:.88rem;color:var(--muted)">Prefer to call? <span class="num">+91 73866 64612</span></p>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div style="display:grid;gap:14px;align-content:start">
+        <a class="brand" href="#top" aria-label="AURA Automation">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M33 5 61 57H21Z" fill="#2a4f7a"/><g fill="none" stroke="#2BC6EA" stroke-width="5.5" stroke-linecap="round"><path d="M8 41a16 16 0 0 1 16 16"/><path d="M8 29a28 28 0 0 1 28 28"/></g><circle cx="9" cy="56" r="4.5" fill="#2BC6EA"/></svg>
+          <span><b>AURA</b><small>AUTOMATION</small></span>
+        </a>
+        <p style="max-width:34ch;font-size:.93rem">Smart homes, better living. Smart home automation for homes, villas, offices and hotels in Hyderabad.</p>
+      </div>
+      <div><h4>Products</h4><ul><li><a href="#products">Smart switch boards</a></li><li><a href="#products">Smart door locks</a></li><li><a href="#products">Video door bells</a></li><li><a href="#products">CCTV cameras</a></li><li><a href="#products">Smart lighting</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#packages">Packages</a></li><li><a href="#projects">Projects</a></li><li><a href="#estimate">Cost estimator</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li>E-Galleria Mall, Hitech City, Hyderabad</li><li class="num">+91 73866 64612</li><li><a href="https://wa.me/917386664612" target="_blank" rel="noopener">WhatsApp us</a></li><li><a href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener">Instagram</a></li></ul></div>
+    </div>
+    <div class="ftr-bottom"><span>© <span id="yr">2026</span> AURA Automation · Smart Homes Telangana</span><span>Smart homes. Better living.</span></div>
+  </div>
+</footer>
+
+<div class="float">
+  <a class="f-call" href="tel:+917386664612" aria-label="Call AURA Automation"><svg><use href="#i-phone"/></svg></a>
+  <a class="f-wa" href="https://wa.me/917386664612?text=Hi%20AURA%2C%20I%27d%20like%20to%20know%20more%20about%20smart%20home%20automation." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg><use href="#i-wa"/></svg></a>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+  // Paste your Google Apps Script web-app URL here (see google-sheets-setup.md).
+  // While empty, the form falls back to sending enquiries through WhatsApp only.
+  const SHEET_URL = "";
+  let lastEstimate = "", estUsed = false;
+  const WA = "917386664612";
+  const waLink = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const inr = n => "₹" + Math.round(n).toLocaleString("en-IN");
+  const toast = msg => { const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,2200); };
+  $("#yr").textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const menuBtn=$("#menuBtn"), nav=$("#nav");
+  menuBtn.addEventListener("click",()=>{const o=nav.classList.toggle("open");menuBtn.setAttribute("aria-expanded",o);});
+  nav.addEventListener("click",e=>{if(e.target.tagName==="A"){nav.classList.remove("open");menuBtn.setAttribute("aria-expanded","false");}});
+
+  // ---------- Hero live demo ----------
+  const room=$("#room");
+  const state={lights:true,curtains:true,ac:false,lock:true};
+  function render(scene){
+    room.dataset.lights=state.lights?"on":"off";
+    room.dataset.curtains=state.curtains?"open":"closed";
+    room.dataset.ac=state.ac?"on":"off";
+    room.dataset.scene=scene||"";
+    $("#lockdot").setAttribute("fill",state.lock?"#ff5b5b":"#4FD38A");
+    const set=(id,on,txt)=>{const c=$(id);c.classList.toggle("on",on);c.lastChild.textContent=txt;};
+    set("#cLights",state.lights,state.lights?"Lights on":"Lights off");
+    set("#cCurt",state.curtains,state.curtains?"Curtains open":"Curtains closed");
+    set("#cAc",state.ac,state.ac?"AC 24°C":"AC off");
+    set("#cLock",state.lock,state.lock?"Door locked":"Door unlocked");
+    $("#kLights").setAttribute("aria-pressed",state.lights);
+    $("#kCurt").setAttribute("aria-pressed",state.curtains);
+    $("#kAc").setAttribute("aria-pressed",state.ac);
+    $("#kLock").setAttribute("aria-pressed",state.lock);
+    $$(".scene-btn").forEach(b=>b.setAttribute("aria-pressed",b.dataset.scene===scene));
+  }
+  [["#kLights","lights"],["#kCurt","curtains"],["#kAc","ac"],["#kLock","lock"]].forEach(([id,k])=>{
+    $(id).addEventListener("click",()=>{state[k]=!state[k];render("");});
+  });
+  const scenes={morning:{lights:false,curtains:true,ac:false,lock:true},movie:{lights:false,curtains:false,ac:true,lock:true},away:{lights:false,curtains:false,ac:false,lock:true}};
+  $$(".scene-btn").forEach(b=>b.addEventListener("click",()=>{Object.assign(state,scenes[b.dataset.scene]);render(b.dataset.scene);}));
+  render("");
+
+  // ---------- Estimator ----------
+  // Indicative "from" prices in INR. Update these to your current price list.
+  const ITEMS=[
+    {k:"sw",name:"Smart switch boards",unit:"per board",price:9999,icon:"i-switch"},
+    {k:"lock",name:"Smart door locks",unit:"per door",price:14999,icon:"i-lock"},
+    {k:"bell",name:"Video door bell",unit:"per unit",price:7999,icon:"i-bell"},
+    {k:"cam",name:"Wi-Fi / CCTV cameras",unit:"per camera",price:3499,icon:"i-cam"},
+    {k:"light",name:"Smart lights",unit:"per fitting",price:1499,icon:"i-bulb"},
+    {k:"curt",name:"Motorised curtains",unit:"per window",price:16999,icon:"i-curtain"},
+    {k:"cab",name:"Smart cabinet locks",unit:"per lock",price:2999,icon:"i-cab"},
+    {k:"voice",name:"Voice assistant hub",unit:"per hub",price:4999,icon:"i-voice"}
+  ];
+  const PRESETS={
+    "2bhk":{sw:5,lock:1,bell:1,cam:2,light:6,curt:0,cab:0,voice:1},
+    "3bhk":{sw:8,lock:1,bell:1,cam:3,light:10,curt:1,cab:1,voice:1},
+    "villa":{sw:16,lock:2,bell:1,cam:6,light:24,curt:3,cab:2,voice:2},
+    "office":{sw:10,lock:1,bell:1,cam:6,light:16,curt:0,cab:6,voice:1}
+  };
+  const TYPE_NAMES={"2bhk":"2 BHK apartment","3bhk":"3 BHK apartment","villa":"Villa / independent house","office":"Office / hotel"};
+  let ptype="3bhk"; let qty={...PRESETS[ptype]};
+  const itemsEl=$("#items");
+  itemsEl.innerHTML=ITEMS.map(it=>`
+    <div class="item">
+      <span class="ic"><svg><use href="#${it.icon}"/></svg></span>
+      <span class="meta"><b>${it.name}</b><span>from ${inr(it.price)} ${it.unit}</span></span>
+      <span class="step"><button type="button" data-k="${it.k}" data-d="-1" aria-label="Fewer ${it.name}">−</button><output id="q-${it.k}" class="num">0</output><button type="button" data-k="${it.k}" data-d="1" aria-label="More ${it.name}">+</button></span>
+    </div>`).join("");
+  itemsEl.addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const k=b.dataset.k;qty[k]=Math.max(0,Math.min(60,qty[k]+Number(b.dataset.d)));estUsed=true;calc();});
+  $$(".ptype").forEach(b=>b.addEventListener("click",()=>{ptype=b.dataset.type;qty={...PRESETS[ptype]};estUsed=true;$$(".ptype").forEach(x=>x.setAttribute("aria-pressed",x===b));calc();}));
+  function round(n){return Math.round(n/1000)*1000;}
+  function calc(){
+    let total=0;const lines=[];
+    ITEMS.forEach(it=>{const q=qty[it.k];$("#q-"+it.k).textContent=q;if(q>0){const v=q*it.price;total+=v;lines.push([it.name+" × "+q,v]);}});
+    const lo=round(total), hi=round(total*1.2);
+    $("#estTotal").textContent= total? inr(lo)+" – "+inr(hi) : "₹0";
+    $("#estLines").innerHTML= lines.length? lines.map(l=>`<li><span>${l[0]}</span><span>${inr(l[1])}</span></li>`).join("") : "<li><span>Add a device to see your estimate</span><span></span></li>";
+    const msg="Hi AURA, I used the cost estimator on your website.\nProperty: "+TYPE_NAMES[ptype]+"\n"+lines.map(l=>"• "+l[0]).join("\n")+"\nEstimate: "+(total?inr(lo)+" – "+inr(hi):"-")+"\nPlease share an exact quote.";
+    $("#estWa").href=waLink(msg);
+    lastEstimate= total? TYPE_NAMES[ptype]+": "+lines.map(l=>l[0]).join(", ")+" | "+inr(lo)+" – "+inr(hi) : "";
+  }
+  $("#estCallback").addEventListener("click",()=>{
+    estUsed=true;const n=$("#fNote"); n.value="My estimate: "+lastEstimate;
+    const t=$("#fType"); [...t.options].forEach(o=>{if(o.text===TYPE_NAMES[ptype])t.value=o.text;});
+  });
+  calc();
+
+  // ---------- Quote links preselect interest ----------
+  const MAP={"Smart switch boards":"iSw","Smart door lock":"iLock","Video door bell":"iBell","CCTV cameras":"iCam","Smart lighting":"iLight","Motorised curtains":"iCurt","Smart Home package":"iFull","Signature project":"iFull","Smart Start package":"iSw"};
+  $$("a[data-interest]").forEach(a=>a.addEventListener("click",()=>{
+    const v=a.dataset.interest, id=MAP[v]; if(id) document.getElementById(id).checked=true;
+    const n=$("#fNote"); if(!n.value) n.value="Interested in: "+v;
+  }));
+
+  // ---------- Consultation form ----------
+  const form=$("#bookForm");
+  let lastMsg="";
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    if($("#fWebsite").value) return; // spam bot filled the hidden field
+    const name=$("#fName").value.trim(), phone=$("#fPhone").value.replace(/\D/g,"").replace(/^91(?=\d{10}$)/,"");
+    const err=$("#fErr");
+    if(!name){err.textContent="Please enter your name.";$("#fName").focus();return;}
+    if(!/^[6-9]\d{9}$/.test(phone)){err.textContent="Please enter a valid 10-digit mobile number.";$("#fPhone").focus();return;}
+    err.textContent="";
+    const ints=$$("#fInterests input:checked").map(i=>i.value);
+    const d=$("#fDate").value;
+    lastMsg=["Hi AURA, I'd like a free smart home consultation.",
+      "Name: "+name,"Mobile: "+phone,
+      $("#fArea").value.trim()?"Area: "+$("#fArea").value.trim():null,
+      "Property: "+$("#fType").value,"Stage: "+$("#fStage").value,
+      d?"Preferred date: "+new Date(d+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}):null,
+      ints.length?"Interested in: "+ints.join(", "):null,
+      $("#fNote").value.trim()?"Note: "+$("#fNote").value.trim():null].filter(Boolean).join("\n");
+    $("#doneMsg").textContent=lastMsg;
+    $("#doneWa").href=waLink(lastMsg);
+    let saved=false;
+    $("#fEstimate").value=estUsed?lastEstimate:"";
+    const btn0=form.querySelector('button[type="submit"]'); btn0.disabled=true; btn0.textContent="Sending…";
+    // 1) Netlify Forms inbox (works automatically on the live Netlify site)
+    try{
+      const fd=new FormData(form); fd.set("interests",ints.join(", ")); fd.set("phone",phone);
+      const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(fd).toString()});
+      saved=r.ok;
+    }catch(_){}
+    btn0.disabled=false; btn0.textContent="Request free consultation";
+    // 2) Google Sheet (optional, once SHEET_URL is set)
+    if(SHEET_URL){
+      const btn=form.querySelector('button[type="submit"]'); btn.disabled=true; btn.textContent="Sending…";
+      const lead={name,phone,area:$("#fArea").value.trim(),property:$("#fType").value,stage:$("#fStage").value,
+        visitDate:d,interests:ints.join(", "),note:$("#fNote").value.trim(),estimate:estUsed?lastEstimate:"",
+        source:"Website form",page:location.href,referrer:document.referrer};
+      try{
+        await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});
+        saved=true;
+      }catch(_){}
+      btn.disabled=false; btn.textContent="Request free consultation";
+    }
+    $("#doneEyebrow").textContent=saved?"Request received":"Almost done";
+    $("#doneTitle").textContent=saved?"Thank you, "+name.split(" ")[0]+". We'll call you within 24 hours.":"Send your request on WhatsApp to confirm.";
+    $("#doneLede").textContent=saved?"Our team has your details. For a faster reply, you can also send them to us on WhatsApp.":"Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.";
+    $("#formFields").hidden=true; $("#formDone").hidden=false;
+    $("#formDone").scrollIntoView({behavior:"smooth",block:"center"});
+  });
+  $("#doneEdit").addEventListener("click",()=>{$("#formDone").hidden=true;$("#formFields").hidden=false;});
+  function copyText(txt,el){
+    const fallback=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Selected. Press Ctrl+C to copy");};
+    try{navigator.clipboard.writeText(txt).then(()=>toast("Copied"),fallback);}catch(_){fallback();}
+  }
+  $("#doneCopy").addEventListener("click",()=>copyText(lastMsg,$("#doneMsg")));
+  $$(".copy").forEach(b=>b.addEventListener("click",()=>copyText(b.dataset.copy,$("#phoneTxt"))));
+
+  // ---------- Project artwork (architectural placeholders) ----------
+  const PALS=[["#1b3352","#2b5a85","#e9e3da","#ffd98a"],["#22303f","#3d566e","#d8d2c8","#4fdcf5"],["#1a1f26","#2e3a47","#c9b79f","#ffe3a3"],["#0d1420","#1d2c40","#3a4b60","#2b6fd6"],["#2a2019","#5b4636","#b89573","#4fdcf5"]];
+  function draw(c){
+    const i=+c.dataset.art, p=PALS[i], dpr=Math.min(2,window.devicePixelRatio||1);
+    const w=c.clientWidth, h=c.clientHeight; if(!w||!h)return;
+    c.width=w*dpr;c.height=h*dpr;const x=c.getContext("2d");x.scale(dpr,dpr);
+    const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,p[0]);g.addColorStop(1,p[1]);x.fillStyle=g;x.fillRect(0,0,w,h);
+    if(i===0||i===1){ // facade
+      const bw=w*.62,bx=w*.2,by=h*.18;
+      x.fillStyle=p[2];x.fillRect(bx,by,bw,h*.72);
+      x.fillStyle="rgba(0,0,0,.12)";x.fillRect(bx+bw*.62,by,bw*.38,h*.72);
+      const rows=i===0?4:3;
+      for(let r=0;r<rows;r++){for(let k=0;k<3;k++){const wx=bx+bw*.08+k*bw*.3,wy=by+h*.06+r*(h*.66/rows);
+        x.fillStyle=(r+k)%2?p[3]:"rgba(255,230,170,.35)";x.globalAlpha=.85;x.fillRect(wx,wy,bw*.2,h*.66/rows*.55);x.globalAlpha=1;}}
+      x.fillStyle="rgba(0,0,0,.35)";x.fillRect(bx-w*.05,by-6,bw+w*.1,6);
+    } else if(i===2){ // track lights
+      x.fillStyle="#0b0f14";x.fillRect(w*.08,h*.16,w*.84,6);
+      for(let k=0;k<5;k++){const cx=w*.16+k*w*.17;const gr=x.createLinearGradient(0,h*.18,0,h);gr.addColorStop(0,"rgba(255,227,163,.55)");gr.addColorStop(1,"rgba(255,227,163,0)");
+        x.fillStyle=gr;x.beginPath();x.moveTo(cx-6,h*.2);x.lineTo(cx+6,h*.2);x.lineTo(cx+w*.09,h);x.lineTo(cx-w*.09,h);x.fill();x.fillStyle="#0b0f14";x.fillRect(cx-7,h*.16,14,12);}
+    } else if(i===3){ // theatre
+      x.fillStyle="#e8f2ff";x.globalAlpha=.9;x.fillRect(w*.15,h*.14,w*.7,h*.42);x.globalAlpha=1;
+      const gr=x.createLinearGradient(w*.15,0,w*.85,0);gr.addColorStop(0,"#2b6fd6");gr.addColorStop(1,"#4fdcf5");x.fillStyle=gr;x.fillRect(w*.17,h*.16,w*.66,h*.38);
+      x.fillStyle="#0b0f14";for(let k=0;k<3;k++){x.beginPath();x.roundRect?x.roundRect(w*.12+k*w*.27,h*.7,w*.22,h*.16,10):x.rect(w*.12+k*w*.27,h*.7,w*.22,h*.16);x.fill();}
+    } else { // door + lock
+      x.fillStyle=p[2];x.fillRect(w*.3,h*.06,w*.4,h*.94);
+      x.strokeStyle="rgba(0,0,0,.15)";x.lineWidth=2;for(let k=1;k<6;k++){x.beginPath();x.moveTo(w*.3+k*w*.4/6,h*.06);x.lineTo(w*.3+k*w*.4/6,h);x.stroke();}
+      x.fillStyle="#11161c";x.fillRect(w*.6,h*.28,w*.05,h*.34);x.fillStyle=p[3];x.beginPath();x.arc(w*.625,h*.33,4,0,7);x.fill();
+    }
+  }
+  const arts=$$("canvas.art");
+  const redraw=()=>arts.forEach(draw);
+  redraw(); let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(redraw,150);});
+})();
+</script>
+
+</body>
+</html>
