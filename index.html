@@ -132,49 +132,158 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-facts span{display:inline-flex;align-items:center;gap:8px}
 .hero-facts svg{width:18px;height:18px;color:var(--cyan);flex:none}
 
-/* Live demo: room + switch plate */
-.demo{position:relative;min-width:0}
-.room{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:5/4;max-width:100%;background:var(--wall);box-shadow:var(--shadow);border:1px solid var(--line);transition:background .6s}
-.room svg.scene{position:absolute;inset:0;width:100%;height:100%}
-.room .dimmer{position:absolute;inset:0;background:#050a12;opacity:.0;transition:opacity .7s;pointer-events:none}
-.room[data-lights="off"] .dimmer{opacity:.55}
-.lamp-glow{transition:opacity .6s}
-.room[data-lights="off"] .lamp-glow{opacity:0}
-.curtain{transition:transform 1.1s cubic-bezier(.6,.05,.2,1)}
-.room[data-curtains="open"] .curtain-l{transform:translateX(-62px)}
-.room[data-curtains="open"] .curtain-r{transform:translateX(62px)}
-.sky{transition:fill .6s}
-.lockdot{transition:fill .3s}
-.ac-air{transition:opacity .5s}
-.room[data-ac="off"] .ac-air{opacity:0}
-.tv-screen{transition:fill .5s}
-.room[data-scene="movie"] .tv-screen{fill:#2b6fd6}
-.status{position:absolute;left:16px;top:16px;display:flex;flex-wrap:wrap;gap:6px;max-width:70%}
-.chip{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(10,14,19,.72);color:#E6EEF6;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:6px}
-.chip i{width:6px;height:6px;border-radius:50%;background:#5c6672}
-.chip.on i{background:#4FDCF5;box-shadow:0 0 8px #4FDCF5}
-.plate{position:absolute;right:-14px;bottom:-26px;width:min(300px,62%);background:linear-gradient(160deg,#1a2129,var(--panel) 45%);border:1px solid var(--panel-edge);border-radius:18px;padding:18px 18px 16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);color:var(--panel-ink)}
-.plate-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.24em;margin-bottom:14px}
-.plate-top b{color:#cfd8e2;font-weight:500}
-.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.key{aspect-ratio:1;border-radius:12px;border:1px solid #1f2731;background:#0d1218;display:grid;place-items:center;cursor:pointer;position:relative;color:#5d6873;transition:color .25s,box-shadow .25s,border-color .25s}
-.key svg{width:22px;height:22px}
-.key[aria-pressed="true"]{color:#4FDCF5;border-color:#1f3e4a;box-shadow:inset 0 0 14px rgba(79,220,245,.15),0 0 16px -4px rgba(79,220,245,.6)}
-.key:focus-visible{outline-color:#4FDCF5}
-.key-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px;font-size:.62rem;text-align:center;letter-spacing:.04em}
-.scenes{display:flex;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid #1d242d}
-.scene-btn{flex:1;background:none;border:1px solid #232c36;border-radius:999px;padding:6px 0;font-size:.68rem;color:#aeb9c5;cursor:pointer;font-family:var(--f-mono)}
-.scene-btn[aria-pressed="true"]{border-color:#2f6474;color:#4FDCF5}
-.demo-note{margin-top:22px;max-width:calc(100% - 330px);font-size:.85rem;color:var(--muted);font-family:var(--f-mono)}
-@media (max-width:900px){.hero-grid{grid-template-columns:1fr}.plate{right:12px;bottom:-30px;width:min(290px,78%)}.demo{margin-bottom:24px}}
-@media (max-width:640px){.plate{position:relative;right:auto;bottom:auto;margin:-36px auto 0;width:92%}.demo-note{max-width:none;text-align:center}.demo{margin-bottom:0}}
+/* Live demo: a cinematic AURA home, run from the phone */
+.hero-grid{grid-template-columns:minmax(0,.82fr) minmax(0,1.3fr)}
+.hero h1{font-size:clamp(2.5rem,4.9vw,4.1rem)}
+.demo{position:relative;min-width:0;padding-bottom:64px;--px:0;--py:0}
+.stage{position:relative;margin-right:clamp(60px,12%,120px)}
+.room{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:800/560;background:#141b25;border:1px solid var(--line);
+  box-shadow:0 50px 100px -50px rgba(10,158,192,.55),0 30px 60px -30px rgba(0,0,0,.6);--lum:.8;--shade:0;--cove:#4FDCF5;isolation:isolate}
+.room svg.scene{position:absolute;inset:-2%;width:104%;height:104%;transform:translate(calc(var(--px)*-8px),calc(var(--py)*-6px));transition:transform .4s ease-out}
+.room .sky{opacity:0;transition:opacity 1.6s}
+.room[data-time="dawn"] .sky-dawn,.room[data-time="day"] .sky-day,.room[data-time="dusk"] .sky-dusk,.room[data-time="night"] .sky-night{opacity:1}
+.room .sun{transition:transform 2s cubic-bezier(.4,0,.2,1),opacity 1.6s;transform:translateY(120px);opacity:0}
+.room[data-time="dawn"] .sun{transform:translateY(60px);opacity:1}
+.room[data-time="day"] .sun{transform:none;opacity:1}
+.room .moon{transition:opacity 1.6s,transform 2s;opacity:0;transform:translateY(30px)}
+.room[data-time="night"] .moon{opacity:1;transform:none}
+.room .stars{opacity:0;transition:opacity 2s}
+.room[data-time="night"] .stars{opacity:1}
+.room .city-lit{opacity:0;transition:opacity 1.6s}
+.room[data-time="dusk"] .city-lit{opacity:.7}.room[data-time="night"] .city-lit{opacity:1}
+.room .curtain{transition:transform 2.2s cubic-bezier(.65,0,.25,1);filter:brightness(calc(1 - var(--shade)*.9))}
+.room[data-curtains="open"] .curtain-l{transform:translateX(-118px)}
+.room[data-curtains="open"] .curtain-r{transform:translateX(118px)}
+.room .shade{opacity:var(--shade);transition:opacity 1.4s}
+.room .cone{opacity:calc(var(--lum)*.9);transition:opacity 1.1s;mix-blend-mode:screen}
+.room .wash{opacity:calc(var(--lum)*.55);transition:opacity 1.1s;mix-blend-mode:screen}
+.room .bulb{opacity:calc(.25 + var(--lum)*.75);transition:opacity 1.1s}
+.room .cove{opacity:0;transition:opacity 1s,fill 1s;fill:var(--cove)}
+.room[data-cove="on"] .cove{opacity:1}
+.room .cove-glow{opacity:0;transition:opacity 1s;mix-blend-mode:screen}
+.room[data-cove="on"] .cove-glow{opacity:.55}
+.room .air path{stroke-dasharray:10 14;opacity:0;transition:opacity .8s}
+.room[data-ac="on"] .air path{opacity:.85;animation:air 1.4s linear infinite}
+.room .air path:nth-child(2){animation-delay:-.4s}.room .air path:nth-child(3){animation-delay:-.8s}
+@keyframes air{to{stroke-dashoffset:-48}}
+.room .ac-led{fill:#5c6672;transition:fill .4s}.room[data-ac="on"] .ac-led{fill:#4FDCF5}
+.room .ac-temp{opacity:0;transition:opacity .4s}.room[data-ac="on"] .ac-temp{opacity:1}
+.room .tv-on{opacity:0;transition:opacity .6s}
+.room[data-tv="on"] .tv-on{opacity:1}
+.room[data-tv="on"] .tv-glow{animation:flick 2.4s steps(6) infinite}
+.room .tv-frame rect{transition:transform 4s linear}
+.room[data-tv="on"] .tv-pan{animation:pan 9s ease-in-out infinite alternate}
+@keyframes pan{to{transform:translateX(-120px)}}
+@keyframes flick{0%,100%{opacity:.75}30%{opacity:.95}55%{opacity:.6}80%{opacity:.9}}
+.room .door-leaf{transform-box:fill-box;transform-origin:left center;transition:transform 1.2s cubic-bezier(.6,0,.2,1)}
+.room[data-lock="open"] .door-leaf{transform:scaleX(.72)}
+.room .door-light{opacity:0;transition:opacity 1s}.room[data-lock="open"] .door-light{opacity:1}
+.room .lock-led{fill:#ff5b5b;transition:fill .3s}.room[data-lock="open"] .lock-led{fill:#4FD38A}
+.room .scan{transform-box:view-box;transform-origin:380px 54px;opacity:0;transition:opacity .6s}
+.room[data-cams="on"] .scan{opacity:1;animation:scan 5s ease-in-out infinite alternate}
+@keyframes scan{from{transform:rotate(-14deg)}to{transform:rotate(22deg)}}
+.room .rec{fill:#3a4350}.room[data-cams="on"] .rec{fill:#ff4d4d;animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.2}}
+.room .ring{fill:none;stroke:#4FDCF5;stroke-width:2;opacity:0}
+.room .ring.go{animation:ring .9s ease-out}
+@keyframes ring{0%{opacity:.9;r:4}100%{opacity:0;r:46}}
+/* hotspots on the room */
+.hot{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:0;padding:0;cursor:pointer;background:transparent;z-index:3}
+.hot::before,.hot::after{content:"";position:absolute;inset:9px;border-radius:50%;background:#4FDCF5;box-shadow:0 0 12px #4FDCF5}
+.hot::after{inset:4px;background:none;border:1.5px solid rgba(79,220,245,.8);box-shadow:none;animation:hotp 2.2s ease-out infinite}
+@keyframes hotp{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.7);opacity:0}}
+.hot span{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%) translateY(4px);white-space:nowrap;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;background:rgba(6,12,20,.85);color:#E6EEF6;padding:4px 8px;border-radius:6px;opacity:0;transition:.2s;pointer-events:none}
+.hot:hover span,.hot:focus-visible span{opacity:1;transform:translateX(-50%)}
+/* HUD */
+.hud{position:absolute;left:14px;top:14px;z-index:4;display:flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:14px;background:rgba(6,12,20,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);color:#E6EEF6;max-width:calc(100% - 28px)}
+.hud-time{font-family:var(--f-display);font-weight:700;font-size:1.25rem;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.hud-meta{display:grid;line-height:1.25;min-width:0}
+.hud-scene{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:#4FDCF5}
+.hud-log{font-size:.78rem;color:#B9C6D4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud-log.tick{animation:logIn .45s ease-out}
+@keyframes logIn{from{opacity:0;transform:translateY(6px)}}
+/* Phone */
+.phone{position:absolute;right:0;bottom:-28px;width:clamp(170px,27%,230px);aspect-ratio:9/19;z-index:5;
+  border-radius:16% / 7.6%;padding:3.2%;background:linear-gradient(145deg,#3a4350,#0c1016 40%,#1d232b);box-shadow:0 40px 80px -24px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06) inset,0 0 60px -10px rgba(79,220,245,.35);
+  transform:perspective(1200px) rotateY(calc(-8deg + var(--px)*4deg)) rotateX(calc(4deg + var(--py)*-3deg));transition:transform .4s ease-out;container-type:inline-size}
+.ph-screen{position:relative;height:100%;border-radius:13% / 6.2%;overflow:hidden;background:radial-gradient(120% 60% at 50% 0%,#12304a,#070b12 60%);color:#E6EEF6;display:flex;flex-direction:column;gap:4.2cqw;padding:13cqw 6.5cqw 6cqw}
+.ph-island{position:absolute;top:3.4cqw;left:50%;transform:translateX(-50%);width:30cqw;height:8cqw;border-radius:99px;background:#000}
+.ph-status{position:absolute;top:3.6cqw;left:9cqw;right:8cqw;display:flex;justify-content:space-between;font-size:4.6cqw;font-weight:600}
+.ph-status i{display:inline-block;width:9cqw;height:4.2cqw;border:1.5px solid #cfd8e2;border-radius:1.5cqw;position:relative}
+.ph-status i::after{content:"";position:absolute;inset:1px;right:30%;background:#cfd8e2;border-radius:1px}
+.ph-head{display:flex;justify-content:space-between;align-items:flex-end}
+.ph-head small{display:block;font-size:4.4cqw;color:#93A3B7}
+.ph-head b{font-family:var(--f-display);font-size:8.4cqw;letter-spacing:-.02em}
+.ph-wx{font-family:var(--f-mono);font-size:4.2cqw;color:#B9C6D4;text-align:right;line-height:1.3}
+.ph-scenes{display:grid;grid-template-columns:repeat(4,1fr);gap:2.4cqw}
+.ph-scene{border:1px solid #22303f;background:#0d1520;color:#aeb9c5;border-radius:4cqw;padding:3cqw 0 2.4cqw;font-size:3.5cqw;cursor:pointer;display:grid;justify-items:center;gap:1.4cqw;transition:.25s}
+.ph-scene svg{width:6.4cqw;height:6.4cqw}
+.ph-scene[aria-pressed="true"]{background:linear-gradient(160deg,#4FDCF5,#1b8fb0);color:#04131C;border-color:transparent;box-shadow:0 6px 20px -6px rgba(79,220,245,.7)}
+.ph-label{font-family:var(--f-mono);font-size:3.4cqw;letter-spacing:.14em;color:#6d7f94;text-transform:uppercase;margin-bottom:-1.6cqw}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.8cqw}
+.tile{position:relative;text-align:left;border:1px solid #1c2734;background:#0c131c;color:#9AA6B4;border-radius:5cqw;padding:3.6cqw;cursor:pointer;display:grid;gap:1.2cqw;transition:background .3s,border-color .3s,color .3s,transform .15s}
+.tile svg{width:7cqw;height:7cqw}
+.tile b{font-size:4.2cqw;color:#E6EEF6;font-weight:600}
+.tile em{font-style:normal;font-family:var(--f-mono);font-size:3.4cqw}
+.tile::after{content:"";position:absolute;right:3.6cqw;top:3.6cqw;width:7.6cqw;height:4.4cqw;border-radius:99px;background:#243140;transition:.3s}
+.tile::before{content:"";position:absolute;right:6.8cqw;top:4.4cqw;width:2.8cqw;height:2.8cqw;border-radius:50%;background:#7f8b98;z-index:1;transition:.3s}
+.tile[aria-pressed="true"]{background:linear-gradient(160deg,rgba(79,220,245,.16),rgba(79,220,245,.04));border-color:rgba(79,220,245,.45);color:#4FDCF5}
+.tile[aria-pressed="true"]::after{background:#4FDCF5}
+.tile[aria-pressed="true"]::before{right:4.4cqw;background:#04131C}
+.tile.press{transform:scale(.94)}
+.ph-dim{display:grid;gap:2cqw;background:#0c131c;border:1px solid #1c2734;border-radius:5cqw;padding:3.6cqw}
+.ph-dim div{display:flex;justify-content:space-between;font-size:3.8cqw;color:#B9C6D4}
+.ph-dim div b{font-family:var(--f-mono);color:#4FDCF5;font-weight:500}
+.ph-dim input{width:100%;accent-color:#4FDCF5;margin:0;height:5cqw}
+.ph-bar{margin-top:auto;align-self:center;width:34cqw;height:1.4cqw;border-radius:99px;background:#cfd8e2;opacity:.6}
+.ph-notif{position:absolute;left:4cqw;right:4cqw;top:12cqw;z-index:3;background:rgba(22,30,42,.96);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:6cqw;padding:3.6cqw;display:grid;gap:2.6cqw;box-shadow:0 20px 40px -10px rgba(0,0,0,.7);transform:translateY(-140%);opacity:0;transition:transform .55s cubic-bezier(.2,.9,.3,1.2),opacity .3s}
+.ph-notif.show{transform:none;opacity:1}
+.ph-notif header{display:flex;gap:2.6cqw;align-items:center;font-size:3.8cqw}
+.ph-notif header svg{width:7cqw;height:7cqw;color:#4FDCF5;flex:none}
+.ph-notif header b{display:block;font-size:4.2cqw}
+.ph-notif header span{color:#93A3B7}
+.ph-feed{height:26cqw;border-radius:3.6cqw;background:linear-gradient(180deg,#2b3b4f,#101820);position:relative;overflow:hidden}
+.ph-feed::before{content:"";position:absolute;left:50%;bottom:-2cqw;width:20cqw;height:22cqw;transform:translateX(-50%);background:radial-gradient(circle at 50% 22%,#8a9bb0 0 5.4cqw,transparent 5.6cqw),radial-gradient(ellipse 10cqw 9cqw at 50% 100%,#8a9bb0 98%,transparent)}
+.ph-feed::after{content:"LIVE";position:absolute;left:2.4cqw;top:2.4cqw;font-family:var(--f-mono);font-size:3cqw;color:#fff;background:#e5484d;padding:.4cqw 1.6cqw;border-radius:1cqw}
+.ph-notif .acts{display:grid;grid-template-columns:1fr 1fr;gap:2.4cqw}
+.ph-notif button{border:0;border-radius:99px;padding:2.6cqw 0;font-size:3.8cqw;font-weight:600;cursor:pointer;background:#243140;color:#E6EEF6}
+.ph-notif button.ok{background:#4FD38A;color:#04131C}
+.ph-notif button.press{transform:scale(.92)}
+/* beams */
+.beams{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:6;overflow:visible}
+.beams path{fill:none;stroke:#4FDCF5;stroke-width:2.5;stroke-linecap:round;filter:drop-shadow(0 0 6px #4FDCF5)}
+.beams circle{fill:#fff;filter:drop-shadow(0 0 8px #4FDCF5) drop-shadow(0 0 3px #4FDCF5)}
+/* tour */
+.tour{position:absolute;left:0;bottom:0;right:calc(clamp(170px,27%,230px) + 24px);display:flex;align-items:center;gap:12px}
+.tour-btn{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.tour-btn svg{width:14px;height:14px}
+.tour ol{list-style:none;margin:0;padding:0;display:flex;gap:6px;flex:1;min-width:0}
+.tour li{flex:1;min-width:0}
+.tour li button{width:100%;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:var(--muted);font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;display:grid;gap:6px}
+.tour li button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tour li b{font-weight:inherit}
+.tour li i{display:block;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.tour li i::after{content:"";display:block;height:100%;width:calc(var(--p,0)*100%);background:linear-gradient(90deg,var(--cyan),var(--glow))}
+.tour li.on button{color:var(--ink)}
+.tour li.done i::after{width:100%}
+@media (max-width:1100px){.hero-grid{grid-template-columns:1fr}.demo{max-width:860px;margin-inline:auto;width:100%}}
+@media (max-width:640px){
+  .stage{margin-right:0}
+  .demo{padding-bottom:0}
+  .phone{position:relative;right:auto;bottom:auto;margin:-26px auto 0;width:min(230px,60%);transform:none}
+  .tour li b{display:none}
+  .tour{position:relative;right:auto;margin-top:22px}
+  .hud{left:10px;top:10px;padding:6px 10px 6px 8px}.hud-time{font-size:1rem}
+  .tour li button span{font-size:.58rem}
+}
 @media (prefers-reduced-motion:no-preference){
   .hero-copy>*{animation:rise .7s both}
   .hero-copy>*:nth-child(2){animation-delay:.06s}.hero-copy>*:nth-child(3){animation-delay:.12s}.hero-copy>*:nth-child(4){animation-delay:.18s}.hero-copy>*:nth-child(5){animation-delay:.24s}
-  .plate{animation:plate .9s .2s both}
+  .stage{animation:rise 1s .1s both}
+  .phone{animation:phoneIn 1.2s .35s both}
 }
 @keyframes rise{from{transform:translateY(12px)}to{transform:none}}
-@keyframes plate{from{transform:translateY(16px)}to{transform:none}}
+@keyframes phoneIn{from{opacity:0;translate:0 60px}to{opacity:1;translate:0 0}}
 
 /* Brand strip */
 .strip{border-block:1px solid var(--line);background:var(--surface)}
@@ -355,7 +464,6 @@ fieldset.fld{border:0;padding:0;margin:0}
 .hero h1 em{background:linear-gradient(90deg,var(--cyan),var(--glow) 50%,var(--cyan));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
 @media (prefers-reduced-motion:no-preference){.hero h1 em{animation:shimmer 6s linear infinite}}
 @keyframes shimmer{to{background-position:-200% 0}}
-.room{box-shadow:0 40px 80px -40px rgba(10,158,192,.45),var(--shadow)}
 .btn{position:relative;overflow:hidden;isolation:isolate}
 .btn-primary::before,.btn-wa::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s}
 .btn-primary:hover::before,.btn-wa:hover::before{transform:translateX(120%)}
@@ -411,6 +519,9 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
     <symbol id="i-bulb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z"/></g></symbol>
     <symbol id="i-curtain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18M5 4c0 6 1 11 4 16H5M19 4c0 6-1 11-4 16h4"/></g></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2.5"/></g></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></symbol>
+    <symbol id="i-tv" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="12.5" rx="2"/><path d="M8 21h8"/></g></symbol>
     <symbol id="i-snow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/></g></symbol>
     <symbol id="i-switch" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8" cy="10" r="1.2" fill="currentColor"/><circle cx="12" cy="10" r="1.2" fill="currentColor"/><circle cx="16" cy="10" r="1.2" fill="currentColor"/><circle cx="8" cy="14.5" r="1.2" fill="currentColor"/><circle cx="12" cy="14.5" r="1.2" fill="currentColor"/><circle cx="16" cy="14.5" r="1.2" fill="currentColor"/></g></symbol>
     <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="3"/><circle cx="12" cy="8" r="2.2"/><circle cx="12" cy="16" r="1.6"/></g></symbol>
@@ -470,81 +581,146 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
       </div>
     </div>
 
-    <div class="demo">
-      <div class="room" id="room" data-lights="on" data-curtains="open" data-ac="off" data-lock="locked" data-scene="">
-        <svg class="scene" viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice" aria-label="Illustration of a living room that responds to the switch panel" role="img">
-          <defs>
-            <radialGradient id="lampG" cx="50%" cy="0%" r="75%"><stop offset="0" stop-color="#FFE7B0" stop-opacity=".95"/><stop offset=".55" stop-color="#FFD98A" stop-opacity=".25"/><stop offset="1" stop-color="#FFD98A" stop-opacity="0"/></radialGradient>
-            <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD3F0"/><stop offset="1" stop-color="#D9F1FA"/></linearGradient>
-            <clipPath id="winClip"><rect x="60" y="70" width="170" height="180" rx="4"/></clipPath>
-          </defs>
-          <rect width="500" height="400" fill="var(--wall)"/>
-          <rect y="310" width="500" height="90" fill="var(--floor)"/>
-          <rect y="306" width="500" height="6" fill="var(--wall-dim)"/>
-          <!-- window -->
-          <rect x="54" y="64" width="182" height="192" rx="6" fill="var(--wall-dim)"/>
-          <g clip-path="url(#winClip)">
-            <rect class="sky" id="sky" x="60" y="70" width="170" height="180" fill="url(#skyG)"/>
-            <path d="M60 220 L95 185 L120 200 L150 160 L185 195 L230 170 V250 H60Z" fill="#7FB3C9" opacity=".6"/>
-            <rect x="85" y="195" width="18" height="55" fill="#6C9DB3" opacity=".7"/><rect x="160" y="180" width="24" height="70" fill="#6C9DB3" opacity=".7"/>
-            <rect x="143" y="70" width="4" height="180" fill="var(--wall-dim)"/>
-            <rect class="curtain curtain-l" x="60" y="70" width="86" height="180" fill="#B7A48C"/>
-            <rect class="curtain curtain-r" x="144" y="70" width="86" height="180" fill="#B7A48C"/>
-            <g class="curtain curtain-l" stroke="#9E8B74" stroke-width="2" opacity=".7"><path d="M80 70v180M100 70v180M120 70v180"/></g>
-            <g class="curtain curtain-r" stroke="#9E8B74" stroke-width="2" opacity=".7"><path d="M170 70v180M190 70v180M210 70v180"/></g>
-          </g>
-          <rect x="44" y="58" width="202" height="8" rx="3" fill="#3a3f46"/>
-          <!-- AC -->
-          <rect x="300" y="60" width="150" height="40" rx="10" fill="#F6F7F8" stroke="#D5D9DE"/>
-          <rect x="312" y="88" width="126" height="4" rx="2" fill="#CBD1D7"/>
-          <circle cx="436" cy="72" r="3" fill="#4FDCF5" class="ac-air"/>
-          <g class="ac-air" stroke="#7FD9F0" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".9"><path d="M330 108c6 8 0 16 6 24"/><path d="M375 108c6 8 0 16 6 24"/><path d="M420 108c6 8 0 16 6 24"/></g>
-          <!-- TV + console -->
-          <rect x="300" y="160" width="150" height="86" rx="4" fill="#111418"/>
-          <rect class="tv-screen" x="305" y="165" width="140" height="76" rx="2" fill="#1b2128"/>
-          <rect x="290" y="276" width="170" height="30" rx="4" fill="#5B4A3A"/>
-          <!-- sofa -->
-          <rect x="40" y="262" width="220" height="50" rx="16" fill="#3F5A73"/>
-          <rect x="52" y="240" width="196" height="40" rx="14" fill="#4D6A85"/>
-          <rect x="40" y="306" width="10" height="14" fill="#2c2c2c"/><rect x="250" y="306" width="10" height="14" fill="#2c2c2c"/>
-          <!-- lamp -->
-          <path d="M255 0V36" stroke="#2b2f35" stroke-width="2"/>
-          <path d="M238 36h34l-6 20h-22Z" fill="#2b2f35"/>
-          <ellipse class="lamp-glow" cx="255" cy="58" rx="160" ry="230" fill="url(#lampG)"/>
-          <circle class="lamp-glow" cx="255" cy="58" r="6" fill="#FFF3D1"/>
-          <!-- door -->
-          <rect x="470" y="130" width="40" height="180" fill="#6B5240"/>
-          <rect x="474" y="200" width="8" height="34" rx="2" fill="#0f1216"/>
-          <circle class="lockdot" id="lockdot" cx="478" cy="208" r="2.4" fill="#ff5b5b"/>
-          <!-- plant -->
-          <path d="M275 306c-4-26 6-44 14-56M281 306c2-22-8-40-18-52M287 306c6-20 18-30 28-34" stroke="#3F7D58" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <rect x="268" y="292" width="26" height="18" rx="3" fill="#C9B79F"/>
-        </svg>
-        <div class="dimmer"></div>
-        <div class="status" aria-live="polite">
-          <span class="chip on" id="cLights"><i></i>Lights on</span>
-          <span class="chip on" id="cCurt"><i></i>Curtains open</span>
-          <span class="chip" id="cAc"><i></i>AC off</span>
-          <span class="chip on" id="cLock"><i></i>Door locked</span>
+    <div class="demo" id="demo">
+      <div class="stage">
+        <div class="room" id="room" data-time="dawn" data-curtains="closed" data-cove="off" data-ac="off" data-tv="off" data-lock="locked" data-cams="on">
+          <svg class="scene" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An AURA smart living room that reacts to the phone app">
+            <defs>
+              <linearGradient id="skDawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b6fa8"/><stop offset=".55" stop-color="#f3a77f"/><stop offset="1" stop-color="#ffd9a8"/></linearGradient>
+              <linearGradient id="skDay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fb8ea"/><stop offset="1" stop-color="#d4effb"/></linearGradient>
+              <linearGradient id="skDusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2552"/><stop offset=".6" stop-color="#b8577a"/><stop offset="1" stop-color="#f39a62"/></linearGradient>
+              <linearGradient id="skNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#03060f"/><stop offset="1" stop-color="#13224a"/></linearGradient>
+              <linearGradient id="coneG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7B0" stop-opacity=".75"/><stop offset="1" stop-color="#FFD98A" stop-opacity="0"/></linearGradient>
+              <radialGradient id="washG" cx="50%" cy="30%" r="60%"><stop offset="0" stop-color="#FFD9A0" stop-opacity=".55"/><stop offset="1" stop-color="#FFD9A0" stop-opacity="0"/></radialGradient>
+              <linearGradient id="coveG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--cove)" stop-opacity=".7"/><stop offset="1" stop-color="var(--cove)" stop-opacity="0"/></linearGradient>
+              <linearGradient id="tvA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f5fd6"/><stop offset=".5" stop-color="#7a3fd1"/><stop offset="1" stop-color="#ff8a5b"/></linearGradient>
+              <radialGradient id="tvGlowG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#6f8cff" stop-opacity=".6"/><stop offset="1" stop-color="#6f8cff" stop-opacity="0"/></radialGradient>
+              <linearGradient id="floorG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a7656"/><stop offset="1" stop-color="#6a4f38"/></linearGradient>
+              <linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8d1c6"/><stop offset="1" stop-color="#c9c0b3"/></linearGradient>
+              <linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d4d" stop-opacity=".35"/><stop offset="1" stop-color="#ff4d4d" stop-opacity="0"/></linearGradient>
+              <clipPath id="winC"><rect x="70" y="92" width="260" height="290" rx="4"/></clipPath>
+              <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+            </defs>
+            <!-- architecture -->
+            <rect width="800" height="560" fill="url(#wallG)"/>
+            <rect width="800" height="44" fill="#ece7e0"/>
+            <rect y="430" width="800" height="130" fill="url(#floorG)"/>
+            <g stroke="#000" stroke-opacity=".18"><path d="M0 462H800M0 500H800M0 540H800"/><path d="M120 430l-40 130M300 430l-20 130M480 430l10 130M660 430l40 130"/></g>
+            <rect y="424" width="800" height="8" fill="#b9ae9f"/>
+            <g transform="translate(50 0)">
+            <!-- window -->
+            <rect x="62" y="84" width="276" height="306" rx="8" fill="#0f141b"/>
+            <g clip-path="url(#winC)">
+              <rect class="sky sky-dawn" x="70" y="92" width="260" height="290" fill="url(#skDawn)"/>
+              <rect class="sky sky-day" x="70" y="92" width="260" height="290" fill="url(#skDay)"/>
+              <rect class="sky sky-dusk" x="70" y="92" width="260" height="290" fill="url(#skDusk)"/>
+              <rect class="sky sky-night" x="70" y="92" width="260" height="290" fill="url(#skNight)"/>
+              <g class="stars" fill="#fff"><circle cx="100" cy="120" r="1.2"/><circle cx="160" cy="108" r="1"/><circle cx="215" cy="140" r="1.4"/><circle cx="290" cy="118" r="1"/><circle cx="250" cy="170" r="1"/><circle cx="130" cy="160" r="1"/></g>
+              <circle class="sun" cx="250" cy="160" r="26" fill="#FFE9A8"/>
+              <g class="moon"><circle cx="255" cy="140" r="18" fill="#EAF0FF"/><circle cx="263" cy="134" r="16" fill="#0b1430"/></g>
+              <path d="M70 300l30-24 26 16 30-46 34 40 26-22 40 30 28-34 26 26V382H70Z" fill="#33445c" opacity=".55"/>
+              <g fill="#1d2a3c"><rect x="84" y="262" width="34" height="120"/><rect x="128" y="236" width="28" height="146"/><rect x="168" y="280" width="40" height="102"/><rect x="218" y="226" width="30" height="156"/><rect x="258" y="270" width="44" height="112"/><rect x="306" y="248" width="24" height="134"/></g>
+              <g class="city-lit" fill="#FFD27A"><rect x="90" y="272" width="5" height="6"/><rect x="104" y="290" width="5" height="6"/><rect x="90" y="318" width="5" height="6"/><rect x="134" y="250" width="5" height="6"/><rect x="144" y="276" width="5" height="6"/><rect x="134" y="306" width="5" height="6"/><rect x="176" y="296" width="5" height="6"/><rect x="194" y="316" width="5" height="6"/><rect x="224" y="240" width="5" height="6"/><rect x="236" y="268" width="5" height="6"/><rect x="224" y="300" width="5" height="6"/><rect x="266" y="284" width="5" height="6"/><rect x="286" y="300" width="5" height="6"/><rect x="312" y="262" width="5" height="6"/></g>
+              <rect x="196" y="92" width="8" height="290" fill="#0f141b"/>
+            </g>
+            <!-- curtains -->
+            <rect x="52" y="76" width="296" height="7" rx="3" fill="#0b0f14"/>
+            <circle cx="342" cy="79" r="2.4" fill="#4FDCF5"/>
+            <g class="curtain curtain-l" id="tgt-curtains"><rect x="66" y="83" width="136" height="306" fill="#B9A58C"/><path d="M88 83v306M112 83v306M136 83v306M160 83v306M184 83v306" stroke="#9E8B74" stroke-width="3" opacity=".6"/></g>
+            <g class="curtain curtain-r"><rect x="198" y="83" width="136" height="306" fill="#B9A58C"/><path d="M218 83v306M242 83v306M266 83v306M290 83v306M314 83v306" stroke="#9E8B74" stroke-width="3" opacity=".6"/></g>
+            </g>
+            <!-- AC -->
+            <g id="tgt-ac"><rect x="560" y="72" width="200" height="56" rx="14" fill="#EEF1F4" stroke="#C7CDD4"/><rect x="576" y="112" width="168" height="5" rx="2.5" fill="#C2C9D1"/><circle class="ac-led" cx="742" cy="88" r="3.5"/><text class="ac-temp" x="600" y="96" font-family="IBM Plex Mono,monospace" font-size="14" fill="#1b8fb0">24°C</text></g>
+            <!-- TV + console -->
+            <rect x="490" y="196" width="240" height="148" rx="6" fill="#0a0d11"/>
+            <rect x="498" y="204" width="224" height="132" rx="2" fill="#151b23"/>
+            <rect x="480" y="384" width="270" height="40" rx="6" fill="#4a3c30"/><rect x="480" y="384" width="270" height="5" fill="#5b4a3b"/>
+            <g transform="translate(50 0)">
+            <!-- sofa, rug, plant -->
+            <ellipse cx="250" cy="500" rx="230" ry="34" fill="#5d6b82" opacity=".5"/>
+            <rect x="70" y="340" width="330" height="66" rx="20" fill="#4D6A85"/>
+            <rect x="52" y="378" width="366" height="58" rx="20" fill="#3F5A73"/>
+            <rect x="96" y="352" width="70" height="40" rx="12" fill="#6f8ca6"/><rect x="300" y="352" width="70" height="40" rx="12" fill="#c8a46a"/>
+            <rect x="60" y="432" width="12" height="18" fill="#1b1b1b"/><rect x="398" y="432" width="12" height="18" fill="#1b1b1b"/>
+            <path d="M425 424c-6-34 8-60 20-74M433 424c4-30-10-54-24-70M441 424c10-26 26-40 40-46" stroke="#3F7D58" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <rect x="414" y="400" width="36" height="26" rx="4" fill="#C9B79F"/>
+            </g>
+            <!-- door -->
+            <rect x="4" y="168" width="62" height="262" fill="#0d1117"/>
+            <rect class="door-light" x="6" y="170" width="58" height="258" fill="#FFE3A8"/>
+            <g class="door-leaf"><rect x="6" y="170" width="58" height="258" fill="#6B5240"/><rect x="13" y="182" width="44" height="234" fill="none" stroke="#5a4434" stroke-width="2"/>
+              <g id="tgt-lock"><rect x="46" y="282" width="14" height="40" rx="3" fill="#0f1216"/><circle class="lock-led" cx="53" cy="291" r="3"/><rect x="49" y="300" width="8" height="14" rx="1.5" fill="#1d242d"/></g></g>
+            <!-- dome camera -->
+            <g id="tgt-cams" transform="translate(50 0)"><rect x="322" y="44" width="16" height="5" fill="#cfd5db"/><path d="M318 49h24a12 12 0 0 1-24 0Z" fill="#e8ecef"/><circle cx="330" cy="54" r="4.5" fill="#1d242d"/><circle class="rec" cx="337" cy="50" r="1.8"/></g>
+            <!-- pendant lights (bodies) -->
+            <g id="tgt-lights" transform="translate(50 0)"><path d="M260 44v52M400 44v66M540 44v52" stroke="#11151a" stroke-width="2"/>
+              <path d="M244 96h32l-6 16h-20Z M384 110h32l-6 16h-20Z M524 96h32l-6 16h-20Z" fill="#1a1f26"/>
+              <g class="bulb" fill="#FFF1C9"><circle cx="260" cy="113" r="5"/><circle cx="400" cy="127" r="5"/><circle cx="540" cy="113" r="5"/></g></g>
+            <!-- ambient darkness -->
+            <rect class="shade" width="800" height="560" fill="#030712"/>
+            <!-- lights & screens above the darkness -->
+            <rect class="cove" x="0" y="44" width="800" height="3"/>
+            <rect class="cove-glow" x="0" y="46" width="800" height="70" fill="url(#coveG)"/>
+            <ellipse class="wash" cx="400" cy="230" rx="430" ry="290" fill="url(#washG)"/>
+            <g class="cone" fill="url(#coneG)" transform="translate(50 0)"><path d="M250 112h20l70 330H180Z"/><path d="M390 126h20l80 316H310Z"/><path d="M530 112h20l70 330H460Z"/></g>
+            <g class="tv-on">
+              <ellipse class="tv-glow" cx="610" cy="300" rx="230" ry="180" fill="url(#tvGlowG)"/>
+              <svg x="498" y="204" width="224" height="132" viewBox="0 0 240 132" preserveAspectRatio="none"><g class="tv-pan"><rect width="380" height="132" fill="url(#tvA)"/><path d="M0 110 60 70l40 24 50-50 60 46 50-30 60 40 60-30V132H0Z" fill="#0b1430" opacity=".7"/><circle cx="190" cy="40" r="16" fill="#FFE3A3" opacity=".85"/></g></svg>
+            </g>
+            <path class="scan" d="M380 58 320 300h120Z" fill="url(#scanG)"/>
+            <g class="air" stroke="#9fe6f7" stroke-width="3" stroke-linecap="round" fill="none"><path d="M590 134c8 12 0 24 8 36s0 24 8 34"/><path d="M660 134c8 12 0 24 8 36s0 24 8 34"/><path d="M730 134c8 12 0 24 8 36s0 24 8 34"/></g>
+            <circle class="ring" id="ring" cx="0" cy="0" r="4"/>
+          </svg>
+          <div class="hud" aria-live="polite">
+            <span class="hud-time" id="hudTime">06:45</span>
+            <span class="hud-meta"><span class="hud-scene" id="hudScene">Good morning</span><span class="hud-log" id="hudLog">AURA home is waking up</span></span>
+          </div>
+          <button class="hot" style="left:56%;top:22%" data-dev="lights" aria-label="Toggle lights"><span>Lights</span></button>
+          <button class="hot" style="left:31%;top:44%" data-dev="curtains" aria-label="Open or close curtains"><span>Curtains</span></button>
+          <button class="hot" style="left:82%;top:18%" data-dev="ac" aria-label="Toggle air conditioner"><span>AC</span></button>
+          <button class="hot" style="left:76%;top:48%" data-dev="tv" aria-label="Toggle TV"><span>TV</span></button>
+          <button class="hot" style="left:6.6%;top:54%" data-dev="lock" aria-label="Lock or unlock door"><span>Door lock</span></button>
+          <button class="hot" style="left:47.5%;top:11%" data-dev="cams" aria-label="Arm or disarm cameras"><span>Cameras</span></button>
         </div>
       </div>
 
-      <div class="plate" role="group" aria-label="Try the AURA smart switch">
-        <div class="plate-top"><b>AURA</b><span>TOUCH · LIVE</span></div>
-        <div class="keys">
-          <button class="key" id="kLights" aria-pressed="true" aria-label="Lights"><svg><use href="#i-bulb"/></svg></button>
-          <button class="key" id="kCurt" aria-pressed="true" aria-label="Curtains"><svg><use href="#i-curtain"/></svg></button>
-          <button class="key" id="kAc" aria-pressed="false" aria-label="Air conditioner"><svg><use href="#i-snow"/></svg></button>
-          <button class="key" id="kLock" aria-pressed="true" aria-label="Door lock"><svg><use href="#i-lock"/></svg></button>
-        </div>
-        <div class="key-labels" aria-hidden="true"><span>Lights</span><span>Curtains</span><span>AC</span><span>Lock</span></div>
-        <div class="scenes">
-          <button class="scene-btn" data-scene="morning" aria-pressed="false">Morning</button>
-          <button class="scene-btn" data-scene="movie" aria-pressed="false">Movie</button>
-          <button class="scene-btn" data-scene="away" aria-pressed="false">Away</button>
+      <div class="phone" id="phone" aria-label="AURA app">
+        <div class="ph-screen">
+          <span class="ph-island"></span>
+          <div class="ph-status"><span id="phClock">6:45</span><i></i></div>
+          <div class="ph-notif" id="phNotif" role="status">
+            <header><svg><use href="#i-bell"/></svg><span><b>Video door bell</b><span>Someone is at the door</span></span></header>
+            <div class="ph-feed"></div>
+            <div class="acts"><button type="button" id="nTalk">Talk</button><button type="button" class="ok" id="nOpen">Unlock</button></div>
+          </div>
+          <div class="ph-head"><span><small id="phGreet">Good morning</small><b>My Home</b></span><span class="ph-wx" id="phWx">27°C<br>Hyderabad</span></div>
+          <div class="ph-label">Scenes</div>
+          <div class="ph-scenes">
+            <button class="ph-scene" data-scene="morning" aria-pressed="false"><svg><use href="#i-sun"/></svg>Morning</button>
+            <button class="ph-scene" data-scene="evening" aria-pressed="false"><svg><use href="#i-bulb"/></svg>Evening</button>
+            <button class="ph-scene" data-scene="movie" aria-pressed="false"><svg><use href="#i-tv"/></svg>Movie</button>
+            <button class="ph-scene" data-scene="night" aria-pressed="false"><svg><use href="#i-moon"/></svg>Night</button>
+          </div>
+          <div class="ph-label">Living room</div>
+          <div class="ph-grid">
+            <button class="tile" data-dev="lights" aria-pressed="false"><svg><use href="#i-bulb"/></svg><b>Lights</b><em id="ts-lights">Off</em></button>
+            <button class="tile" data-dev="curtains" aria-pressed="false"><svg><use href="#i-curtain"/></svg><b>Curtains</b><em id="ts-curtains">Closed</em></button>
+            <button class="tile" data-dev="ac" aria-pressed="false"><svg><use href="#i-snow"/></svg><b>AC</b><em id="ts-ac">Off</em></button>
+            <button class="tile" data-dev="tv" aria-pressed="false"><svg><use href="#i-tv"/></svg><b>TV</b><em id="ts-tv">Off</em></button>
+            <button class="tile" data-dev="lock" aria-pressed="true"><svg><use href="#i-lock"/></svg><b>Door</b><em id="ts-lock">Locked</em></button>
+            <button class="tile" data-dev="cams" aria-pressed="true"><svg><use href="#i-cam"/></svg><b>Cameras</b><em id="ts-cams">Armed</em></button>
+          </div>
+          <label class="ph-dim"><div><span>Brightness</span><b id="dimVal">0%</b></div><input type="range" id="dim" min="0" max="100" value="0" aria-label="Light brightness"></label>
+          <span class="ph-bar"></span>
         </div>
       </div>
-      <p class="demo-note">↑ Tap the panel. This is how an AURA home responds.</p>
+
+      <svg class="beams" id="beams" aria-hidden="true"><defs><linearGradient id="beamG" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4FDCF5" stop-opacity="0"/><stop offset="1" stop-color="#4FDCF5"/></linearGradient></defs></svg>
+
+      <div class="tour" id="tour">
+        <button class="tour-btn" id="tourBtn" type="button" aria-label="Pause the tour"><svg viewBox="0 0 14 14" id="tourIco"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/></svg></button>
+        <ol id="tourSteps"></ol>
+      </div>
     </div>
   </div>
 </section>
@@ -933,32 +1109,147 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   menuBtn.addEventListener("click",()=>{const o=nav.classList.toggle("open");menuBtn.setAttribute("aria-expanded",o);});
   nav.addEventListener("click",e=>{if(e.target.tagName==="A"){nav.classList.remove("open");menuBtn.setAttribute("aria-expanded","false");}});
 
-  // ---------- Hero live demo ----------
-  const room=$("#room");
-  const state={lights:true,curtains:true,ac:false,lock:true};
-  function render(scene){
-    room.dataset.lights=state.lights?"on":"off";
-    room.dataset.curtains=state.curtains?"open":"closed";
-    room.dataset.ac=state.ac?"on":"off";
-    room.dataset.scene=scene||"";
-    $("#lockdot").setAttribute("fill",state.lock?"#ff5b5b":"#4FD38A");
-    const set=(id,on,txt)=>{const c=$(id);c.classList.toggle("on",on);c.lastChild.textContent=txt;};
-    set("#cLights",state.lights,state.lights?"Lights on":"Lights off");
-    set("#cCurt",state.curtains,state.curtains?"Curtains open":"Curtains closed");
-    set("#cAc",state.ac,state.ac?"AC 24°C":"AC off");
-    set("#cLock",state.lock,state.lock?"Door locked":"Door unlocked");
-    $("#kLights").setAttribute("aria-pressed",state.lights);
-    $("#kCurt").setAttribute("aria-pressed",state.curtains);
-    $("#kAc").setAttribute("aria-pressed",state.ac);
-    $("#kLock").setAttribute("aria-pressed",state.lock);
-    $$(".scene-btn").forEach(b=>b.setAttribute("aria-pressed",b.dataset.scene===scene));
+  // ---------- Hero live demo: an AURA home run from the phone ----------
+  const room=$("#room"), demo=$("#demo"), beams=$("#beams");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const S={time:"dawn",lights:0,curtains:false,ac:false,tv:false,lock:true,cams:true,cove:false,coveColor:"#4FDCF5"};
+  const AMBIENT={dawn:.28,day:0,dusk:.42,night:.72};
+  const LABEL={
+    lights:()=>S.lights?S.lights+"%":"Off", curtains:()=>S.curtains?"Open":"Closed", ac:()=>S.ac?"24°C · Cool":"Off",
+    tv:()=>S.tv?"Playing":"Off", lock:()=>S.lock?"Locked":"Unlocked", cams:()=>S.cams?"Armed":"Off"
+  };
+  const ON={lights:()=>S.lights>0,curtains:()=>S.curtains,ac:()=>S.ac,tv:()=>S.tv,lock:()=>S.lock,cams:()=>S.cams};
+  function render(){
+    room.dataset.time=S.time; room.dataset.curtains=S.curtains?"open":"closed"; room.dataset.ac=S.ac?"on":"off";
+    room.dataset.tv=S.tv?"on":"off"; room.dataset.lock=S.lock?"locked":"open"; room.dataset.cams=S.cams?"on":"off"; room.dataset.cove=S.cove?"on":"off";
+    const lum=S.lights/100, amb=AMBIENT[S.time]*(S.curtains?1:1.15)+(S.curtains||S.time==="night"?0:.12);
+    room.style.setProperty("--lum",lum.toFixed(2));
+    room.style.setProperty("--shade",Math.max(0,Math.min(.82,amb*(1-lum*.8)-(S.tv?.06:0))).toFixed(2));
+    room.style.setProperty("--cove",S.coveColor);
+    $$(".tile").forEach(t=>{const d=t.dataset.dev;t.setAttribute("aria-pressed",ON[d]());$("#ts-"+d).textContent=LABEL[d]();});
+    $("#dim").value=S.lights; $("#dimVal").textContent=S.lights+"%";
   }
-  [["#kLights","lights"],["#kCurt","curtains"],["#kAc","ac"],["#kLock","lock"]].forEach(([id,k])=>{
-    $(id).addEventListener("click",()=>{state[k]=!state[k];render("");});
-  });
-  const scenes={morning:{lights:false,curtains:true,ac:false,lock:true},movie:{lights:false,curtains:false,ac:true,lock:true},away:{lights:false,curtains:false,ac:false,lock:true}};
-  $$(".scene-btn").forEach(b=>b.addEventListener("click",()=>{Object.assign(state,scenes[b.dataset.scene]);render(b.dataset.scene);}));
-  render("");
+  // signal beam from the phone tile to the device in the room
+  function beam(dev){
+    const tile=$('.tile[data-dev="'+dev+'"]'), tgt=document.getElementById("tgt-"+dev);
+    if(!tile||!tgt) return;
+    tile.classList.add("press"); setTimeout(()=>tile.classList.remove("press"),180);
+    const b=demo.getBoundingClientRect(), a=tile.getBoundingClientRect(), t=tgt.getBoundingClientRect();
+    const x1=a.left+a.width/2-b.left, y1=a.top+a.height/2-b.top, x2=t.left+t.width/2-b.left, y2=t.top+t.height/2-b.top;
+    // ripple on the device
+    const svg=room.querySelector("svg.scene"), r=$("#ring"), sb=svg.getBoundingClientRect(), vb=svg.viewBox.baseVal;
+    const pt=[(t.left+t.width/2-sb.left)*vb.width/sb.width,(t.top+t.height/2-sb.top)*vb.height/sb.height];
+    const ripple=()=>{r.setAttribute("cx",pt[0]);r.setAttribute("cy",pt[1]);r.classList.remove("go");void r.getBBox();r.classList.add("go");};
+    if(reduce){ripple();return Promise.resolve();}
+    beams.setAttribute("viewBox",`0 0 ${b.width} ${b.height}`);
+    const cx=(x1+x2)/2, cy=Math.min(y1,y2)-Math.max(60,Math.abs(x1-x2)*.35);
+    const NS="http://www.w3.org/2000/svg", p=document.createElementNS(NS,"path"), dot=document.createElementNS(NS,"circle");
+    p.setAttribute("d",`M${x1} ${y1}Q${cx} ${cy} ${x2} ${y2}`); dot.setAttribute("r",4.5);
+    beams.append(p,dot);
+    const len=p.getTotalLength(); p.style.strokeDasharray=`${len*.28} ${len}`;
+    return new Promise(res=>{
+      const T=650, t0=performance.now();
+      (function f(now){
+        const k=Math.min(1,(now-t0)/T), e=1-Math.pow(1-k,3);
+        const q=p.getPointAtLength(len*e); dot.setAttribute("cx",q.x); dot.setAttribute("cy",q.y);
+        p.style.strokeDashoffset=-(len*e-len*.28); p.style.opacity=k>.85?(1-k)/.15:1;
+        if(k<1) requestAnimationFrame(f); else {p.remove();dot.remove();ripple();res();}
+      })(t0);
+    });
+  }
+  let logT;
+  function log(msg,scene){
+    const l=$("#hudLog"); l.textContent=msg; l.classList.remove("tick"); void l.offsetWidth; l.classList.add("tick");
+    if(scene) $("#hudScene").textContent=scene;
+  }
+  function setClock(hm){
+    const [h,m]=hm.split(":").map(Number);
+    $("#hudTime").textContent=hm; $("#phClock").textContent=(h%12||12)+":"+String(m).padStart(2,"0");
+    $("#phGreet").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+  }
+  const NAMES={lights:"Lights",curtains:"Curtains",ac:"AC",tv:"TV",lock:"Main door",cams:"Cameras"};
+  async function act(dev,val,msg){
+    await beam(dev);
+    if(dev==="lights") S.lights=val; else S[dev]=val;
+    if(dev==="lights") S.cove=val>0;
+    render(); log(msg||NAMES[dev]+" · "+LABEL[dev]());
+  }
+  function toggle(dev){
+    const v=dev==="lights"?(S.lights?0:80):!S[dev];
+    if(dev==="lock"&&!v){act(dev,false,"Main door unlocked from the app");return;}
+    act(dev,v);
+  }
+  // user controls
+  $$(".tile,.hot").forEach(el=>el.addEventListener("click",()=>{userTook();toggle(el.dataset.dev);}));
+  $("#dim").addEventListener("input",e=>{userTook();S.lights=+e.target.value;S.cove=S.lights>0;render();log("Lights dimmed to "+S.lights+"%");});
+  const SCENES={
+    morning:{time:"dawn",clock:"06:45",title:"Good morning",steps:[["curtains",true,"Curtains opening with the sunrise"],["lights",0,"Lights off, daylight on"],["cams",false,"Cameras disarmed, family is home"]]},
+    evening:{time:"dusk",clock:"18:40",title:"Welcome home",steps:[["lights",70,"Warm lights at 70%"],["ac",true,"AC cooling to 24°C"],["cams",false,"Cameras disarmed"]]},
+    movie:{time:"night",clock:"21:05",title:"Movie time",steps:[["curtains",false,"Curtains closing"],["lights",12,"Lights dimmed to 12%"],["tv",true,"Projector and TV on"]],cove:"#7c6cff"},
+    night:{time:"night",clock:"23:30",title:"Good night",steps:[["tv",false,"TV off"],["lights",0,"All lights off"],["ac",false,"AC off"],["lock",true,"Main door locked"],["cams",true,"Cameras armed · AURA is watching"]]}
+  };
+  let busy=0;
+  async function runScene(name,fromTour){
+    const sc=SCENES[name], id=++busy;
+    $$(".ph-scene").forEach(b=>b.setAttribute("aria-pressed",b.dataset.scene===name));
+    S.time=sc.time; S.coveColor=sc.cove||"#FFB86B"; setClock(sc.clock); render(); log("Scene · "+sc.title,sc.title);
+    for(const [d,v,m] of sc.steps){
+      await wait(fromTour?900:450); if(id!==busy) return;
+      await act(d,v,m);
+    }
+  }
+  $$(".ph-scene").forEach(b=>b.addEventListener("click",()=>{userTook();runScene(b.dataset.scene);}));
+  // video door bell moment
+  async function guest(id){
+    S.time="dusk"; setClock("19:12"); render(); log("Ding dong · Someone at the door","Guest arriving");
+    $("#phNotif").classList.add("show");
+    await wait(2200); if(id!==busy) return;
+    $("#nOpen").classList.add("press"); await wait(160); $("#nOpen").classList.remove("press");
+    $("#phNotif").classList.remove("show");
+    await act("lock",false,"Door unlocked from the phone");
+    await wait(2600); if(id!==busy) return;
+    await act("lock",true,"Guest in · door locked again");
+  }
+  $("#nOpen").addEventListener("click",()=>{userTook();$("#phNotif").classList.remove("show");act("lock",false,"Door unlocked from the phone");});
+  $("#nTalk").addEventListener("click",()=>{userTook();$("#phNotif").classList.remove("show");log("Talking to the visitor…");});
+  // the guided tour
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));
+  const TOUR=[["Morning",()=>runScene("morning",true),7000],["Evening",()=>runScene("evening",true),7000],["Guest",()=>guest(++busy),8000],["Movie",()=>runScene("movie",true),8000],["Night",()=>runScene("night",true),9000]];
+  const stepsEl=$("#tourSteps");
+  stepsEl.innerHTML=TOUR.map((t,i)=>`<li><button type="button" data-i="${i}"><span><b>${String(i+1).padStart(2,"0")}</b> ${t[0]}</span><i></i></button></li>`).join("");
+  const lis=$$("#tourSteps li");
+  let cur=-1, playing=!reduce, stepStart=0, idleT, visible=true, raf;
+  function goStep(i){
+    cur=i%TOUR.length; stepStart=performance.now();
+    lis.forEach((li,k)=>{li.classList.toggle("on",k===cur);li.classList.toggle("done",k<cur);li.style.setProperty("--p",0);});
+    TOUR[cur][1]();
+  }
+  function loop(now){
+    if(playing&&visible&&cur>=0){
+      const k=(now-stepStart)/TOUR[cur][2]; lis[cur].style.setProperty("--p",Math.min(1,k).toFixed(3));
+      if(k>=1) goStep(cur+1);
+    } else if(!playing||!visible){stepStart+=16;}
+    raf=requestAnimationFrame(loop);
+  }
+  function setPlaying(p){
+    playing=p; $("#tourBtn").setAttribute("aria-label",p?"Pause the tour":"Play the tour");
+    $("#tourIco").innerHTML=p?'<path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/>':'<path d="M3 1.5v11l9-5.5Z" fill="currentColor"/>';
+  }
+  function userTook(){ // the visitor is in control: pause, and resume after a quiet spell
+    setPlaying(false); clearTimeout(idleT);
+    if(!reduce) idleT=setTimeout(()=>{setPlaying(true);goStep(cur+1);},16000);
+  }
+  $("#tourBtn").addEventListener("click",()=>{clearTimeout(idleT);if(playing)setPlaying(false);else{setPlaying(true);goStep(cur+1);}});
+  stepsEl.addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(!b)return;clearTimeout(idleT);setPlaying(true);goStep(+b.dataset.i);});
+  if("IntersectionObserver" in window) new IntersectionObserver(es=>{visible=es[0].isIntersecting;}).observe(demo);
+  document.addEventListener("visibilitychange",()=>{visible=!document.hidden;});
+  // subtle depth: room and phone follow the pointer
+  if(!reduce) demo.addEventListener("pointermove",e=>{const b=demo.getBoundingClientRect();
+    demo.style.setProperty("--px",((e.clientX-b.left)/b.width-.5).toFixed(3));demo.style.setProperty("--py",((e.clientY-b.top)/b.height-.5).toFixed(3));});
+  demo.addEventListener("pointerleave",()=>{demo.style.setProperty("--px",0);demo.style.setProperty("--py",0);});
+  setClock("06:45"); render();
+  if(playing) setTimeout(()=>goStep(0),900); else {setPlaying(false);S.time="dusk";S.lights=70;S.cove=true;S.curtains=true;S.coveColor="#FFB86B";render();}
+  raf=requestAnimationFrame(loop);
 
   // ---------- Quote links preselect interest ----------
   const MAP={"Smart switch boards":"iSw","Smart door lock":"iLock","Video door bell":"iBell","CCTV cameras":"iCam","Smart lighting":"iLight","Motorised curtains":"iCurt","Smart Home package":"iFull","Signature project":"iFull","Smart Start package":"iSw"};
