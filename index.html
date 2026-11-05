@@ -67,7 +67,7 @@
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
 h1,h2,h3{font-family:var(--f-display);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
 p{margin:0}
@@ -329,9 +329,76 @@ fieldset.fld{border:0;padding:0;margin:0}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:.9rem;z-index:70}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ---------- Premium polish ---------- */
+[hidden]{display:none!important}
+::selection{background:var(--cyan);color:var(--on-accent)}
+.hdr{transition:background .3s,box-shadow .3s,border-color .3s}
+.hdr.scrolled{box-shadow:0 10px 30px -18px rgba(0,0,0,.55);border-bottom-color:transparent}
+.hdr .wrap{transition:height .3s}
+.hdr.scrolled .wrap{height:60px}
+.hdr.scrolled .brand img{height:48px}
+.nav a{position:relative}
+.nav a::after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:2px;border-radius:2px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav a:hover::after,.nav a.active::after{transform:scaleX(1)}
+.nav a.active{color:var(--ink)}
+.hero{isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;opacity:.35;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000 20%,transparent 75%)}
+.hero .aurora{position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(70px);opacity:.55}
+.hero .aurora.a1{width:420px;height:420px;left:-120px;top:-80px;background:radial-gradient(closest-side,rgba(43,198,234,.45),transparent)}
+.hero .aurora.a2{width:520px;height:520px;right:-160px;bottom:-200px;background:radial-gradient(closest-side,rgba(23,50,83,.55),transparent)}
+@media (prefers-reduced-motion:no-preference){.hero .aurora.a1{animation:drift 14s ease-in-out infinite alternate}.hero .aurora.a2{animation:drift 18s ease-in-out infinite alternate-reverse}}
+@keyframes drift{to{transform:translate(60px,40px) scale(1.1)}}
+.hero h1 em{background:linear-gradient(90deg,var(--cyan),var(--glow) 50%,var(--cyan));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-reduced-motion:no-preference){.hero h1 em{animation:shimmer 6s linear infinite}}
+@keyframes shimmer{to{background-position:-200% 0}}
+.room{box-shadow:0 40px 80px -40px rgba(10,158,192,.45),var(--shadow)}
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn-primary::before,.btn-wa::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s}
+.btn-primary:hover::before,.btn-wa:hover::before{transform:translateX(120%)}
+.btn-wa:hover{box-shadow:0 10px 26px -10px rgba(31,168,85,.8)}
+.strip .wrap{flex-wrap:nowrap;gap:28px}
+.strip p{white-space:nowrap;flex:none}
+.marquee{flex:1;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee ul{flex-wrap:nowrap;width:max-content;gap:0}
+.marquee li{white-space:nowrap;padding-right:36px}
+@media (prefers-reduced-motion:no-preference){.marquee ul{animation:marq 36s linear infinite}.marquee:hover ul{animation-play-state:paused}}
+@keyframes marq{to{transform:translateX(-50%)}}
+@media (max-width:720px){.strip .wrap{flex-direction:column;align-items:flex-start;gap:12px}.marquee{width:100%}}
+.sec-head h2{background:linear-gradient(180deg,var(--ink) 40%,color-mix(in srgb,var(--ink) 70%,var(--cyan)));-webkit-background-clip:text;background-clip:text;color:transparent}
+.prod{position:relative;transition:border-color .3s,transform .3s,box-shadow .3s}
+.prod:hover{transform:translateY(-6px);box-shadow:0 26px 50px -28px rgba(10,158,192,.55)}
+.prod-vis svg{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.prod:hover .prod-vis svg{transform:scale(1.07)}
+.prod-vis::after{content:"";position:absolute;inset:auto 0 0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0;transition:opacity .3s}
+.prod:hover .prod-vis::after{opacity:1}
+.pk{transition:transform .3s,box-shadow .3s,border-color .3s}
+.pk:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.pk.feature{background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(140deg,var(--glow),var(--navy) 45%,var(--cyan)) border-box;border:1.5px solid transparent;box-shadow:0 30px 60px -30px rgba(10,158,192,.6)}
+.pk.feature .price b{color:var(--cyan)}
+.proj{transition:transform .4s}
+.proj canvas{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.proj:hover canvas{transform:scale(1.06)}
+.proj:hover{transform:translateY(-4px)}
+.why-list div{padding:18px;border-radius:14px;border:1px solid transparent;transition:border-color .3s,background .3s}
+.why-list div:hover{border-color:var(--line);background:var(--bg)}
+.proc li::after{box-shadow:0 0 0 4px var(--cyan-soft)}
+.faq summary:hover{color:var(--cyan)}
+form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
+.checks label{white-space:nowrap}
+@media (prefers-reduced-motion:no-preference){.float .f-wa{animation:pulse 2.8s ease-out infinite}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,168,85,.55),0 10px 30px -8px rgba(0,0,0,.45)}70%{box-shadow:0 0 0 16px rgba(31,168,85,0),0 10px 30px -8px rgba(0,0,0,.45)}100%{box-shadow:0 0 0 0 rgba(31,168,85,0),0 10px 30px -8px rgba(0,0,0,.45)}}
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}}
+.progress{position:fixed;left:0;top:0;height:2px;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--cyan),var(--glow));z-index:80;pointer-events:none}
 </style>
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
 
 <!-- Icon sprite -->
@@ -386,6 +453,7 @@ fieldset.fld{border:0;padding:0;margin:0}
 <main id="top">
 <!-- HERO -->
 <section class="hero">
+  <span class="aurora a1" aria-hidden="true"></span><span class="aurora a2" aria-hidden="true"></span>
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <span class="eyebrow">Smart home automation · Hyderabad</span>
@@ -484,9 +552,7 @@ fieldset.fld{border:0;padding:0;margin:0}
 <div class="strip">
   <div class="wrap">
     <p>WORKS WITH THE APPS YOU ALREADY USE</p>
-    <ul>
-      <li>Amazon Alexa</li><li>Google Assistant</li><li>Mobile app, anywhere</li><li>Wired &amp; wireless options</li>
-    </ul>
+    <div class="marquee"><ul><li>Amazon Alexa</li><li>Google Assistant</li><li>Mobile app, anywhere</li><li>Wired &amp; wireless options</li><li>Smart switch boards</li><li>Face-recognition door locks</li><li>Video door bells</li><li>CCTV &amp; Wi-Fi cameras</li><li>Magnetic track lighting</li><li>Motorised curtains</li><li aria-hidden="true">Amazon Alexa</li><li aria-hidden="true">Google Assistant</li><li aria-hidden="true">Mobile app, anywhere</li><li aria-hidden="true">Wired &amp; wireless options</li><li aria-hidden="true">Smart switch boards</li><li aria-hidden="true">Face-recognition door locks</li><li aria-hidden="true">Video door bells</li><li aria-hidden="true">CCTV &amp; Wi-Fi cameras</li><li aria-hidden="true">Magnetic track lighting</li><li aria-hidden="true">Motorised curtains</li></ul></div>
   </div>
 </div>
 
@@ -990,6 +1056,23 @@ fieldset.fld{border:0;padding:0;margin:0}
   const arts=$$("canvas.art");
   const redraw=()=>arts.forEach(draw);
   redraw(); let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(redraw,150);});
+
+  // ---------- Polish: header state, scroll progress, active nav, reveal ----------
+  document.documentElement.classList.add("js");
+  const hdr=$(".hdr"), prog=$("#progress");
+  const onScroll=()=>{const y=scrollY;hdr.classList.toggle("scrolled",y>12);
+    const h=document.documentElement.scrollHeight-innerHeight;prog.style.transform="scaleX("+(h>0?y/h:0)+")";};
+  addEventListener("scroll",onScroll,{passive:true});onScroll();
+  const navLinks=$$(".nav a");
+  const secs=navLinks.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if("IntersectionObserver" in window){
+    const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));}),{rootMargin:"-45% 0px -50% 0px"});
+    secs.forEach(x=>so.observe(x));
+    const groups=[".sec-head",".prod",".pk",".proc li",".why > div",".why-list > div",".proj",".visit",".faq details",".book-grid > div"];
+    const rvs=[];groups.forEach(g=>$$(g).forEach((el,i)=>{el.classList.add("rv");el.style.transitionDelay=(i%3)*90+"ms";rvs.push(el);}));
+    const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target);}}),{rootMargin:"0px 0px -8% 0px"});
+    rvs.forEach(el=>ro.observe(el));
+  }
 })();
 </script>
 
