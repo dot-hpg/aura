@@ -563,6 +563,184 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 .f-ctas{display:flex;flex-wrap:wrap;gap:12px}
 @media (max-width:900px){.founder-grid{grid-template-columns:1fr}.f-visual{min-height:auto;max-width:520px;margin:0 auto;width:100%}.f-copy{padding-bottom:56px;text-align:left}}
 @media (max-width:520px){.f-points{grid-template-columns:1fr}.f-chip{font-size:.78rem;padding:8px 10px}.f-chip.c1{left:0;top:64%}.f-chip.c2{right:0;top:34%}}
+
+/* ---------- Guided tour: narrator, captions, spotlight, "your turn" (v8) ---------- */
+@property --sx{syntax:"<length-percentage>";inherits:true;initial-value:50%}
+@property --sy{syntax:"<length-percentage>";inherits:true;initial-value:50%}
+@property --sr{syntax:"<length>";inherits:true;initial-value:700px}
+.g-fx{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .6s,--sx .9s cubic-bezier(.6,0,.2,1),--sy .9s cubic-bezier(.6,0,.2,1),--sr .9s cubic-bezier(.6,0,.2,1)}
+.g-fx.on{opacity:1}
+.g-spot{position:absolute;inset:0;background:radial-gradient(circle at var(--sx) var(--sy),transparent 0,transparent var(--sr),rgba(2,6,14,.6) calc(var(--sr) + 80px))}
+.g-ring{position:absolute;left:var(--sx);top:var(--sy);width:calc(var(--sr)*2);height:calc(var(--sr)*2);transform:translate(-50%,-50%);border-radius:50%;
+  border:1.5px solid rgba(79,220,245,.9);box-shadow:0 0 0 6px rgba(79,220,245,.1),0 0 44px rgba(79,220,245,.45),inset 0 0 34px rgba(79,220,245,.22)}
+.g-ring::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid #4FDCF5;opacity:0}
+@media (prefers-reduced-motion:no-preference){.g-fx.on .g-ring::after{animation:gRing 2.2s ease-out infinite}}
+@keyframes gRing{0%{transform:scale(.96);opacity:.8}100%{transform:scale(1.3);opacity:0}}
+.g-ring b{position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%);white-space:nowrap;font-family:var(--f-mono);font-weight:500;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:6px 11px;border-radius:99px;background:#4FDCF5;color:#04131C;box-shadow:0 8px 20px -6px rgba(79,220,245,.8)}
+.g-fx.lb-up .g-ring b{top:auto;bottom:calc(100% + 10px)}
+.g-fx.lb-in .g-ring b{top:auto;bottom:12%}
+
+/* narrator caption bar */
+.g-cap{position:absolute;left:16px;right:16px;bottom:16px;z-index:6;display:flex;gap:16px;align-items:center;padding:14px 20px 14px 14px;border-radius:20px;
+  background:rgba(6,12,22,.8);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 24px 60px -20px rgba(0,0,0,.8);color:#fff;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .5s,transform .5s,visibility .5s}
+.demo.guiding .g-cap{opacity:1;visibility:visible;transform:none}
+.g-orb{flex:none;position:relative;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;gap:3px;
+  background:radial-gradient(circle at 34% 28%,#d6fbff,#4FDCF5 34%,#1b78c9 70%,#0a2a58);box-shadow:0 0 26px rgba(79,220,245,.55)}
+.g-orb::before,.g-orb::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid rgba(79,220,245,.55);opacity:0}
+.g-orb i{width:3.5px;height:8px;border-radius:3px;background:rgba(4,19,28,.75);transition:height .2s}
+.g-cap.talk .g-orb::before{animation:gOrb 1.6s ease-out infinite}
+.g-cap.talk .g-orb::after{animation:gOrb 1.6s ease-out .8s infinite}
+.g-cap.talk .g-orb i{animation:gWave .9s ease-in-out infinite}
+.g-orb i:nth-child(2){animation-delay:-.3s!important}.g-orb i:nth-child(3){animation-delay:-.6s!important}.g-orb i:nth-child(4){animation-delay:-.15s!important}
+@keyframes gOrb{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.55);opacity:0}}
+@keyframes gWave{0%,100%{height:6px}50%{height:22px}}
+.g-body{min-width:0;flex:1}
+.g-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:#4FDCF5}
+.g-meta #gStep{color:#93A3B7}
+.g-meta #gNote{letter-spacing:.04em;text-transform:none;color:#FFC978}
+.g-meta #gNote:empty{display:none}
+.g-text{margin:5px 0 0;font-size:clamp(1.02rem,1.45vw,1.3rem);line-height:1.42;font-weight:500;min-height:2.84em;letter-spacing:-.005em}
+.g-text span{color:rgba(255,255,255,.38);transition:color .25s}
+.g-text span.on{color:#fff}
+.g-task{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translate(-50%,10px);display:flex;align-items:center;gap:10px;width:max-content;max-width:100%;
+  padding:9px 18px 9px 10px;border-radius:99px;background:linear-gradient(135deg,#6FE6FA,#18a0c6);color:#04131C;box-shadow:0 14px 34px -8px rgba(79,220,245,.75);
+  opacity:0;visibility:hidden;transition:opacity .35s,transform .35s,visibility .35s,background .3s}
+.g-task.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:no-preference){.g-task.show:not(.yay){animation:gBob 1.8s ease-in-out infinite}}
+@keyframes gBob{50%{transform:translate(-50%,-5px)}}
+.g-task svg{width:26px;height:26px;flex:none;padding:4px;border-radius:50%;background:rgba(4,19,28,.14)}
+.g-task small{display:block;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.g-task b{display:block;font-size:.98rem;line-height:1.2}
+.g-task.yay{background:linear-gradient(135deg,#8af0b8,#2fb673)}
+
+/* hand pointer on the phone */
+.g-hand{position:absolute;left:0;top:0;z-index:9;width:46px;height:46px;pointer-events:none;opacity:0;transition:opacity .3s,left .6s cubic-bezier(.4,0,.2,1),top .6s cubic-bezier(.4,0,.2,1);filter:drop-shadow(0 8px 12px rgba(0,0,0,.55))}
+.g-hand.show{opacity:1}
+.g-hand svg{width:100%;height:100%;fill:#fff;stroke:#0b1520;stroke-width:.6;transform-origin:40% 20%}
+.g-hand::before{content:"";position:absolute;left:12px;top:-2px;width:22px;height:22px;border-radius:50%;border:2px solid #4FDCF5;opacity:0}
+@media (prefers-reduced-motion:no-preference){.g-hand.show svg{animation:gTap 1.4s ease-in-out infinite}.g-hand.show::before{animation:gTapR 1.4s ease-out infinite}}
+@keyframes gTap{0%,100%{transform:translate(4px,8px)}45%{transform:translate(0,0) scale(.94)}55%{transform:translate(0,0) scale(.94)}}
+@keyframes gTapR{0%,40%{opacity:0;transform:scale(.4)}50%{opacity:1}100%{opacity:0;transform:scale(1.8)}}
+
+/* phone focus */
+.tile,.ph-scene,.ph-dim,.ph-notif button{transition:background .3s,border-color .3s,color .3s,transform .15s,opacity .4s,filter .4s,box-shadow .3s}
+.demo.g-pf .ph-grid .tile:not(.g-focus),.demo.g-pf .ph-scene:not(.g-focus),.demo.g-pf .ph-dim:not(.g-focus){opacity:.35;filter:saturate(.4)}
+.tile.g-focus,.ph-scene.g-focus,.ph-dim.g-focus,.ph-notif button.g-focus{box-shadow:0 0 0 2px #4FDCF5,0 0 26px rgba(79,220,245,.75)}
+@media (prefers-reduced-motion:no-preference){.tile.g-focus,.ph-scene.g-focus,.ph-dim.g-focus,.ph-notif button.g-focus{animation:gGlow 1.5s ease-in-out infinite}}
+@keyframes gGlow{50%{box-shadow:0 0 0 3px #4FDCF5,0 0 40px rgba(79,220,245,.95)}}
+.phone.g-lit{box-shadow:0 40px 80px -24px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06) inset,0 0 0 2px rgba(79,220,245,.8),0 0 90px -6px rgba(79,220,245,.75)}
+.hot.g-pulse::before{background:#fff;box-shadow:0 0 16px #4FDCF5,0 0 30px #4FDCF5}
+.demo.g-left .feed{opacity:0;pointer-events:none;transform:translateX(-20px)}
+.feed{transition:transform .4s ease-out,opacity .5s}
+.g-fx.lb-l .g-ring b{left:calc(50% - 14px);transform:none}
+.g-hand.jump{transition:none}
+.demo[lang="te"] :is(.g-cap,.g-card,.g-chaps,.g-ring b,.hud-scene,.hud-log,.g-task){font-family:"Noto Sans Telugu",var(--f-body);letter-spacing:0}
+.demo[lang="hi"] :is(.g-cap,.g-card,.g-chaps,.g-ring b,.hud-scene,.hud-log,.g-task){font-family:"Noto Sans Devanagari",var(--f-body);letter-spacing:0}
+.demo[lang="te"] .g-text,.demo[lang="hi"] .g-text{line-height:1.55}
+.demo[lang="te"] :is(.g-meta,.g-eye,.g-hint,.g-task small,.g-ring b,.g-chaps .lb,.hud-scene){font-family:"Noto Sans Telugu",var(--f-body);letter-spacing:.02em;text-transform:none}
+.demo[lang="hi"] :is(.g-meta,.g-eye,.g-hint,.g-task small,.g-ring b,.g-chaps .lb,.hud-scene){font-family:"Noto Sans Devanagari",var(--f-body);letter-spacing:.02em;text-transform:none}
+.demo.guiding .hot:not(.g-pulse){opacity:.45}
+.ph-alert .ph-feed::before{left:72%;width:12cqw;height:14cqw}
+.ph-alert header svg{color:#ff6b6b}
+
+/* start and end cards */
+.g-card{position:absolute;inset:0;z-index:7;display:grid;place-items:center;padding:24px;text-align:center;color:#fff;
+  background:radial-gradient(75% 75% at 50% 50%,rgba(4,10,20,.5),rgba(4,10,20,.86));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transition:opacity .55s,visibility .55s}
+.g-card.off{opacity:0;visibility:hidden;pointer-events:none}
+.g-in{display:grid;justify-items:center;gap:14px;max-width:560px}
+.g-eye{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#4FDCF5}
+.g-card h3{margin:0;font-family:var(--f-display);font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.08;letter-spacing:-.025em}
+.g-card p{margin:0;color:#C9D4E0;font-size:clamp(.92rem,1.2vw,1.05rem);line-height:1.5;max-width:46ch}
+.g-langs{display:flex;gap:6px;padding:4px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)}
+.g-langs button{border:0;background:none;color:#C9D4E0;font:inherit;font-size:.9rem;font-weight:600;padding:7px 14px;border-radius:99px;cursor:pointer;transition:.2s}
+.g-langs button[aria-pressed="true"]{background:#fff;color:#04131C}
+.g-play{position:relative;display:inline-flex;align-items:center;gap:14px;border:0;cursor:pointer;padding:8px 26px 8px 8px;border-radius:99px;font:inherit;font-weight:700;font-size:1.02rem;color:#04131C;
+  background:linear-gradient(135deg,#8DF0FF,#2BC6EA);box-shadow:0 0 0 8px rgba(79,220,245,.14),0 0 0 18px rgba(79,220,245,.06),0 22px 50px -12px rgba(79,220,245,.85);transition:transform .2s}
+.g-play:hover{transform:scale(1.04)}
+.g-play i{position:relative;width:52px;height:52px;border-radius:50%;background:#04131C;display:grid;place-items:center}
+.g-play i svg{width:20px;height:20px;fill:#4FDCF5;margin-left:3px}
+.g-play i::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid #04131C;opacity:0}
+@media (prefers-reduced-motion:no-preference){.g-play i::after{animation:gOrb 1.8s ease-out infinite}}
+.g-hint{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;color:#93A3B7;display:flex;align-items:center;gap:6px}
+.g-hint svg{width:14px;height:14px}
+.g-link{background:none;border:0;padding:4px;color:#C9D4E0;font:inherit;font-size:.88rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.g-link:hover{color:#fff}
+.g-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.g-btns .btn-ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:#fff}
+.g-end .g-links{display:flex;gap:18px}
+
+/* tools (top-right of the room) */
+.g-tools{position:absolute;right:12px;top:12px;z-index:6;display:flex;gap:6px;opacity:0;visibility:hidden;transition:.4s}
+.demo.guiding .g-tools{opacity:1;visibility:visible}
+.g-tools button,.g-tools select{height:36px;min-width:36px;border-radius:99px;border:1px solid rgba(255,255,255,.12);background:rgba(6,12,20,.66);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#E6EEF6;cursor:pointer;display:grid;place-items:center;padding:0 10px;font:inherit;font-size:.82rem;font-weight:600}
+.g-tools select{appearance:none;-webkit-appearance:none;padding:0 12px}
+.g-tools select option{color:#04131C}
+.g-tools svg{width:17px;height:17px}
+.g-tools button[aria-pressed="false"]{color:#7d8a99;background:rgba(6,12,20,.5)}
+.g-tools button[aria-pressed="false"] .w{opacity:0}
+.g-tools button[aria-pressed="false"] svg{position:relative}
+.g-tools .x{position:relative}
+.g-tools button[aria-pressed="false"]::after{content:"";position:absolute;width:20px;height:2px;background:#ff7b7b;transform:rotate(-45deg);border-radius:2px}
+.g-tools button{position:relative}
+
+/* chapter rail */
+.g-rail{position:absolute;left:clamp(120px,13%,170px);right:clamp(150px,19%,250px);bottom:0;display:none;align-items:center;gap:10px}
+.demo.guiding .g-rail{display:flex}
+.demo.guiding .tour{display:none}
+.g-ctl{display:flex;gap:6px;flex:none}
+.g-ctl button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0}
+.g-ctl button svg{width:14px;height:14px}
+.g-ctl #gPlay{background:var(--cyan);border-color:transparent;color:var(--on-accent)}
+.g-chaps{list-style:none;margin:0;padding:0;display:flex;gap:5px;flex:1;min-width:0}
+.g-chaps li{flex:1 1 0;min-width:0;transition:flex-grow .45s}
+.g-chaps li.on{flex-grow:3.2}
+.g-chaps button{width:100%;display:grid;gap:7px;background:none;border:0;padding:0;cursor:pointer;color:var(--muted);text-align:left}
+.g-chaps .lb{display:flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;height:16px}
+.g-chaps .lb svg{width:15px;height:15px;flex:none}
+.g-chaps .lb span{overflow:hidden;text-overflow:ellipsis}
+.g-chaps li:not(.on) .lb span{display:none}
+.g-chaps li.on button,.g-chaps li.done button{color:var(--ink)}
+.g-chaps li.on .lb svg{color:var(--cyan)}
+.g-chaps i{display:block;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.g-chaps i::after{content:"";display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--glow));transition:width .4s}
+.g-chaps li.on i::after{width:var(--p,8%)}
+.g-chaps li.done i::after{width:100%}
+.tour-guide{flex:none;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px 0 6px;border-radius:99px;border:1px solid var(--cyan);background:var(--cyan-soft);color:var(--ink);font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.tour-guide i{width:26px;height:26px;border-radius:50%;background:var(--cyan);display:grid;place-items:center}
+.tour-guide svg{width:11px;height:11px;fill:var(--on-accent);margin-left:2px}
+.g-burst{position:absolute;z-index:9;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#4FDCF5;pointer-events:none;box-shadow:0 0 10px #4FDCF5;animation:gBurst .8s cubic-bezier(.2,.8,.3,1) forwards}
+.g-burst:nth-child(3n){background:#8af0b8;box-shadow:0 0 10px #8af0b8}.g-burst:nth-child(3n+1){background:#fff}
+@keyframes gBurst{to{transform:translate(var(--dx),var(--dy)) scale(.3);opacity:0}}
+
+@media (max-width:1100px){.g-rail{left:0;right:clamp(110px,22%,220px)}}
+@media (max-width:640px){
+  .g-cap{position:relative;left:auto;right:auto;bottom:auto;margin-top:12px;padding:12px 14px 12px 12px;gap:12px;align-items:flex-start}
+  .demo:not(.guiding) .g-cap{display:none}
+  .g-orb{width:40px;height:40px;margin-top:2px}
+  .g-text{font-size:1rem;min-height:4.2em}
+  .g-task{bottom:auto;top:-10px;transform:translate(-50%,-100%)}
+  .g-task.show{transform:translate(-50%,-100%)}
+  @keyframes gBob{50%{transform:translate(-50%,calc(-100% - 4px))}}
+  .demo.guiding .phone{margin-top:16px;width:min(210px,58%)}
+  .g-rail{position:relative;left:auto;right:auto;margin-top:22px}
+  .g-chaps .lb{font-size:.56rem}
+  .g-chaps li.on .lb span{display:none}.g-chaps li.on{flex-grow:1.8}
+  .g-tools{right:8px;top:8px;gap:4px}
+  .g-tools button,.g-tools select{height:30px;min-width:30px;padding:0 8px;font-size:.74rem}
+  .g-card{padding:14px}
+  .g-in{gap:9px}
+  .g-card h3{font-size:1.22rem}
+  .g-card p,.g-eye,.g-hint{display:none}
+  .g-langs button{padding:5px 10px;font-size:.8rem}
+  .g-play{padding:5px 18px 5px 5px;font-size:.9rem;gap:10px}
+  .g-play i{width:40px;height:40px}
+  .g-end .btn{padding:.6em 1em;font-size:.86rem}
+  .g-ring b{font-size:.56rem;padding:4px 8px}
+  .tour-guide span{display:none}.tour-guide{padding:0 6px}
+  .demo.guiding .hud{opacity:0}
+}
 </style>
 </head>
 <body>
@@ -573,6 +751,8 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm5.8 14.08c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.23.54.77 1.87.84 2.01.07.13.11.3.02.47-.09.18-.13.29-.27.45-.13.16-.28.35-.4.47-.13.13-.27.28-.12.55.16.27.7 1.15 1.5 1.86 1.03.92 1.9 1.2 2.17 1.34.27.13.43.11.58-.07.16-.18.67-.78.85-1.05.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.88.27.13.45.2.51.31.07.11.07.65-.17 1.33Z"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></symbol>
     <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7"/></symbol>
@@ -633,6 +813,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#book">Book a free home consultation</a>
         <a class="btn btn-wa" id="heroWa" href="https://wa.me/917386664612?text=Hi%20AURA%2C%20I%27d%20like%20to%20know%20more%20about%20smart%20home%20automation." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Chat on WhatsApp</a>
+        <button class="btn btn-ghost" type="button" id="heroTour"><svg><use href="#i-play"/></svg>Watch how it works</button>
       </div>
 
     </div>
@@ -740,6 +921,44 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
           <button class="hot" style="left:76%;top:48%" data-dev="tv" aria-label="Toggle TV"><span>TV</span></button>
           <button class="hot" style="left:6.6%;top:54%" data-dev="lock" aria-label="Lock or unlock door"><span>Door lock</span></button>
           <button class="hot" style="left:47.5%;top:11%" data-dev="cams" aria-label="Arm or disarm cameras"><span>Cameras</span></button>
+          <div class="g-fx" id="gFx" aria-hidden="true"><span class="g-spot"></span><span class="g-ring"><b id="gRingLb"></b></span></div>
+          <div class="g-tools">
+            <select id="gLang" aria-label="Narrator language"><option value="en">English</option><option value="te">తెలుగు</option><option value="hi">हिन्दी</option></select>
+            <button type="button" id="gVoice" aria-pressed="true" aria-label="Narrator voice" title="Narrator voice"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="w" d="M16 8.5a5 5 0 0 1 0 7M18.6 6a8.6 8.6 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <button type="button" id="gMusic" aria-pressed="true" aria-label="Music and sounds" title="Music and sounds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></button>
+            <button type="button" id="gClose" class="x" aria-label="Close the guided tour" title="Close the tour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          </div>
+          <div class="g-card g-start" id="gStart">
+            <div class="g-in">
+              <span class="g-eye" id="gsEye">2-minute guided tour</span>
+              <h3 id="gsH">See how a smart home works</h3>
+              <p id="gsP">Aura, your guide, explains every device in simple words, and you get to try each one yourself.</p>
+              <div class="g-langs" role="group" aria-label="Language"><button type="button" data-l="en" aria-pressed="true">English</button><button type="button" data-l="te" aria-pressed="false">తెలుగు</button><button type="button" data-l="hi" aria-pressed="false">हिन्दी</button></div>
+              <button type="button" class="g-play"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></i><span id="gsGo">Start the tour</span></button>
+              <span class="g-hint" id="gsHint"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Turn your sound on</span>
+              <button type="button" class="g-link" id="gsOwn">Or explore on my own</button>
+            </div>
+          </div>
+          <div class="g-card g-end off" id="gEnd">
+            <div class="g-in">
+              <span class="g-eye">AURA Automation · Hyderabad</span>
+              <h3 id="geH">Want this in your home?</h3>
+              <p id="geP">Get a free home visit and a smart home plan made for your house.</p>
+              <div class="g-btns">
+                <a class="btn btn-primary" id="geBook" href="#book"><svg><use href="#i-home"/></svg>Book a free home visit</a>
+                <a class="btn btn-wa" id="geWa" href="https://wa.me/917386664612?text=Hi%20AURA%2C%20I%20watched%20the%20smart%20home%20tour%20and%20would%20like%20to%20know%20more." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Ask on WhatsApp</a>
+              </div>
+              <div class="g-links"><button type="button" class="g-link" id="geReplay">Watch again</button><button type="button" class="g-link" id="geOwn">Explore on my own</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="g-cap" id="gCap">
+          <div class="g-task" id="gTask" aria-live="polite"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74a4.5 4.5 0 1 0-5 0zm9.84 4.63-4.54-2.26a1.3 1.3 0 0 0-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg><span><small id="gTurn">Your turn</small><b id="gTaskTx"></b></span></div>
+          <span class="g-orb" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <div class="g-body">
+            <div class="g-meta"><span id="gWho">Aura · your guide</span><span id="gStep">1 / 10</span><span id="gNote"></span></div>
+            <p class="g-text" id="gText" aria-live="polite"></p>
+          </div>
         </div>
       </div>
 
@@ -751,6 +970,10 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
             <header><svg><use href="#i-bell"/></svg><span><b>Video door bell</b><span>Someone is at the door</span></span></header>
             <div class="ph-feed"></div>
             <div class="acts"><button type="button" id="nTalk">Talk</button><button type="button" class="ok" id="nOpen">Unlock</button></div>
+          </div>
+          <div class="ph-notif ph-alert" id="phAlert" role="status">
+            <header><svg><use href="#i-cam"/></svg><span><b>Camera alert</b><span>Movement near the gate</span></span></header>
+            <div class="ph-feed"></div>
           </div>
           <div class="ph-head"><span><small id="phGreet">Good morning</small><b>My Home</b></span><span class="ph-wx" id="phWx">27°C<br>Hyderabad</span></div>
           <div class="ph-label">Scenes</div>
@@ -776,7 +999,17 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 
       <svg class="beams" id="beams" aria-hidden="true"><defs><linearGradient id="beamG" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4FDCF5" stop-opacity="0"/><stop offset="1" stop-color="#4FDCF5"/></linearGradient></defs></svg>
 
+      <span class="g-hand" id="gHand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74a4.5 4.5 0 1 0-5 0zm9.84 4.63-4.54-2.26a1.3 1.3 0 0 0-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span>
+      <div class="g-rail" id="gRail">
+        <div class="g-ctl">
+          <button type="button" id="gPrev" aria-label="Previous step"><svg viewBox="0 0 14 14"><path d="M2 2h2v10H2zM12 2v10L5 7z" fill="currentColor"/></svg></button>
+          <button type="button" id="gPlay" aria-label="Pause"></button>
+          <button type="button" id="gNext" aria-label="Next step"><svg viewBox="0 0 14 14"><path d="M10 2h2v10h-2zM2 2v10l7-5z" fill="currentColor"/></svg></button>
+        </div>
+        <ol class="g-chaps" id="gChaps"></ol>
+      </div>
       <div class="tour" id="tour">
+        <button type="button" class="tour-guide" id="tourGuide"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></i><span>Guided tour</span></button>
         <button class="tour-btn" id="tourBtn" type="button" aria-label="Pause the tour"><svg viewBox="0 0 14 14" id="tourIco"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/></svg></button>
         <ol id="tourSteps"></ol>
       </div>
@@ -1207,6 +1440,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   // ---------- Hero live demo: an AURA home run from the phone ----------
   const room=$("#room"), demo=$("#demo"), beams=$("#beams");
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let guiding=false; // true while the narrated guided tour is running
   const S={time:"dawn",lights:0,curtains:false,ac:false,tv:false,lock:true,cams:true,cove:false,coveColor:"#4FDCF5"};
   const AMBIENT={dawn:.28,day:0,dusk:.42,night:.72};
   const LABEL={
@@ -1278,8 +1512,9 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
     act(dev,v);
   }
   // user controls
-  $$(".tile,.hot").forEach(el=>el.addEventListener("click",()=>{userTook();toggle(el.dataset.dev);}));
+  $$(".tile,.hot").forEach(el=>el.addEventListener("click",()=>{userTook();toggle(el.dataset.dev);GUIDE.emit(el.dataset.dev);}));
   $("#dim").addEventListener("input",e=>{userTook();S.lights=+e.target.value;S.cove=S.lights>0;render();log("Lights dimmed to "+S.lights+"%");});
+  $("#dim").addEventListener("change",()=>GUIDE.emit("dim"));
   const SCENES={
     morning:{time:"dawn",clock:"06:45",title:"Good morning",steps:[["curtains",true,"Curtains opening with the sunrise"],["lights",0,"Lights off, daylight on"],["cams",false,"Cameras disarmed, family is home"]]},
     evening:{time:"dusk",clock:"18:40",title:"Welcome home",steps:[["lights",70,"Warm lights at 70%"],["ac",true,"AC cooling to 24°C"],["cams",false,"Cameras disarmed"]]},
@@ -1296,7 +1531,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
       await act(d,v,m);
     }
   }
-  $$(".ph-scene").forEach(b=>b.addEventListener("click",()=>{userTook();runScene(b.dataset.scene);}));
+  $$(".ph-scene").forEach(b=>b.addEventListener("click",()=>{userTook();runScene(b.dataset.scene);GUIDE.emit("scene:"+b.dataset.scene);}));
   // video door bell moment
   async function guest(id){
     S.time="dusk"; setClock("19:12"); render(); log("Ding dong · Someone at the door","Guest arriving");
@@ -1308,8 +1543,8 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
     await wait(2600); if(id!==busy) return;
     await act("lock",true,"Guest in · door locked again");
   }
-  $("#nOpen").addEventListener("click",()=>{userTook();$("#phNotif").classList.remove("show");act("lock",false,"Door unlocked from the phone");});
-  $("#nTalk").addEventListener("click",()=>{userTook();$("#phNotif").classList.remove("show");log("Talking to the visitor…");});
+  $("#nOpen").addEventListener("click",()=>{userTook();$("#phNotif").classList.remove("show");act("lock",false,"Door unlocked from the phone");GUIDE.emit("unlock");});
+  $("#nTalk").addEventListener("click",()=>{userTook();$("#phNotif").classList.remove("show");log("Talking to the visitor…");GUIDE.emit("talk");});
   // the guided tour
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
   const TOUR=[["Morning",()=>runScene("morning",true),7000],["Evening",()=>runScene("evening",true),7000],["Guest",()=>guest(++busy),8000],["Movie",()=>runScene("movie",true),8000],["Night",()=>runScene("night",true),9000]];
@@ -1324,7 +1559,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   }
   function loop(now){
     const dt=Math.min(100,now-last); last=now;
-    if(playing&&visible&&cur>=0){
+    if(playing&&visible&&cur>=0&&!guiding){
       elapsed+=dt; const k=elapsed/TOUR[cur][2]; lis[cur].style.setProperty("--p",Math.min(1,k).toFixed(3));
       if(k>=1) goStep(cur+1);
     }
@@ -1335,6 +1570,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
     $("#tourIco").innerHTML=p?'<path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/>':'<path d="M3 1.5v11l9-5.5Z" fill="currentColor"/>';
   }
   function userTook(){ // the visitor is in control: pause, and resume after a quiet spell
+    if(guiding) return;
     setPlaying(false); clearTimeout(idleT);
     if(!reduce) idleT=setTimeout(()=>{setPlaying(true);goStep(cur+1);},16000);
   }
@@ -1349,6 +1585,418 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   setClock("06:45"); render();
   if(playing) setTimeout(()=>goStep(0),900); else {setPlaying(false);S.time="dusk";S.lights=70;S.cove=true;S.curtains=true;S.coveColor="#FFB86B";render();}
   raf=requestAnimationFrame(loop);
+
+  // ---------- Guided tour: a narrator explains each device, the visitor tries it ----------
+  // Soft generated music and sound effects (Web Audio, no files to download)
+  const AU=(()=>{
+    let ctx,master,mus,duckG,fx,rev,timer=null,want=false,on=true,next=0,ci=0;
+    const f=m=>440*Math.pow(2,(m-69)/12);
+    const PROG=[[50,62,66,69,73,76],[47,62,66,69,71,74],[43,59,62,66,69,74],[45,61,64,66,69,73]];
+    function init(){
+      if(ctx) return true;
+      const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return false;
+      try{ctx=new AC();}catch(_){return false;}
+      master=ctx.createGain(); master.gain.value=.75;
+      const comp=ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+      rev=ctx.createConvolver(); rev.buffer=impulse(3.4,2.6);
+      const rg=ctx.createGain(); rg.gain.value=.5; rev.connect(rg); rg.connect(master);
+      duckG=ctx.createGain(); duckG.connect(master); duckG.connect(rev);
+      mus=ctx.createGain(); mus.gain.value=0; mus.connect(duckG);
+      fx=ctx.createGain(); fx.gain.value=.6; fx.connect(master); fx.connect(rev);
+      return true;
+    }
+    function impulse(sec,dec){const n=Math.floor(ctx.sampleRate*sec),b=ctx.createBuffer(2,n,ctx.sampleRate);
+      for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,dec);}return b;}
+    function pad(ch,t,dur){
+      const lp=ctx.createBiquadFilter(); lp.type="lowpass"; lp.Q.value=.4;
+      lp.frequency.setValueAtTime(600,t); lp.frequency.linearRampToValueAtTime(1500,t+dur/2); lp.frequency.linearRampToValueAtTime(700,t+dur+2);
+      const g=ctx.createGain(); g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1,t+2.4); g.gain.setValueAtTime(1,t+dur-.4); g.gain.linearRampToValueAtTime(0,t+dur+2.6);
+      lp.connect(g); g.connect(mus);
+      ch.forEach((m,i)=>{(i?[-7,7]:[0]).forEach(dt=>{
+        const o=ctx.createOscillator(), og=ctx.createGain(); o.type=i?"triangle":"sine"; o.frequency.value=f(m); o.detune.value=dt;
+        og.gain.value=i?.0105:.06; o.connect(og); og.connect(lp); o.start(t); o.stop(t+dur+3);
+      });});
+    }
+    function bell(m,t,v,dest,len,part){
+      len=len||2.4; const o=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain(),g2=ctx.createGain();
+      o.type="sine"; o2.type="sine"; o.frequency.value=f(m); o2.frequency.value=f(m)*(part||2); g2.gain.value=.22;
+      g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.012); g.gain.exponentialRampToValueAtTime(.0001,t+len);
+      o.connect(g); o2.connect(g2); g2.connect(g); g.connect(dest);
+      o.start(t); o2.start(t); o.stop(t+len+.1); o2.stop(t+len+.1);
+    }
+    function bar(t){
+      const ch=PROG[ci++%PROG.length], dur=8; pad(ch,t,dur);
+      const top=ch.slice(1).map(m=>m+12);
+      for(let k=0;k<6;k++) bell(top[Math.floor(Math.random()*top.length)],t+.6+k*1.25+Math.random()*.3,.02,mus,2.8);
+      return dur;
+    }
+    function tick(){ if(!want){timer=null;return;} while(next<ctx.currentTime+1.5) next+=bar(next); timer=setTimeout(tick,500); }
+    function fade(v,s){const n=ctx.currentTime; mus.gain.cancelScheduledValues(n); mus.gain.setValueAtTime(mus.gain.value,n); mus.gain.linearRampToValueAtTime(v,n+s);}
+    return {
+      unlock(){ if(init()&&ctx.state!=="running") ctx.resume().catch(()=>{}); },
+      start(){ if(!init()) return; if(ctx.state!=="running") ctx.resume().catch(()=>{}); want=true; fade(on?1:0,2.5); if(!timer){next=Math.max(next,ctx.currentTime+.1);tick();} },
+      stop(s){ if(!ctx) return; want=false; fade(0,s||1.5); },
+      setOn(v){ on=v; if(!ctx) return; fade(v&&want?1:0,.8); fx.gain.setTargetAtTime(v?.6:0,ctx.currentTime,.05); },
+      duck(d){ if(ctx) duckG.gain.setTargetAtTime(d?.4:1,ctx.currentTime,.35); },
+      sfx(kind){
+        if(!ctx||!on) return; const t=ctx.currentTime+.02;
+        if(kind==="yay"){bell(84,t,.12,fx,1.2);bell(88,t+.09,.1,fx,1.3);bell(91,t+.18,.1,fx,1.8);}
+        else if(kind==="ding"){bell(76,t,.32,fx,2.6);bell(72,t+.6,.32,fx,3.2);}
+        else if(kind==="ping"){bell(88,t,.12,fx,.9,2.76);bell(88,t+.22,.12,fx,1.2,2.76);}
+        else if(kind==="tap"){bell(91,t,.05,fx,.25);}
+      }
+    };
+  })();
+
+  const GUIDE=(()=>{
+    const UI={
+      en:{who:"Aura · your guide",turn:"Your turn",yay:"Well done!",doit:"No problem, let me do it for you.",novoice:"No English voice on this device. Please read along.",
+        eye:"2-minute guided tour",h:"See how a smart home works",p:"Aura, your guide, explains every device in simple words, and you get to try each one yourself.",go:"Start the tour",hint:"Turn your sound on",own:"Or explore on my own",
+        eh:"Want this in your home?",ep:"Get a free home visit and a smart home plan made for your house.",book:"Book a free home visit",wa:"Ask on WhatsApp",replay:"Watch again",eown:"Explore on my own",
+        dev:{lights:"Smart lights",curtains:"Motorised curtains",ac:"Smart AC control",lock:"Smart door lock",bell:"Video door bell",cams:"Security camera"}},
+      te:{who:"ఆరా · మీ గైడ్",turn:"ఇప్పుడు మీ వంతు",yay:"సూపర్!",doit:"పర్వాలేదు, నేను చేసి చూపిస్తాను.",novoice:"ఈ ఫోన్‌లో తెలుగు వాయిస్ లేదు. దయచేసి చదవండి.",
+        eye:"2 నిమిషాల గైడెడ్ టూర్",h:"స్మార్ట్ హోమ్ ఎలా పనిచేస్తుందో చూడండి",p:"మా గైడ్ ఆరా ప్రతి పరికరాన్ని సులభమైన మాటల్లో వివరిస్తుంది. మీరే స్వయంగా ప్రయత్నించి చూడొచ్చు.",go:"టూర్ ప్రారంభించండి",hint:"సౌండ్ ఆన్ చేయండి",own:"నేనే స్వయంగా చూస్తాను",
+        eh:"ఇది మీ ఇంట్లో కావాలా?",ep:"ఉచిత హోమ్ విజిట్, మీ ఇంటికి తగ్గ స్మార్ట్ హోమ్ ప్లాన్ పొందండి.",book:"ఉచిత హోమ్ విజిట్ బుక్ చేయండి",wa:"WhatsApp లో అడగండి",replay:"మళ్లీ చూడండి",eown:"నేనే స్వయంగా చూస్తాను",
+        dev:{lights:"స్మార్ట్ లైట్లు",curtains:"మోటార్ కర్టెన్లు",ac:"స్మార్ట్ AC",lock:"స్మార్ట్ డోర్ లాక్",bell:"వీడియో డోర్ బెల్",cams:"సెక్యూరిటీ కెమెరా"}},
+      hi:{who:"ऑरा · आपकी गाइड",turn:"अब आपकी बारी",yay:"शाबाश!",doit:"कोई बात नहीं, मैं करके दिखाती हूँ।",novoice:"इस डिवाइस पर हिंदी आवाज़ नहीं है। कृपया पढ़ते चलिए।",
+        eye:"2 मिनट का गाइडेड टूर",h:"देखिए स्मार्ट होम कैसे काम करता है",p:"हमारी गाइड ऑरा हर डिवाइस आसान शब्दों में समझाती है, और आप खुद चलाकर देख सकते हैं।",go:"टूर शुरू कीजिए",hint:"आवाज़ चालू रखें",own:"खुद चलाकर देखें",
+        eh:"यह आपके घर में चाहिए?",ep:"मुफ़्त होम विज़िट और आपके घर के लिए स्मार्ट होम प्लान पाइए।",book:"मुफ़्त होम विज़िट बुक करें",wa:"WhatsApp पर पूछें",replay:"फिर से देखें",eown:"खुद चलाकर देखें",
+        dev:{lights:"स्मार्ट लाइटें",curtains:"मोटर वाले पर्दे",ac:"स्मार्ट AC",lock:"स्मार्ट डोर लॉक",bell:"वीडियो डोर बेल",cams:"सिक्योरिटी कैमरा"}}
+    };
+    const TX={
+      en:{
+        welcome:{t:"Welcome",a:["Hello! I'm Aura, your smart home guide.","This is a normal living room. And this phone is the remote for the whole house.","No more walking to the switch board. Let me show you, one thing at a time."]},
+        lights:{t:"Lights",a:["First, the lights. With AURA, every switch in your home is also on your phone."],k:"Tap Lights on the phone",b:["There! The lights came on, without touching a switch."],k2:"Now slide the brightness bar",c:["You decide how bright. Soft for dinner, full for reading."]},
+        curtains:{t:"Curtains",a:["These are motorised curtains. They open and close by themselves."],k:"Tap Curtains to close them",b:["Closed, for privacy at night.","And every morning, they can open on their own with the sunrise."]},
+        ac:{t:"AC",a:["Coming home on a hot afternoon? Switch on the AC from your phone while you are still on the way."],k:"Tap AC on the phone",b:["By the time you reach home, the room is already cool."]},
+        lock:{t:"Door lock",a:["This is a smart door lock. Open it with your fingerprint, a PIN, or your phone. No more lost keys."],k:"Tap Door to unlock it",b:["The door is open. And it locks itself again when the door closes."]},
+        bell:{t:"Door bell",a:["Ding dong! Someone is at the door.","The video door bell shows you who it is, right on your phone, even when you are at the office."],k:"Tap Unlock to let them in",b:["You can talk to visitors and open the door from anywhere."]},
+        cams:{t:"Cameras",a:["These are security cameras. Switch them on when you leave home."],k:"Tap Cameras on the phone",b:["If anything moves, AURA sends an alert to your phone at once.","You can watch your home live, from anywhere in the world."]},
+        movie:{t:"Scenes",a:["Now the magic part: scenes. One button can do many things together."],k:"Tap Movie on the phone",b:["Curtains closed, lights dimmed, TV on. All with one tap."]},
+        night:{t:"Good night",a:["At bedtime, one Good Night button switches everything off and locks the door."],k:"Tap Night on the phone",b:["Lights off, AC off, door locked, cameras watching. Sleep peacefully."]},
+        end:{t:"Your home",a:["That's a smart home by AURA. We plan it, install it, and look after it for years.","Visit our experience centre at E-Galleria Mall, Hitech City, or book a free home visit."]}
+      },
+      te:{
+        welcome:{t:"స్వాగతం",a:["నమస్కారం! నేను ఆరా, మీ స్మార్ట్ హోమ్ గైడ్‌ని.","ఇది ఒక మామూలు హాల్. ఈ ఫోనే మీ ఇంటి మొత్తానికి రిమోట్.","ఇక స్విచ్ బోర్డు దగ్గరికి వెళ్లాల్సిన పని లేదు. ఒక్కొక్కటిగా చూపిస్తాను."]},
+        lights:{t:"లైట్లు",a:["ముందుగా లైట్లు. AURA తో మీ ఇంట్లోని ప్రతి స్విచ్ మీ ఫోన్‌లో కూడా ఉంటుంది."],k:"ఫోన్‌లో Lights నొక్కండి",b:["చూశారా! స్విచ్ ముట్టుకోకుండానే లైట్లు వెలిగాయి."],k2:"ఇప్పుడు Brightness బార్‌ని జరపండి",c:["వెలుతురు ఎంత కావాలో మీరే నిర్ణయించండి. భోజనానికి తక్కువ, చదువుకోవడానికి ఎక్కువ."]},
+        curtains:{t:"కర్టెన్లు",a:["ఇవి మోటార్ కర్టెన్లు. ఇవి వాటంతట అవే తెరుచుకుంటాయి, మూసుకుంటాయి."],k:"మూసేయడానికి Curtains నొక్కండి",b:["రాత్రి ప్రైవసీ కోసం మూసుకున్నాయి.","ప్రతి ఉదయం సూర్యోదయంతో పాటు అవే తెరుచుకునేలా కూడా పెట్టొచ్చు."]},
+        ac:{t:"AC",a:["ఎండలో ఇంటికి వస్తున్నారా? దారిలో ఉండగానే ఫోన్ నుంచి AC ఆన్ చేయండి."],k:"ఫోన్‌లో AC నొక్కండి",b:["మీరు ఇంటికి చేరేసరికి గది చల్లగా ఉంటుంది."]},
+        lock:{t:"డోర్ లాక్",a:["ఇది స్మార్ట్ డోర్ లాక్. వేలిముద్రతో, పిన్‌తో, లేదా ఫోన్‌తో తెరవొచ్చు. తాళం చెవులు పోతాయనే భయం లేదు."],k:"తెరవడానికి Door నొక్కండి",b:["తలుపు తెరుచుకుంది. మూయగానే మళ్లీ తనంతట తానే లాక్ అవుతుంది."]},
+        bell:{t:"డోర్ బెల్",a:["డింగ్ డాంగ్! ఎవరో తలుపు దగ్గర ఉన్నారు.","వచ్చింది ఎవరో వీడియో డోర్ బెల్ మీ ఫోన్‌లోనే చూపిస్తుంది, మీరు ఆఫీసులో ఉన్నా సరే."],k:"లోపలికి రానివ్వడానికి Unlock నొక్కండి",b:["ఎక్కడ నుంచైనా వచ్చిన వాళ్లతో మాట్లాడొచ్చు, తలుపు తెరవొచ్చు."]},
+        cams:{t:"కెమెరాలు",a:["ఇవి సెక్యూరిటీ కెమెరాలు. బయటకు వెళ్లేటప్పుడు వీటిని ఆన్ చేయండి."],k:"ఫోన్‌లో Cameras నొక్కండి",b:["ఏదైనా కదలిక ఉంటే, AURA వెంటనే మీ ఫోన్‌కి అలర్ట్ పంపుతుంది.","ప్రపంచంలో ఎక్కడ నుంచైనా మీ ఇంటిని లైవ్‌లో చూడొచ్చు."]},
+        movie:{t:"సీన్లు",a:["ఇప్పుడు అసలు మ్యాజిక్: సీన్లు. ఒక్క బటన్‌తో చాలా పనులు ఒకేసారి."],k:"ఫోన్‌లో Movie నొక్కండి",b:["కర్టెన్లు మూసుకున్నాయి, లైట్లు తగ్గాయి, టీవీ ఆన్ అయ్యింది. అన్నీ ఒక్క టచ్‌తో."]},
+        night:{t:"గుడ్ నైట్",a:["పడుకునే ముందు, ఒక్క Good Night బటన్ అన్నీ ఆపేసి తలుపు లాక్ చేస్తుంది."],k:"ఫోన్‌లో Night నొక్కండి",b:["లైట్లు ఆఫ్, AC ఆఫ్, తలుపు లాక్, కెమెరాలు కాపలా. హాయిగా నిద్రపోండి."]},
+        end:{t:"మీ ఇల్లు",a:["ఇదే AURA స్మార్ట్ హోమ్. ప్లాన్ చేయడం, ఇన్‌స్టాల్ చేయడం, తర్వాత చూసుకోవడం, అన్నీ మేమే.","హైటెక్ సిటీ E-Galleria మాల్‌లోని మా ఎక్స్‌పీరియన్స్ సెంటర్‌కి రండి, లేదా ఉచిత హోమ్ విజిట్ బుక్ చేయండి."]}
+      },
+      hi:{
+        welcome:{t:"स्वागत",a:["नमस्ते! मैं ऑरा हूँ, आपकी स्मार्ट होम गाइड।","यह एक आम लिविंग रूम है। और यह फ़ोन पूरे घर का रिमोट है।","अब स्विच बोर्ड तक जाने की ज़रूरत नहीं। चलिए, एक-एक करके दिखाती हूँ।"]},
+        lights:{t:"लाइटें",a:["सबसे पहले लाइटें। AURA के साथ घर का हर स्विच आपके फ़ोन में भी होता है।"],k:"फ़ोन पर Lights दबाइए",b:["देखा! स्विच छुए बिना लाइटें जल गईं।"],k2:"अब Brightness बार खिसकाइए",c:["रोशनी कितनी चाहिए, आप तय कीजिए। खाने के समय हल्की, पढ़ने के लिए तेज़।"]},
+        curtains:{t:"पर्दे",a:["ये मोटर वाले पर्दे हैं। ये अपने आप खुलते और बंद होते हैं।"],k:"बंद करने के लिए Curtains दबाइए",b:["रात में प्राइवेसी के लिए बंद।","और हर सुबह, सूरज निकलते ही ये अपने आप खुल सकते हैं।"]},
+        ac:{t:"AC",a:["गर्मी में घर आ रहे हैं? रास्ते में ही फ़ोन से AC चालू कर दीजिए।"],k:"फ़ोन पर AC दबाइए",b:["घर पहुँचने तक कमरा ठंडा हो चुका होगा।"]},
+        lock:{t:"डोर लॉक",a:["यह स्मार्ट डोर लॉक है। उंगली के निशान, पिन या फ़ोन से खोलिए। चाबी खोने की चिंता ख़त्म।"],k:"खोलने के लिए Door दबाइए",b:["दरवाज़ा खुल गया। और बंद होते ही यह अपने आप फिर से लॉक हो जाता है।"]},
+        bell:{t:"डोर बेल",a:["डिंग डॉन्ग! दरवाज़े पर कोई है।","वीडियो डोर बेल आपके फ़ोन पर ही दिखाती है कि कौन आया है, चाहे आप ऑफ़िस में हों।"],k:"अंदर बुलाने के लिए Unlock दबाइए",b:["आप कहीं से भी मेहमान से बात कर सकते हैं और दरवाज़ा खोल सकते हैं।"]},
+        cams:{t:"कैमरे",a:["ये सिक्योरिटी कैमरे हैं। घर से निकलते समय इन्हें चालू कर दीजिए।"],k:"फ़ोन पर Cameras दबाइए",b:["कुछ भी हलचल हो, तो AURA तुरंत आपके फ़ोन पर अलर्ट भेजता है।","आप दुनिया में कहीं से भी अपना घर लाइव देख सकते हैं।"]},
+        movie:{t:"सीन",a:["अब असली जादू: सीन। एक बटन से कई काम एक साथ।"],k:"फ़ोन पर Movie दबाइए",b:["पर्दे बंद, लाइटें धीमी, टीवी चालू। सब एक टच में।"]},
+        night:{t:"गुड नाइट",a:["सोने से पहले, एक Good Night बटन सब कुछ बंद करके दरवाज़ा लॉक कर देता है।"],k:"फ़ोन पर Night दबाइए",b:["लाइटें बंद, AC बंद, दरवाज़ा लॉक, कैमरे पहरे पर। चैन से सोइए।"]},
+        end:{t:"आपका घर",a:["यही है AURA का स्मार्ट होम। हम प्लान करते हैं, लगाते हैं, और सालों तक देखभाल करते हैं।","हाईटेक सिटी के E-Galleria मॉल में हमारे एक्सपीरियंस सेंटर आइए, या मुफ़्त होम विज़िट बुक कीजिए।"]}
+      }
+    };
+    const ICON={welcome:"i-home",lights:"i-bulb",curtains:"i-curtain",ac:"i-snow",lock:"i-lock",bell:"i-bell",cams:"i-cam",movie:"i-tv",night:"i-moon",end:"i-handshake"};
+    const RATE={en:.96,te:.92,hi:.94};
+    const BASE={time:"dusk",clock:"18:30",lights:0,curtains:true,ac:false,tv:false,lock:true,cams:false,coveColor:"#FFB86B"};
+    const tile=d=>'.tile[data-dev="'+d+'"]', scn=n=>'.ph-scene[data-scene="'+n+'"]';
+    const STOP={};
+    let lang="en", voiceOn=true, musicOn=true, voice=null, tok=0, idx=-1, paused=false, autoPaused=false, active=false, finished=false;
+    let spotDev=null, spotLb=null, handSel=null, curU=null;
+    const hooks=new Set();
+    const cap=$("#gCap"), txt=$("#gText"), taskEl=$("#gTask"), fxEl=$("#gFx"), hand=$("#gHand");
+    const live=t=>{if(t!==tok) throw STOP;};
+    async function sleep(ms,t){let el=0;while(el<ms){await wait(100);live(t);if(!paused)el+=100;}}
+    async function hold(t){while(paused){await wait(150);live(t);}}
+    // background work that dies with the chapter
+    const bg=(t,fn)=>{(async()=>{try{await fn();}catch(e){if(e!==STOP)console.error(e);}})();};
+    function L(){return UI[lang];}
+    function lines(k){const c=TX[lang][CH[idx].id];return c[k]||[];}
+
+    // ---- voices
+    const hasTTS="speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+    function pickVoice(){
+      if(!hasTTS) return null;
+      const pre=lang, vs=speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().replace("_","-").startsWith(pre));
+      if(!vs.length) return null;
+      const sc=v=>{const n=v.name.toLowerCase(),l=v.lang.toLowerCase().replace("_","-");let s=0;
+        if(l===pre+"-in") s+=6;
+        if(/natural|neural|online|premium|enhanced/.test(n)) s+=5;
+        if(/google/.test(n)) s+=3;
+        if(/neerja|swara|heera|kalpana|shruti|mohan|veena|lekha|samantha|serena|aria|jenny|sonia|libby|female/.test(n)) s+=2;
+        if(v.localService) s+=1; return s;};
+      return vs.sort((a,b)=>sc(b)-sc(a))[0];
+    }
+    if(hasTTS){speechSynthesis.addEventListener?.("voiceschanged",()=>{voice=pickVoice();note();});voice=pickVoice();}
+    function note(){$("#gNote").textContent=(voiceOn&&!voice&&active)?L().novoice:"";}
+    function speakable(s){
+      const nm={en:"Aura",te:"ఆరా",hi:"ऑरा"}[lang];
+      return s.replace(/AURA/g,nm).replace(/\bPIN\b/g,"pin").replace(/E-Galleria/g,"E Galleria");
+    }
+
+    // ---- captions with word-by-word highlight
+    let spans=[], offs=[], shown="";
+    function caption(line){
+      if(shown===line) return; shown=line;
+      txt.textContent=""; spans=[]; offs=[]; let o=0;
+      line.split(" ").forEach((w,i)=>{const s=document.createElement("span");s.textContent=(i?" ":"")+w;txt.append(s);spans.push(s);offs.push(o);o+=w.length+1;});
+    }
+    function mark(frac,len){const c=frac*len;spans.forEach((s,i)=>s.classList.toggle("on",offs[i]<=c+.5));}
+    function speakOnce(line,t){
+      return new Promise(res=>{
+        caption(line); mark(0,1);
+        const useV=voiceOn&&!!voice;
+        const est=Math.max(1700,line.length*(lang==="en"?60:72)/(useV?RATE[lang]:1));
+        const t0=performance.now(); let bi=-1, done=false, started=false, timed=!useV;
+        const finish=r=>{if(done)return;done=true;clearInterval(iv);cap.classList.remove("talk");AU.duck(false);if(r==="done")mark(1,1);res(r);};
+        if(useV){
+          try{
+            const u=new SpeechSynthesisUtterance(speakable(line)); curU=u;
+            u.voice=voice; u.lang=voice.lang; u.rate=RATE[lang]; u.pitch=1.02;
+            u.onstart=()=>{started=true;}; u.onboundary=e=>{started=true;if(e.charIndex>=0)bi=e.charIndex;};
+            u.onend=()=>finish("done"); u.onerror=()=>finish("done");
+            if(speechSynthesis.speaking||speechSynthesis.pending) speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+          }catch(_){timed=true;}
+        }
+        cap.classList.add("talk"); AU.duck(true);
+        const iv=setInterval(()=>{
+          if(t!==tok){if(useV)speechSynthesis.cancel();return finish("stop");}
+          if(paused||(voiceOn&&!!voice)!==useV){if(useV)speechSynthesis.cancel();return finish("redo");}
+          const el=performance.now()-t0;
+          if(bi>=0) mark(Math.min(1,(bi+1)/line.length),1); else mark(Math.min(1,el/est),1);
+          if(useV&&!started&&!timed&&el>2200) timed=true; // the voice never started: fall back to timed captions
+          if(timed&&el>=est+(useV?600:0)){if(useV&&!started)speechSynthesis.cancel();finish("done");}
+          if(useV&&el>est*2.4+4000){speechSynthesis.cancel();finish("done");}
+        },80);
+      });
+    }
+    async function sayLine(line,t){
+      for(;;){await hold(t);const r=await speakOnce(line,t);live(t);if(r==="done")break;}
+      await sleep(320,t);
+    }
+    async function say(k,t){for(const l of lines(k)) await sayLine(l,t);}
+
+    // ---- spotlight in the room, glow on the phone
+    function focus(dev,sel,lb){
+      $$(".g-focus").forEach(e=>e.classList.remove("g-focus"));
+      const ph=sel===".phone"; $("#phone").classList.toggle("g-lit",ph);
+      demo.classList.toggle("g-pf",!!sel&&!ph);
+      if(sel&&!ph) $$(sel).forEach(e=>e.classList.add("g-focus"));
+      $$(".hot").forEach(h=>h.classList.toggle("g-pulse",h.dataset.dev===dev));
+      spotDev=dev; spotLb=lb||dev; placeSpot(); demo.classList.toggle("g-left",dev==="lock");
+    }
+    function rectOf(els){let l=1e9,t=1e9,r=-1e9,b=-1e9;els.forEach(e=>{const q=e.getBoundingClientRect();l=Math.min(l,q.left);t=Math.min(t,q.top);r=Math.max(r,q.right);b=Math.max(b,q.bottom);});return {left:l,top:t,width:r-l,height:b-t};}
+    function placeSpot(){
+      if(!spotDev||!active){fxEl.classList.remove("on");return;}
+      const els=spotDev==="curtains"?[$(".curtain-l"),$(".curtain-r")]:[document.getElementById("tgt-"+spotDev)];
+      const rb=room.getBoundingClientRect(), b=rectOf(els);
+      const x=b.left+b.width/2-rb.left, y=b.top+b.height/2-rb.top;
+      const r=Math.max(rb.width*.07,Math.min(rb.width*.2,Math.max(b.width,b.height)/2+rb.width*.03));
+      fxEl.style.setProperty("--sx",x.toFixed(1)+"px"); fxEl.style.setProperty("--sy",y.toFixed(1)+"px"); fxEl.style.setProperty("--sr",r.toFixed(1)+"px");
+      fxEl.classList.toggle("lb-up",y>rb.height*.5); fxEl.classList.toggle("lb-l",x<rb.width*.12); fxEl.classList.toggle("lb-in",y+r>rb.height*.78&&y<=rb.height*.5);
+      $("#gRingLb").textContent=L().dev[spotLb]||""; fxEl.classList.add("on");
+    }
+    function pointAt(sel){handSel=sel;placeHand();}
+    function placeHand(){
+      const el=handSel&&$(handSel);
+      if(!el||!active||!el.getClientRects().length){hand.classList.remove("show");return;}
+      const d=demo.getBoundingClientRect(), b=el.getBoundingClientRect();
+      if(!hand.classList.contains("show")){hand.classList.add("jump");void hand.offsetWidth;setTimeout(()=>hand.classList.remove("jump"),50);}
+      hand.style.left=(b.left+b.width*.68-d.left-22).toFixed(1)+"px"; hand.style.top=(b.top+b.height*.72-d.top-10).toFixed(1)+"px";
+      hand.classList.add("show");
+    }
+    function burst(sel){
+      const el=$(sel); if(!el||reduce) return; const d=demo.getBoundingClientRect(), b=el.getBoundingClientRect();
+      const x=b.left+b.width/2-d.left, y=b.top+b.height/2-d.top;
+      for(let i=0;i<14;i++){const p=document.createElement("span");p.className="g-burst";const a=i/14*Math.PI*2,r=40+Math.random()*40;
+        p.style.left=x+"px";p.style.top=y+"px";p.style.setProperty("--dx",(Math.cos(a)*r).toFixed(0)+"px");p.style.setProperty("--dy",(Math.sin(a)*r).toFixed(0)+"px");
+        demo.append(p);setTimeout(()=>p.remove(),900);}
+    }
+    addEventListener("resize",()=>{placeSpot();placeHand();});
+
+    // ---- "your turn" steps
+    function waitUser(keys,ms,t){
+      let hit=false; const fn=k=>{if(keys.includes(k))hit=true;}; hooks.add(fn);
+      return (async()=>{try{let el=0;while(!hit&&el<ms){await wait(100);live(t);if(!paused)el+=100;}return hit;}finally{hooks.delete(fn);}})();
+    }
+    async function task(o,t){
+      if(o.valid&&o.valid()) return;
+      $("#gTurn").textContent=L().turn; $("#gTaskTx").textContent=TX[lang][CH[idx].id][o.k];
+      taskEl.classList.remove("yay"); taskEl.classList.add("show"); pointAt(o.sel);
+      if(innerWidth<=640){const el=$(o.sel);if(el){const r=el.getBoundingClientRect();if(r.bottom>innerHeight-16||r.top<70)el.scrollIntoView({behavior:"smooth",block:"nearest"});setTimeout(placeHand,700);}}
+      const got=await waitUser(o.keys,o.ms||16000,t);
+      pointAt(null);
+      if(got){
+        AU.sfx("yay"); burst(o.sel); taskEl.classList.add("yay"); $("#gTurn").textContent="✓"; $("#gTaskTx").textContent=L().yay;
+        await sleep(1100,t);
+      } else {
+        taskEl.classList.remove("show"); await sayLine(L().doit,t); await o.auto();
+        await sleep(500,t);
+      }
+      taskEl.classList.remove("show");
+      // on phones the room sits above the app: bring it back into view to show what happened
+      if(innerWidth<=640){const y=room.getBoundingClientRect().top;if(y<60||y>innerHeight*.4)scrollTo({top:y+scrollY-72,behavior:reduce?"auto":"smooth"});}
+      await sleep(o.settle||500,t);
+    }
+    function setState(o){
+      ++busy; const s=Object.assign({},BASE,o);
+      S.time=s.time; S.lights=s.lights; S.cove=s.lights>0; S.curtains=s.curtains; S.ac=s.ac; S.tv=s.tv; S.lock=s.lock; S.cams=s.cams; S.coveColor=s.coveColor;
+      setClock(s.clock); render();
+      $$(".ph-scene").forEach(b=>b.setAttribute("aria-pressed","false"));
+      $("#phNotif").classList.remove("show"); $("#phAlert").classList.remove("show");
+    }
+    function slide(to){
+      return new Promise(res=>{const from=S.lights,t0=performance.now();
+        (function f(n){const k=Math.min(1,(n-t0)/900);S.lights=Math.round(from+(to-from)*k);S.cove=S.lights>0;render();if(k<1)requestAnimationFrame(f);else{log("Lights dimmed to "+to+"%");res();}})(t0);});
+    }
+
+    // ---- the chapters
+    const CH=[
+      {id:"welcome",set:{},run:async t=>{focus(null,".phone");await say("a",t);}},
+      {id:"lights",set:{},run:async t=>{
+        focus("lights",tile("lights"));await say("a",t);
+        await task({k:"k",keys:["lights"],sel:tile("lights"),valid:()=>S.lights>0,auto:()=>act("lights",80)},t);
+        await say("b",t);
+        focus("lights",".ph-dim");
+        await task({k:"k2",keys:["dim"],sel:"#dim",ms:12000,auto:()=>slide(35)},t);
+        await say("c",t);}},
+      {id:"curtains",set:{clock:"18:35",lights:60},run:async t=>{
+        focus("curtains",tile("curtains"));await say("a",t);
+        await task({k:"k",keys:["curtains"],sel:tile("curtains"),valid:()=>!S.curtains,auto:()=>act("curtains",false,"Curtains closing")},t);
+        const ln=lines("b"); await sayLine(ln[0],t);
+        bg(t,async()=>{await sleep(500,t);S.time="dawn";S.lights=0;S.cove=false;setClock("06:30");render();log("06:30 · Sunrise","Good morning");await sleep(900,t);await act("curtains",true,"Curtains opening with the sunrise");});
+        for(const l of ln.slice(1)) await sayLine(l,t);
+        await sleep(800,t);}},
+      {id:"ac",set:{time:"day",clock:"13:30"},run:async t=>{
+        focus("ac",tile("ac"));await say("a",t);
+        await task({k:"k",keys:["ac"],sel:tile("ac"),valid:()=>S.ac,auto:()=>act("ac",true)},t);
+        await say("b",t);}},
+      {id:"lock",set:{time:"day",clock:"16:10"},run:async t=>{
+        focus("lock",tile("lock"));await say("a",t);
+        await task({k:"k",keys:["lock"],sel:tile("lock"),valid:()=>!S.lock,auto:()=>act("lock",false,"Main door unlocked from the app")},t);
+        bg(t,async()=>{await sleep(2600,t);if(!S.lock)await act("lock",true,"Door locked again by itself");});
+        await say("b",t);await sleep(600,t);}},
+      {id:"bell",set:{clock:"19:12",lights:60},run:async t=>{
+        focus("lock","#nOpen","bell");
+        $("#phNotif").classList.add("show"); AU.sfx("ding"); log("Ding dong · Someone at the door","Guest arriving");
+        await say("a",t);
+        await task({k:"k",keys:["unlock","talk"],sel:"#nOpen",auto:async()=>{const b=$("#nOpen");b.classList.add("press");await wait(160);b.classList.remove("press");$("#phNotif").classList.remove("show");await act("lock",false,"Door unlocked from the phone");}},t);
+        $("#phNotif").classList.remove("show");
+        if(S.lock) await act("lock",false,"Door unlocked from the phone");
+        bg(t,async()=>{await sleep(3200,t);await act("lock",true,"Guest in · door locked again");});
+        await say("b",t);await sleep(600,t);}},
+      {id:"cams",set:{time:"day",clock:"10:00"},run:async t=>{
+        focus("cams",tile("cams"));await say("a",t);
+        await task({k:"k",keys:["cams"],sel:tile("cams"),valid:()=>S.cams,auto:()=>act("cams",true,"Cameras armed")},t);
+        await sleep(400,t);
+        $("#phAlert").classList.add("show"); AU.sfx("ping"); log("Camera alert · Movement near the gate","Away mode");
+        await say("b",t); $("#phAlert").classList.remove("show");}},
+      {id:"movie",set:{time:"night",clock:"21:00",lights:60,ac:true},run:async t=>{
+        focus(null,scn("movie"));await say("a",t);
+        await task({k:"k",keys:["scene:movie"],sel:scn("movie"),settle:2600,auto:()=>runScene("movie")},t);
+        await say("b",t);}},
+      {id:"night",set:{time:"night",clock:"23:20",lights:12,curtains:false,tv:true,ac:true,lock:false,coveColor:"#7c6cff"},run:async t=>{
+        focus(null,scn("night"));await say("a",t);
+        await task({k:"k",keys:["scene:night"],sel:scn("night"),settle:4200,auto:()=>runScene("night")},t);
+        await say("b",t);}},
+      {id:"end",set:{clock:"19:00",lights:70,ac:true},run:async t=>{
+        focus(null,null); $("#gEnd").classList.remove("off");
+        await say("a",t);}}
+    ];
+
+    // ---- rail
+    const chaps=$("#gChaps");
+    function buildRail(){
+      chaps.innerHTML=CH.map((c,i)=>`<li><button type="button" data-g="${i}" aria-label="${TX[lang][c.id].t}"><span class="lb"><svg><use href="#${ICON[c.id]}"/></svg><span>${String(i+1).padStart(2,"0")} ${TX[lang][c.id].t}</span></span><i></i></button></li>`).join("");
+      paintRail();
+    }
+    function paintRail(){$$("#gChaps li").forEach((li,k)=>{li.classList.toggle("on",k===idx);li.classList.toggle("done",k<idx||(finished&&k<=idx));});}
+    chaps.addEventListener("click",e=>{const b=e.target.closest("button[data-g]");if(b){paused=false;setIcon();runFrom(+b.dataset.g);}});
+
+    function enter(i){
+      idx=i; paintRail();
+      taskEl.classList.remove("show"); pointAt(null); $("#gEnd").classList.add("off");
+      setState(CH[i].set);
+      $("#gStep").textContent=(i+1)+" / "+CH.length; $("#gWho").textContent=L().who; note();
+      $("#hudScene").textContent=TX[lang][CH[i].id].t; $("#hudLog").textContent=L().who;
+    }
+    async function runFrom(i){
+      i=Math.max(0,Math.min(CH.length-1,i)); const t=++tok; finished=false; setIcon();
+      if(hasTTS) speechSynthesis.cancel();
+      try{
+        for(let k=i;k<CH.length;k++){
+          enter(k); await sleep(450,t);
+          await CH[k].run(t); live(t);
+          if(k<CH.length-1) await sleep(700,t);
+        }
+        finished=true; paintRail(); setIcon();
+        bg(t,async()=>{await sleep(9000,t);AU.stop(4);});
+      }catch(e){if(e!==STOP)console.error(e);}
+    }
+    function setIcon(){
+      const b=$("#gPlay");
+      const ic=finished?'<path d="M7 2a5 5 0 1 1-4.6 3H1l2.6-3L6.2 5H4.6A3.5 3.5 0 1 0 7 3.5Z" fill="currentColor"/>':paused?'<path d="M3 1.5v11l9-5.5Z" fill="currentColor"/>':'<path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/>';
+      b.innerHTML='<svg viewBox="0 0 14 14">'+ic+'</svg>'; b.setAttribute("aria-label",finished?"Watch again":paused?"Play":"Pause");
+    }
+    function texts(){
+      const u=L();
+      $("#gsEye").textContent=u.eye;$("#gsH").textContent=u.h;$("#gsP").textContent=u.p;$("#gsGo").textContent=u.go;$("#gsHint").lastChild.textContent=" "+u.hint;$("#gsOwn").textContent=u.own;
+      $("#geH").textContent=u.eh;$("#geP").textContent=u.ep;$("#geBook").lastChild.textContent=u.book;$("#geWa").lastChild.textContent=u.wa;$("#geReplay").textContent=u.replay;$("#geOwn").textContent=u.eown;
+      $$(".g-langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===lang));
+      $("#gLang").value=lang; demo.setAttribute("lang",lang);
+      const fam={te:"Noto+Sans+Telugu",hi:"Noto+Sans+Devanagari"}[lang];
+      if(fam&&!document.getElementById("font-"+lang)){const k=document.createElement("link");k.id="font-"+lang;k.rel="stylesheet";k.href="https://fonts.googleapis.com/css2?family="+fam+":wght@400;500;600;700&display=swap";document.head.append(k);}
+      buildRail();
+    }
+    function setLang(l){lang=l;voice=pickVoice();texts();if(active){note();runFrom(idx<0?0:idx);}}
+
+    function start(from){
+      AU.unlock();
+      if(hasTTS){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(" ");u.volume=0;speechSynthesis.speak(u);}catch(_){}}
+      voice=pickVoice();
+      active=true; guiding=true; paused=false; autoPaused=false; clearTimeout(idleT); setPlaying(false);
+      demo.classList.add("guiding"); $("#gStart").classList.add("off");
+      if(musicOn) AU.start();
+      runFrom(from||0);
+    }
+    function exit(){
+      ++tok; if(hasTTS) speechSynthesis.cancel(); AU.stop();
+      active=false; guiding=false; paused=false; focus(null,null); pointAt(null);
+      demo.classList.remove("guiding","g-pf","g-left"); taskEl.classList.remove("show"); $("#gEnd").classList.add("off"); cap.classList.remove("talk");
+      $("#phNotif").classList.remove("show"); $("#phAlert").classList.remove("show");
+      if(!reduce){setPlaying(true);goStep(0);} else setPlaying(false);
+    }
+    function pause(p){paused=p;setIcon();if(p&&hasTTS)speechSynthesis.cancel();if(musicOn){p?AU.stop(.8):AU.start();}}
+
+    // controls
+    $$(".g-langs button").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.l;voice=pickVoice();texts();}));
+    $("#gsGo").closest("button").addEventListener("click",()=>start(0));
+    $("#gsOwn").addEventListener("click",()=>{$("#gStart").classList.add("off");userTook();});
+    $("#gClose").addEventListener("click",exit);
+    $("#geOwn").addEventListener("click",exit);
+    $("#geReplay").addEventListener("click",()=>{if(musicOn)AU.start();runFrom(0);});
+    $("#gLang").addEventListener("change",e=>setLang(e.target.value));
+    $("#gPrev").addEventListener("click",()=>{paused=false;runFrom(idx-1);});
+    $("#gNext").addEventListener("click",()=>{paused=false;runFrom(idx+1);});
+    $("#gPlay").addEventListener("click",()=>{if(finished){if(musicOn)AU.start();runFrom(0);}else pause(!paused);});
+    $("#gVoice").addEventListener("click",e=>{voiceOn=!voiceOn;e.currentTarget.setAttribute("aria-pressed",voiceOn);if(!voiceOn&&hasTTS)speechSynthesis.cancel();note();});
+    $("#gMusic").addEventListener("click",e=>{musicOn=!musicOn;e.currentTarget.setAttribute("aria-pressed",musicOn);AU.setOn(musicOn);if(musicOn&&active&&!paused)AU.start();});
+    $("#tourGuide").addEventListener("click",()=>start(0));
+    const heroBtn=$("#heroTour");
+    if(heroBtn) heroBtn.addEventListener("click",()=>{demo.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"});start(0);});
+    // pause when the tour scrolls out of view or the tab is hidden
+    const away=v=>{if(!active||finished)return;if(!v&&!paused){autoPaused=true;pause(true);}else if(v&&autoPaused){autoPaused=false;pause(false);}};
+    if("IntersectionObserver" in window) new IntersectionObserver(es=>away(es[0].isIntersecting),{threshold:.2}).observe(demo);
+    document.addEventListener("visibilitychange",()=>away(!document.hidden));
+    texts();
+    return {emit:k=>{if(active){AU.sfx("tap");hooks.forEach(f=>f(k));}}};
+  })();
 
   // ---------- Quote links preselect interest ----------
   const MAP={"Smart switch boards":"iSw","Smart door lock":"iLock","Video door bell":"iBell","CCTV cameras":"iCam","Smart lighting":"iLight","Motorised curtains":"iCurt","Smart Home package":"iFull","Signature project":"iFull","Smart Start package":"iSw"};
