@@ -204,41 +204,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media (max-width:980px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.prod-grid{grid-template-columns:1fr}}
 
-/* Estimator */
-.est-band{background:var(--navy);color:#EAF2FA}
-:root .est-band{--e-bg:#0E2440;--e-card:#132E50;--e-line:#24426A;--e-muted:#A9BED6}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .est-band{--e-bg:#0B1A2C;--e-card:#10233A;--e-line:#1F3653;--e-muted:#93A9C3}}
-:root[data-theme="dark"] .est-band{--e-bg:#0B1A2C;--e-card:#10233A;--e-line:#1F3653;--e-muted:#93A9C3}
-.est-band{background:var(--e-bg)}
-.est-band .lede{color:var(--e-muted)}
-.est-band .eyebrow{color:#4FDCF5}
-.est{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
-.est-left{display:grid;gap:18px;min-width:0}
-.ptypes{display:flex;flex-wrap:wrap;gap:8px}
-.ptype{border:1px solid var(--e-line);background:transparent;color:#EAF2FA;border-radius:999px;padding:9px 16px;cursor:pointer;font-weight:500}
-.ptype[aria-pressed="true"]{background:#4FDCF5;color:#04131C;border-color:#4FDCF5}
-.items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.item{display:flex;align-items:center;gap:12px;background:var(--e-card);border:1px solid var(--e-line);border-radius:12px;padding:12px 12px 12px 14px;min-width:0}
-.item .ic{width:36px;height:36px;border-radius:10px;background:rgba(79,220,245,.1);display:grid;place-items:center;color:#4FDCF5;flex:none}
-.item .ic svg{width:20px;height:20px}
-.item .meta{flex:1;min-width:0}
-.item .meta b{display:block;font-weight:600;font-size:.93rem;line-height:1.25}
-.item .meta span{font-family:var(--f-mono);font-size:.72rem;color:var(--e-muted)}
-.step{display:flex;align-items:center;border:1px solid var(--e-line);border-radius:999px;flex:none}
-.step button{width:30px;height:30px;border:0;background:none;color:#EAF2FA;cursor:pointer;font-size:1.1rem;border-radius:50%}
-.step button:hover{background:rgba(255,255,255,.08)}
-.step output{min-width:24px;text-align:center;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-.est-sum{position:sticky;top:96px;background:#F7FAFC;color:#0D1A2B;border-radius:18px;padding:26px;display:grid;gap:16px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
-.est-sum .lbl{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#556479}
-.est-total{font-family:var(--f-display);font-size:clamp(1.9rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;font-variant-numeric:tabular-nums}
-.est-lines{list-style:none;margin:0;padding:12px 0;border-block:1px solid #D7DFE8;display:grid;gap:6px;font-size:.88rem;max-height:220px;overflow:auto}
-.est-lines li{display:flex;justify-content:space-between;gap:12px}
-.est-lines li span:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:#556479;white-space:nowrap}
-.est-sum small{color:#556479;font-size:.8rem;line-height:1.5}
-.est-sum .btn-wa{width:100%}
-@media (max-width:980px){.est{grid-template-columns:minmax(0,1fr)}.est-sum{position:static}}
-@media (max-width:620px){.items{grid-template-columns:minmax(0,1fr)}.ptype{padding:8px 13px;font-size:.9rem}}
-
 /* Packages */
 .pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
 .pk{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:16px}
@@ -403,7 +368,6 @@ fieldset.fld{border:0;padding:0;margin:0}
     </a>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="#products">Products</a>
-      <a href="#estimate">Cost estimator</a>
       <a href="#packages">Packages</a>
       <a href="#projects">Projects</a>
       <a href="#visit">Experience centre</a>
@@ -638,36 +602,6 @@ fieldset.fld{border:0;padding:0;margin:0}
   </div>
 </section>
 
-<!-- ESTIMATOR -->
-<section class="sec est-band" id="estimate">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Smart home cost estimator</span>
-      <h2>What would your smart home cost? Find out in 30 seconds.</h2>
-      <p class="lede">Pick your home type, adjust the devices, and send the estimate to us on WhatsApp. We'll confirm the exact price after a free site visit.</p>
-    </div>
-    <div class="est">
-      <div class="est-left">
-        <div class="ptypes" role="group" aria-label="Property type">
-          <button class="ptype" data-type="2bhk" aria-pressed="false">2 BHK apartment</button>
-          <button class="ptype" data-type="3bhk" aria-pressed="true">3 BHK apartment</button>
-          <button class="ptype" data-type="villa" aria-pressed="false">Villa / independent house</button>
-          <button class="ptype" data-type="office" aria-pressed="false">Office / hotel</button>
-        </div>
-        <div class="items" id="items"></div>
-      </div>
-      <aside class="est-sum" aria-live="polite">
-        <span class="lbl">Estimated budget</span>
-        <div class="est-total" id="estTotal">₹0</div>
-        <ul class="est-lines" id="estLines"></ul>
-        <small>Indicative price range for supply and installation. Final price depends on the models you choose and your wiring, and is confirmed after a free site visit.</small>
-        <a class="btn btn-wa" id="estWa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Send this estimate on WhatsApp</a>
-        <a class="btn btn-ghost" id="estCallback" href="#book" style="width:100%;color:#0D1A2B;background:#fff;border-color:#D7DFE8">Request a call back instead</a>
-      </aside>
-    </div>
-  </div>
-</section>
-
 <!-- PACKAGES -->
 <section class="sec" id="packages">
   <div class="wrap">
@@ -844,8 +778,7 @@ fieldset.fld{border:0;padding:0;margin:0}
     </div>
     <form class="card" id="bookForm" name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
       <input type="hidden" name="form-name" value="consultation">
-      <input type="hidden" name="estimate" id="fEstimate">
-      <div id="formFields" style="display:grid;gap:16px">
+            <div id="formFields" style="display:grid;gap:16px">
         <div class="row">
           <div class="fld"><label for="fName">Your name</label><input id="fName" name="name" autocomplete="name" placeholder="e.g. Ravi Kumar" required></div>
           <div class="fld"><label for="fPhone">Mobile number</label><input id="fPhone" name="phone" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile" required></div>
@@ -903,7 +836,7 @@ fieldset.fld{border:0;padding:0;margin:0}
         <p style="max-width:34ch;font-size:.93rem">Smart homes, better living. Smart home automation for homes, villas, offices and hotels in Hyderabad.</p>
       </div>
       <div><h4>Products</h4><ul><li><a href="#products">Smart switch boards</a></li><li><a href="#products">Smart door locks</a></li><li><a href="#products">Video door bells</a></li><li><a href="#products">CCTV cameras</a></li><li><a href="#products">Smart lighting</a></li></ul></div>
-      <div><h4>Company</h4><ul><li><a href="#packages">Packages</a></li><li><a href="#projects">Projects</a></li><li><a href="#estimate">Cost estimator</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#packages">Packages</a></li><li><a href="#projects">Projects</a></li><li><a href="#faq">FAQ</a></li></ul></div>
       <div><h4>Contact</h4><ul><li>E-Galleria Mall, Hitech City, Hyderabad</li><li class="num">+91 73866 64612</li><li><a href="https://wa.me/917386664612" target="_blank" rel="noopener">WhatsApp us</a></li><li><a href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener">Instagram</a></li></ul></div>
     </div>
     <div class="ftr-bottom"><span>© <span id="yr">2026</span> AURA Automation · Smart Homes Telangana</span><span>Smart homes. Better living.</span></div>
@@ -921,7 +854,6 @@ fieldset.fld{border:0;padding:0;margin:0}
   // Paste your Google Apps Script web-app URL here (see google-sheets-setup.md).
   // While empty, the form falls back to sending enquiries through WhatsApp only.
   const SHEET_URL = "";
-  let lastEstimate = "", estUsed = false;
   const WA = "917386664612";
   const waLink = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
   const $ = s => document.querySelector(s);
@@ -962,52 +894,6 @@ fieldset.fld{border:0;padding:0;margin:0}
   $$(".scene-btn").forEach(b=>b.addEventListener("click",()=>{Object.assign(state,scenes[b.dataset.scene]);render(b.dataset.scene);}));
   render("");
 
-  // ---------- Estimator ----------
-  // Indicative "from" prices in INR. Update these to your current price list.
-  const ITEMS=[
-    {k:"sw",name:"Smart switch boards",unit:"per board",price:9999,icon:"i-switch"},
-    {k:"lock",name:"Smart door locks",unit:"per door",price:14999,icon:"i-lock"},
-    {k:"bell",name:"Video door bell",unit:"per unit",price:7999,icon:"i-bell"},
-    {k:"cam",name:"Wi-Fi / CCTV cameras",unit:"per camera",price:3499,icon:"i-cam"},
-    {k:"light",name:"Smart lights",unit:"per fitting",price:1499,icon:"i-bulb"},
-    {k:"curt",name:"Motorised curtains",unit:"per window",price:16999,icon:"i-curtain"},
-    {k:"cab",name:"Smart cabinet locks",unit:"per lock",price:2999,icon:"i-cab"},
-    {k:"voice",name:"Voice assistant hub",unit:"per hub",price:4999,icon:"i-voice"}
-  ];
-  const PRESETS={
-    "2bhk":{sw:5,lock:1,bell:1,cam:2,light:6,curt:0,cab:0,voice:1},
-    "3bhk":{sw:8,lock:1,bell:1,cam:3,light:10,curt:1,cab:1,voice:1},
-    "villa":{sw:16,lock:2,bell:1,cam:6,light:24,curt:3,cab:2,voice:2},
-    "office":{sw:10,lock:1,bell:1,cam:6,light:16,curt:0,cab:6,voice:1}
-  };
-  const TYPE_NAMES={"2bhk":"2 BHK apartment","3bhk":"3 BHK apartment","villa":"Villa / independent house","office":"Office / hotel"};
-  let ptype="3bhk"; let qty={...PRESETS[ptype]};
-  const itemsEl=$("#items");
-  itemsEl.innerHTML=ITEMS.map(it=>`
-    <div class="item">
-      <span class="ic"><svg><use href="#${it.icon}"/></svg></span>
-      <span class="meta"><b>${it.name}</b><span>from ${inr(it.price)} ${it.unit}</span></span>
-      <span class="step"><button type="button" data-k="${it.k}" data-d="-1" aria-label="Fewer ${it.name}">−</button><output id="q-${it.k}" class="num">0</output><button type="button" data-k="${it.k}" data-d="1" aria-label="More ${it.name}">+</button></span>
-    </div>`).join("");
-  itemsEl.addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b)return;const k=b.dataset.k;qty[k]=Math.max(0,Math.min(60,qty[k]+Number(b.dataset.d)));estUsed=true;calc();});
-  $$(".ptype").forEach(b=>b.addEventListener("click",()=>{ptype=b.dataset.type;qty={...PRESETS[ptype]};estUsed=true;$$(".ptype").forEach(x=>x.setAttribute("aria-pressed",x===b));calc();}));
-  function round(n){return Math.round(n/1000)*1000;}
-  function calc(){
-    let total=0;const lines=[];
-    ITEMS.forEach(it=>{const q=qty[it.k];$("#q-"+it.k).textContent=q;if(q>0){const v=q*it.price;total+=v;lines.push([it.name+" × "+q,v]);}});
-    const lo=round(total), hi=round(total*1.2);
-    $("#estTotal").textContent= total? inr(lo)+" – "+inr(hi) : "₹0";
-    $("#estLines").innerHTML= lines.length? lines.map(l=>`<li><span>${l[0]}</span><span>${inr(l[1])}</span></li>`).join("") : "<li><span>Add a device to see your estimate</span><span></span></li>";
-    const msg="Hi AURA, I used the cost estimator on your website.\nProperty: "+TYPE_NAMES[ptype]+"\n"+lines.map(l=>"• "+l[0]).join("\n")+"\nEstimate: "+(total?inr(lo)+" – "+inr(hi):"-")+"\nPlease share an exact quote.";
-    $("#estWa").href=waLink(msg);
-    lastEstimate= total? TYPE_NAMES[ptype]+": "+lines.map(l=>l[0]).join(", ")+" | "+inr(lo)+" – "+inr(hi) : "";
-  }
-  $("#estCallback").addEventListener("click",()=>{
-    estUsed=true;const n=$("#fNote"); n.value="My estimate: "+lastEstimate;
-    const t=$("#fType"); [...t.options].forEach(o=>{if(o.text===TYPE_NAMES[ptype])t.value=o.text;});
-  });
-  calc();
-
   // ---------- Quote links preselect interest ----------
   const MAP={"Smart switch boards":"iSw","Smart door lock":"iLock","Video door bell":"iBell","CCTV cameras":"iCam","Smart lighting":"iLight","Motorised curtains":"iCurt","Smart Home package":"iFull","Signature project":"iFull","Smart Start package":"iSw"};
   $$("a[data-interest]").forEach(a=>a.addEventListener("click",()=>{
@@ -1038,7 +924,6 @@ fieldset.fld{border:0;padding:0;margin:0}
     $("#doneMsg").textContent=lastMsg;
     $("#doneWa").href=waLink(lastMsg);
     let saved=false;
-    $("#fEstimate").value=estUsed?lastEstimate:"";
     const btn0=form.querySelector('button[type="submit"]'); btn0.disabled=true; btn0.textContent="Sending…";
     // 1) Netlify Forms inbox (works automatically on the live Netlify site)
     try{
@@ -1051,7 +936,7 @@ fieldset.fld{border:0;padding:0;margin:0}
     if(SHEET_URL){
       const btn=form.querySelector('button[type="submit"]'); btn.disabled=true; btn.textContent="Sending…";
       const lead={name,phone,area:$("#fArea").value.trim(),property:$("#fType").value,stage:$("#fStage").value,
-        visitDate:d,interests:ints.join(", "),note:$("#fNote").value.trim(),estimate:estUsed?lastEstimate:"",
+        visitDate:d,interests:ints.join(", "),note:$("#fNote").value.trim(),
         source:"Website form",page:location.href,referrer:document.referrer};
       try{
         await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});
