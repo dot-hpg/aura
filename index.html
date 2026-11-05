@@ -525,6 +525,44 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 .js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}}
 .progress{position:fixed;left:0;top:0;height:2px;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--cyan),var(--glow));z-index:80;pointer-events:none}
+
+/* Founder */
+.founder{position:relative;overflow:hidden;padding-block:clamp(56px,8vw,104px) 0;isolation:isolate}
+.founder::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(60% 70% at 28% 60%,rgba(43,198,234,.16),transparent 70%),linear-gradient(180deg,transparent,var(--bg-2))}
+.founder-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,5vw,72px);align-items:end}
+.f-visual{position:relative;display:grid;place-items:end center;min-height:clamp(420px,52vw,640px)}
+.f-halo{position:absolute;left:50%;bottom:8%;width:min(92%,560px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;z-index:-1;
+  background:radial-gradient(closest-side,rgba(79,220,245,.30),rgba(79,220,245,.08) 60%,transparent 72%)}
+.f-arcs{position:absolute;left:50%;bottom:6%;width:min(100%,620px);transform:translateX(-50%);z-index:-1;overflow:visible;color:var(--cyan)}
+.f-arcs circle{fill:none;stroke:currentColor;stroke-width:1.2;opacity:.28}
+.f-arcs circle:nth-child(2){opacity:.18;stroke-dasharray:4 10}
+.f-arcs circle:nth-child(3){opacity:.12}
+@media (prefers-reduced-motion:no-preference){.f-arcs circle:nth-child(2){transform-origin:center;transform-box:fill-box;animation:spin 40s linear infinite}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.f-photo-wrap{position:relative;display:block;width:min(88%,460px);filter:drop-shadow(0 0 1px rgba(79,220,245,.9)) drop-shadow(0 0 22px rgba(79,220,245,.35)) drop-shadow(0 30px 40px rgba(0,0,0,.35))}
+.f-photo{width:100%;height:auto;display:block;
+  -webkit-mask-image:linear-gradient(180deg,#000 86%,transparent 100%);mask-image:linear-gradient(180deg,#000 86%,transparent 100%)}
+.f-chip{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:var(--shadow);font-size:.85rem;line-height:1.25}
+.f-chip svg{width:22px;height:22px;color:var(--cyan);flex:none}
+.f-chip b{display:block;font-size:.92rem}
+.f-chip span{color:var(--muted);font-size:.78rem}
+.f-chip.c1{left:0;top:60%}
+.f-chip.c2{right:0;top:30%}
+@media (prefers-reduced-motion:no-preference){.f-chip.c1{animation:bob 6s ease-in-out infinite}.f-chip.c2{animation:bob 7s ease-in-out -2s infinite}}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.f-copy{display:grid;gap:20px;padding-bottom:clamp(48px,7vw,96px);align-content:end}
+.f-copy h2{font-size:var(--s4)}
+.f-copy h2 em{font-style:normal;color:var(--cyan)}
+.f-sign{display:flex;align-items:center;gap:16px;padding-top:20px;border-top:1px solid var(--line)}
+.f-sign .bar{width:44px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--cyan),var(--glow))}
+.f-sign > span > b{display:block;font-family:var(--f-display);font-size:1.35rem;letter-spacing:-.01em}
+.f-sign > span > span{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.f-points{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-points li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;color:var(--muted)}
+.f-points svg{width:18px;height:18px;color:var(--cyan);flex:none;margin-top:3px}
+.f-ctas{display:flex;flex-wrap:wrap;gap:12px}
+@media (max-width:900px){.founder-grid{grid-template-columns:1fr}.f-visual{min-height:auto;max-width:520px;margin:0 auto;width:100%}.f-copy{padding-bottom:56px;text-align:left}}
+@media (max-width:520px){.f-points{grid-template-columns:1fr}.f-chip{font-size:.78rem;padding:8px 10px}.f-chip.c1{left:0;top:64%}.f-chip.c2{right:0;top:34%}}
 </style>
 </head>
 <body>
@@ -750,6 +788,35 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
         <span><svg><use href="#i-shield"/></svg>Up to 5-year warranty on smart switches</span>
         <span><svg><use href="#i-tools"/></svg>Expert installation and handover</span>
       </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder" id="founder" aria-labelledby="founderTitle">
+  <div class="wrap founder-grid">
+    <div class="f-visual">
+      <span class="f-halo" aria-hidden="true"></span>
+      <svg class="f-arcs" viewBox="0 0 600 300" aria-hidden="true"><circle cx="300" cy="300" r="290"/><circle cx="300" cy="300" r="240"/><circle cx="300" cy="300" r="190"/></svg>
+      <span class="f-photo-wrap"><img class="f-photo" src="assets/founder.webp" width="778" height="1200" alt="Aravind Rao, founder of AURA Automation" loading="eager"></span>
+      <div class="f-chip c1"><svg><use href="#i-handshake"/></svg><span><b>Meets every client</b><span>Site visits &amp; showroom demos</span></span></div>
+      <div class="f-chip c2"><svg><use href="#i-store"/></svg><span><b>E-Galleria Mall</b><span>Hitech City experience centre</span></span></div>
+    </div>
+    <div class="f-copy">
+      <span class="eyebrow">Meet the founder</span>
+      <h2 id="founderTitle">The person behind <em>every AURA home.</em></h2>
+      <p class="lede">AURA was started to give Hyderabad homes automation that is planned properly, installed neatly and supported for years. From construction and interiors to smart switches, locks and lighting, one team looks after your home end to end, and the founder stays involved in every project.</p>
+      <ul class="f-points">
+        <li><svg><use href="#i-check"/></svg>Planned with your walls, wiring and furniture in mind</li>
+        <li><svg><use href="#i-check"/></svg>Live demos at our Hitech City experience centre</li>
+        <li><svg><use href="#i-check"/></svg>One number to call, before and after handover</li>
+        <li><svg><use href="#i-check"/></svg>Homes, villas, offices and hotels</li>
+      </ul>
+      <div class="f-sign"><span class="bar" aria-hidden="true"></span><span><b>Aravind Rao</b><span>Founder · AURA Automation</span></span></div>
+      <div class="f-ctas">
+        <a class="btn btn-wa" href="https://wa.me/917386664612?text=Hi%20Aravind%2C%20I%27d%20like%20to%20talk%20about%20automating%20my%20home." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Talk to Aravind on WhatsApp</a>
+        <a class="btn btn-ghost" href="#book">Book a free consultation</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1391,7 +1458,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   if("IntersectionObserver" in window){
     const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));}),{rootMargin:"-45% 0px -50% 0px"});
     secs.forEach(x=>so.observe(x));
-    const groups=[".sec-head",".prod",".pk",".proc li",".why > div",".why-list > div",".proj",".visit",".faq details",".book-grid > div"];
+    const groups=[".sec-head",".prod",".pk",".proc li",".why > div",".why-list > div",".proj",".visit",".faq details",".book-grid > div",".f-copy",".f-visual"];
     const rvs=[];groups.forEach(g=>$$(g).forEach((el,i)=>{el.classList.add("rv");el.style.transitionDelay=(i%3)*90+"ms";rvs.push(el);}));
     const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target);}}),{rootMargin:"0px 0px -8% 0px"});
     rvs.forEach(el=>ro.observe(el));
