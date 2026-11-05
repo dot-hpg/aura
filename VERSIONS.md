@@ -9,5 +9,6 @@ Every change to the site is saved as a numbered version. Each version is a branc
 | v3 | 2026-11-05 | Cost estimator section removed |
 | v4 | 2026-11-05 | Premium polish: scroll animations, slimmer header, glowing cards, scrolling "works with" bar; fixed the form's WhatsApp box and page edge border |
 | v5 | 2026-11-05 | New hero animation: a live smart home run from the AURA phone app, with a day-to-night auto tour (morning, evening, door bell guest, movie, night), signal beams from phone to devices, tappable room hotspots and a brightness slider |
+| v6 | 2026-11-05 | Hero re-composed: centred headline on top, then the animation as a big full-width centrepiece with the phone on the right and a new "Live activity" card on the left; trust points moved below it; fixed the door bell alert sometimes staying on screen |
 
 To go back to a version, ask Claude to "restore vN". The live site (main branch) is then reset to that version's files, and the result is saved as a new version.

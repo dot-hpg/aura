@@ -133,8 +133,17 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-facts svg{width:18px;height:18px;color:var(--cyan);flex:none}
 
 /* Live demo: a cinematic AURA home, run from the phone */
-.hero-grid{grid-template-columns:minmax(0,.82fr) minmax(0,1.3fr)}
-.hero h1{font-size:clamp(2.5rem,4.9vw,4.1rem)}
+.hero-grid{display:block}
+.hero-copy{justify-items:center;text-align:center;max-width:920px;margin:0 auto}
+.hero h1{font-size:clamp(2.4rem,5.6vw,4.7rem);letter-spacing:-.035em}
+.hero{padding-top:clamp(28px,4vw,52px)}
+.hero-copy{gap:18px}
+.hero-facts.after-demo{margin-top:clamp(28px,4vw,44px);justify-content:center}
+.hero .lede{margin-inline:auto;max-width:62ch}
+.hero-ctas,.hero-facts{justify-content:center}
+.hero-facts{border-top:0;padding-top:4px}
+.demo-wrap{position:relative;width:min(1300px,calc(100vw - 80px));margin:clamp(30px,4vw,48px) auto 0}
+.demo-wrap::before{content:"";position:absolute;left:8%;right:8%;top:12%;bottom:-6%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(43,198,234,.28),transparent);filter:blur(40px);pointer-events:none}
 .demo{position:relative;min-width:0;padding-bottom:64px;--px:0;--py:0}
 .stage{position:relative;margin-right:clamp(60px,12%,120px)}
 .room{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:800/560;background:#141b25;border:1px solid var(--line);
@@ -203,9 +212,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hud-log.tick{animation:logIn .45s ease-out}
 @keyframes logIn{from{opacity:0;transform:translateY(6px)}}
 /* Phone */
-.phone{position:absolute;right:0;bottom:-28px;width:clamp(170px,27%,230px);aspect-ratio:9/19;z-index:5;
+.phone{position:absolute;right:0;bottom:-28px;width:clamp(170px,27%,230px);aspect-ratio:9/17.6;z-index:5;
   border-radius:16% / 7.6%;padding:3.2%;background:linear-gradient(145deg,#3a4350,#0c1016 40%,#1d232b);box-shadow:0 40px 80px -24px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06) inset,0 0 60px -10px rgba(79,220,245,.35);
-  transform:perspective(1200px) rotateY(calc(-8deg + var(--px)*4deg)) rotateX(calc(4deg + var(--py)*-3deg));transition:transform .4s ease-out;container-type:inline-size}
+  transform:perspective(1200px) rotateY(calc(-6deg + var(--px)*4deg)) rotateX(calc(4deg + var(--py)*-3deg));transition:transform .4s ease-out;container-type:inline-size}
 .ph-screen{position:relative;height:100%;border-radius:13% / 6.2%;overflow:hidden;background:radial-gradient(120% 60% at 50% 0%,#12304a,#070b12 60%);color:#E6EEF6;display:flex;flex-direction:column;gap:4.2cqw;padding:13cqw 6.5cqw 6cqw}
 .ph-island{position:absolute;top:3.4cqw;left:50%;transform:translateX(-50%);width:30cqw;height:8cqw;border-radius:99px;background:#000}
 .ph-status{position:absolute;top:3.6cqw;left:9cqw;right:8cqw;display:flex;justify-content:space-between;font-size:4.6cqw;font-weight:600}
@@ -266,13 +275,26 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tour li i::after{content:"";display:block;height:100%;width:calc(var(--p,0)*100%);background:linear-gradient(90deg,var(--cyan),var(--glow))}
 .tour li.on button{color:var(--ink)}
 .tour li.done i::after{width:100%}
-@media (max-width:1100px){.hero-grid{grid-template-columns:1fr}.demo{max-width:860px;margin-inline:auto;width:100%}}
+.demo{padding-bottom:70px}
+.stage{margin:0 clamp(150px,19%,250px) 0 clamp(120px,13%,170px)}
+.phone{width:clamp(200px,21%,276px);bottom:20px;right:12px}
+.tour{left:clamp(120px,13%,170px);right:clamp(150px,19%,250px)}
+.feed{position:absolute;left:0;top:30%;z-index:5;width:clamp(200px,18%,250px);padding:16px 16px 10px;border-radius:18px;background:rgba(10,16,26,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 60px -30px rgba(0,0,0,.7);color:#E6EEF6;
+  transform:perspective(1200px) rotateY(calc(8deg + var(--px)*4deg)) rotateX(calc(4deg + var(--py)*-3deg));transition:transform .4s ease-out}
+.feed header{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#93A3B7;margin-bottom:10px}
+.feed header i{width:7px;height:7px;border-radius:50%;background:#4FD38A;box-shadow:0 0 10px #4FD38A;animation:blink 1.6s steps(2) infinite}
+.feed ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.feed li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:7px 0;border-top:1px solid rgba(255,255,255,.06);font-size:.8rem;line-height:1.35;color:#C9D4E0;animation:feedIn .5s cubic-bezier(.2,.8,.2,1)}
+.feed li:first-child{border-top:0;color:#fff}
+.feed li b{font-family:var(--f-mono);font-weight:500;font-size:.7rem;color:#4FDCF5;padding-top:1px}
+@keyframes feedIn{from{opacity:0;transform:translateY(-8px)}}
+@media (max-width:1100px){.feed{display:none}.stage{margin:0 clamp(110px,22%,220px) 0 0}.tour{left:0;right:clamp(110px,22%,220px)}.phone{width:clamp(190px,30%,250px)}}
 @media (max-width:640px){
-  .stage{margin-right:0}
+  .stage{margin:0}
   .demo{padding-bottom:0}
   .phone{position:relative;right:auto;bottom:auto;margin:-26px auto 0;width:min(230px,60%);transform:none}
   .tour li b{display:none}
-  .tour{position:relative;right:auto;margin-top:22px}
+  .tour{position:relative;left:auto;right:auto;margin-top:22px}
   .hud{left:10px;top:10px;padding:6px 10px 6px 8px}.hud-time{font-size:1rem}
   .tour li button span{font-size:.58rem}
 }
@@ -574,14 +596,13 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
         <a class="btn btn-primary" href="#book">Book a free home consultation</a>
         <a class="btn btn-wa" id="heroWa" href="https://wa.me/917386664612?text=Hi%20AURA%2C%20I%27d%20like%20to%20know%20more%20about%20smart%20home%20automation." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Chat on WhatsApp</a>
       </div>
-      <div class="hero-facts">
-        <span><svg><use href="#i-store"/></svg>Experience centre at E-Galleria Mall, Hitech City</span>
-        <span><svg><use href="#i-shield"/></svg>Up to 5-year warranty on smart switches</span>
-        <span><svg><use href="#i-tools"/></svg>Expert installation and handover</span>
-      </div>
+
     </div>
 
+  </div>
+  <div class="demo-wrap">
     <div class="demo" id="demo">
+      <aside class="feed" aria-hidden="true"><header><i></i>Live activity</header><ul id="feed"></ul></aside>
       <div class="stage">
         <div class="room" id="room" data-time="dawn" data-curtains="closed" data-cove="off" data-ac="off" data-tv="off" data-lock="locked" data-cams="on">
           <svg class="scene" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An AURA smart living room that reacts to the phone app">
@@ -722,6 +743,13 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
         <ol id="tourSteps"></ol>
       </div>
     </div>
+  </div>
+  <div class="wrap">
+      <div class="hero-facts after-demo">
+        <span><svg><use href="#i-store"/></svg>Experience centre at E-Galleria Mall, Hitech City</span>
+        <span><svg><use href="#i-shield"/></svg>Up to 5-year warranty on smart switches</span>
+        <span><svg><use href="#i-tools"/></svg>Expert installation and handover</span>
+      </div>
   </div>
 </section>
 
@@ -1161,6 +1189,9 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   function log(msg,scene){
     const l=$("#hudLog"); l.textContent=msg; l.classList.remove("tick"); void l.offsetWidth; l.classList.add("tick");
     if(scene) $("#hudScene").textContent=scene;
+    const f=$("#feed"), li=document.createElement("li");
+    li.innerHTML="<b></b><span></span>"; li.firstChild.textContent=$("#hudTime").textContent; li.lastChild.textContent=msg;
+    f.prepend(li); while(f.children.length>6) f.lastChild.remove();
   }
   function setClock(hm){
     const [h,m]=hm.split(":").map(Number);
@@ -1203,7 +1234,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   async function guest(id){
     S.time="dusk"; setClock("19:12"); render(); log("Ding dong · Someone at the door","Guest arriving");
     $("#phNotif").classList.add("show");
-    await wait(2200); if(id!==busy) return;
+    await wait(2200); if(id!==busy){$("#phNotif").classList.remove("show");return;}
     $("#nOpen").classList.add("press"); await wait(160); $("#nOpen").classList.remove("press");
     $("#phNotif").classList.remove("show");
     await act("lock",false,"Door unlocked from the phone");
@@ -1218,17 +1249,18 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   const stepsEl=$("#tourSteps");
   stepsEl.innerHTML=TOUR.map((t,i)=>`<li><button type="button" data-i="${i}"><span><b>${String(i+1).padStart(2,"0")}</b> ${t[0]}</span><i></i></button></li>`).join("");
   const lis=$$("#tourSteps li");
-  let cur=-1, playing=!reduce, stepStart=0, idleT, visible=true, raf;
+  let cur=-1, playing=!reduce, elapsed=0, last=performance.now(), idleT, visible=true, raf;
   function goStep(i){
-    cur=i%TOUR.length; stepStart=performance.now();
+    cur=i%TOUR.length; elapsed=0; $("#phNotif").classList.remove("show");
     lis.forEach((li,k)=>{li.classList.toggle("on",k===cur);li.classList.toggle("done",k<cur);li.style.setProperty("--p",0);});
     TOUR[cur][1]();
   }
   function loop(now){
+    const dt=Math.min(100,now-last); last=now;
     if(playing&&visible&&cur>=0){
-      const k=(now-stepStart)/TOUR[cur][2]; lis[cur].style.setProperty("--p",Math.min(1,k).toFixed(3));
+      elapsed+=dt; const k=elapsed/TOUR[cur][2]; lis[cur].style.setProperty("--p",Math.min(1,k).toFixed(3));
       if(k>=1) goStep(cur+1);
-    } else if(!playing||!visible){stepStart+=16;}
+    }
     raf=requestAnimationFrame(loop);
   }
   function setPlaying(p){
