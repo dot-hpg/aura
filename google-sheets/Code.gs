@@ -13,7 +13,7 @@ const NOTIFY_EMAIL = 'owner';
 
 const HEADERS = ['Received', 'Reference', 'Name', 'Mobile', 'Call / WhatsApp', 'Area', 'Property',
   'Home stage', 'Interested in', 'Visit type', 'Preferred date', 'Preferred time', 'Customer notes',
-  'Status', 'Team notes', 'Device', 'Page'];
+  'Contact by', 'Status', 'Team notes', 'Device', 'Page'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -28,7 +28,7 @@ function doPost(e) {
     sh.appendRow([
       new Date(), clean_(d.id), clean_(d.name), phone, '', clean_(d.area), clean_(d.property),
       clean_(d.stage), clean_(d.interests), clean_(d.visitType), visit, clean_(d.visitTime),
-      clean_(d.note), 'New', '', clean_(d.device), clean_(d.page)
+      clean_(d.note), clean_(d.prefer || 'Call back'), 'New', '', clean_(d.device), clean_(d.page)
     ]);
     const r = sh.getLastRow();
     sh.getRange(r, 4).setNumberFormat('@').setValue(phone);
@@ -73,14 +73,14 @@ function notify_(d, phone) {
   const to = NOTIFY_EMAIL === 'owner' ? Session.getEffectiveUser().getEmail() : NOTIFY_EMAIL;
   if (!to) return;
   const lines = [
-    'Name: ' + d.name, 'Mobile: +91 ' + phone, 'Area: ' + (d.area || '-'),
+    'Wants: ' + (d.prefer || 'Call back'), 'Name: ' + d.name, 'Mobile: +91 ' + phone, 'Area: ' + (d.area || '-'),
     'Property: ' + (d.property || '-') + ' (' + (d.stage || '-') + ')',
     'Interested in: ' + (d.interests || '-'),
     'Visit: ' + [d.visitType, d.visitDate, d.visitTime].filter(String).join(', '),
     'Notes: ' + (d.note || '-'), '', 'WhatsApp: https://wa.me/91' + phone,
     'Sheet: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl()
   ];
-  try { MailApp.sendEmail(to, 'New AURA enquiry: ' + d.name + ' (' + (d.id || '') + ')', lines.join('\n')); } catch (e) {}
+  try { MailApp.sendEmail(to, (d.prefer === 'WhatsApp' ? 'New AURA enquiry (WhatsApp): ' : 'Call back: new AURA enquiry: ') + d.name + ' (' + (d.id || '') + ')', lines.join('\n')); } catch (e) {}
 }
 
 function json_(o) {

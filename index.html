@@ -837,6 +837,37 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 .wiz.shake{animation:shake .4s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
+/* send choices */
+.sendvia{display:grid;gap:10px;margin-top:4px}
+.sv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sv{position:relative;display:flex;align-items:center;gap:12px;padding:14px 14px 14px 12px;border-radius:16px;border:1px solid transparent;cursor:pointer;text-align:left;text-decoration:none;font:inherit;color:inherit;overflow:hidden;isolation:isolate;transition:transform .2s,box-shadow .25s,filter .2s}
+.sv:hover{transform:translateY(-2px)}
+.sv:active{transform:scale(.98)}
+.sv-call{background:linear-gradient(135deg,var(--glow),var(--cyan));color:var(--on-accent);box-shadow:0 18px 40px -18px var(--cyan)}
+.sv-wa{background:var(--wa);color:#fff;box-shadow:0 18px 40px -20px var(--wa)}
+.sv::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%)}
+@media (prefers-reduced-motion:no-preference){.sv:hover::after{transition:transform .8s;transform:translateX(120%)}}
+.sv-ic{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.22)}
+.sv-call .sv-ic{background:rgba(4,19,28,.12)}
+.sv-ic svg{width:22px;height:22px}
+.sv-call .sv-ic svg{animation:ring 2.4s ease-in-out infinite}
+@keyframes ring{0%,60%,100%{transform:rotate(0)}64%,72%{transform:rotate(-14deg)}68%,76%{transform:rotate(14deg)}}
+.sv-t{display:grid;gap:2px;min-width:0;flex:1}
+.sv-t b{font-size:1.02rem;line-height:1.2}
+.sv-t small{font-size:.78rem;opacity:.82;line-height:1.3}
+.sv-go{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.22);transition:transform .25s}
+.sv-go svg{width:16px;height:16px}
+.sv:hover .sv-go{transform:translateX(3px)}
+.sv.busy{pointer-events:none;filter:saturate(.7)}
+.sv.busy .sv-go{animation:spin .9s linear infinite}
+.sv.busy .sv-go svg{opacity:0}
+.sv.busy .sv-go{border:2.5px solid rgba(4,19,28,.25);border-top-color:currentColor;background:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sv-note{margin:0;display:flex;gap:8px;align-items:center;font-size:.78rem;color:var(--muted)}
+.sv-note svg{width:15px;height:15px;color:var(--cyan);flex:none}
+.wiz-nav:has(#wizNext[hidden]){justify-content:flex-start}
+.form-done.wa .done-badge circle,.form-done.wa .done-badge path{stroke:var(--wa)}
+@media (max-width:600px){.sv-grid{grid-template-columns:1fr}}
 /* done */
 .done-badge{width:64px;height:64px}
 .done-badge svg{width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -1502,6 +1533,14 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
             </div>
             <div class="fld"><label for="fNote">Anything else? <em>optional</em></label><textarea id="fNote" name="note" placeholder="Number of rooms, timeline, questions…"></textarea></div>
             <div class="review" id="review"></div>
+            <div class="sendvia" role="group" aria-labelledby="svLbl">
+              <div class="sub" id="svLbl">How would you like to continue?</div>
+              <div class="sv-grid">
+                <button type="submit" class="sv sv-call" id="wizSubmit"><span class="sv-ic"><svg><use href="#i-phone"/></svg></span><span class="sv-t"><b>Call me back</b><small>Our team calls you within 24 hours</small></span><span class="sv-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+                <a class="sv sv-wa" id="wizWa" href="https://wa.me/917386664612" target="_blank" rel="noopener"><span class="sv-ic"><svg><use href="#i-wa"/></svg></span><span class="sv-t"><b>Chat on WhatsApp</b><small>Send your details and chat now</small></span><span class="sv-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+              </div>
+              <p class="sv-note"><svg><use href="#i-shield"/></svg>Either way, your request reaches the AURA team. Your details are never shared.</p>
+            </div>
           </fieldset>
         </div>
         <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="fWebsite">Leave this empty</label><input id="fWebsite" name="bot-field" tabindex="-1" autocomplete="off"></div>
@@ -1510,7 +1549,6 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
           <button class="btn btn-ghost" type="button" id="wizBack" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Back</button>
           <span class="wiz-skip" id="wizHint">Press Enter ↵ to continue</span>
           <button class="btn btn-primary wiz-next" type="button" id="wizNext">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-          <button class="btn btn-primary wiz-go" type="submit" id="wizSubmit" hidden>Book my free consultation</button>
         </div>
       </div>
       <div class="form-done" id="formDone" hidden>
@@ -1519,7 +1557,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
         <h3 id="doneTitle">Send your request on WhatsApp to confirm.</h3>
         <p class="lede" id="doneLede">Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.</p>
         <p class="done-ref" id="doneRef"></p>
-        <ol class="next-steps"><li><b>We call you</b><span>Within 24 hours to confirm</span></li><li><b>Visit or demo</b><span>On the day you picked</span></li><li><b>Plan &amp; quote</b><span>Item by item, no surprises</span></li></ol>
+        <ol class="next-steps"><li><b id="ns1b">We call you</b><span id="ns1s">Within 24 hours to confirm</span></li><li><b>Visit or demo</b><span>On the day you picked</span></li><li><b>Plan &amp; quote</b><span>Item by item, no surprises</span></li></ol>
         <pre id="doneMsg"></pre>
         <div style="display:flex;flex-wrap:wrap;gap:10px">
           <a class="btn btn-wa" id="doneWa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Send on WhatsApp</a>
@@ -2211,7 +2249,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
     steps.forEach((s,k)=>{s.classList.toggle("on",k===i);s.classList.toggle("left",k<i);});
     bar.forEach((b,k)=>{b.classList.toggle("on",k===i);b.classList.toggle("done",k<i);});
     $("#wizCount").textContent="Step "+(i+1)+" of 4"; $("#wizTime").textContent=STEP_TIME[i];
-    $("#wizBack").hidden=i===0; $("#wizNext").hidden=i===3; $("#wizSubmit").hidden=i!==3;
+    $("#wizBack").hidden=i===0; $("#wizNext").hidden=i===3; $("#wizHint").hidden=i===3;
     $("#fErr").textContent="";
     if(i===3) buildReview();
     paintPlan();
@@ -2240,14 +2278,10 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
       c.style.animationDelay=(Math.random()*.25).toFixed(2)+"s";form.append(c);setTimeout(()=>c.remove(),2100);}
   }
 
-  form.addEventListener("submit",async e=>{
-    e.preventDefault();
-    if(step<3){if(stepOk(step))wizGo(step+1);return;}
-    if($("#fWebsite").value) return; // spam bot filled the hidden field
-    if(!stepOk(3)) return;
+  function buildLead(prefer){
     const name=$("#fName").value.trim(), phone=phoneDigits(), I=ints(), d=$("#fDate").value;
     refId=refId||("AURA-"+new Date().toISOString().slice(2,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,6).toUpperCase());
-    const lead={id:refId,name,phone,area:$("#fArea").value.trim(),property:val("type"),stage:val("stage"),interests:I.join(", "),
+    const lead={id:refId,prefer,name,phone,area:$("#fArea").value.trim(),property:val("type"),stage:val("stage"),interests:I.join(", "),
       visitType:val("visit"),visitDate:d,visitTime:val("time"),note:$("#fNote").value.trim(),
       source:"Website form",page:location.href,referrer:document.referrer,device:innerWidth<700?"Mobile":"Desktop"};
     lastMsg=["Hi AURA, I'd like a free smart home consultation.",
@@ -2260,25 +2294,58 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
       lead.visitTime?"Preferred time: "+lead.visitTime:null,
       lead.note?"Note: "+lead.note:null,"Ref: "+refId].filter(Boolean).join("\n");
     $("#doneMsg").textContent=lastMsg; $("#doneWa").href=waLink(lastMsg);
-    const btn=$("#wizSubmit"); btn.disabled=true; btn.textContent="Sending…";
+    return lead;
+  }
+  async function saveLead(lead,keep){
     let saved=false;
-    // 1) Google Sheet (once SHEET_URL is set)
     if(SHEET_URL){
-      try{await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});saved=true;}catch(_){}
+      try{const f=fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:!!keep,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});
+        if(keep) saved=true; else {await f; saved=true;}}catch(_){}
     }
-    // 2) Netlify Forms inbox (only on the Netlify copy of the site)
     if(/netlify\.app$/.test(location.hostname)){
-      try{const fd=new FormData(form);fd.set("interests",I.join(", "));fd.set("phone",phone);
+      try{const fd=new FormData(form);fd.set("interests",lead.interests);fd.set("phone",lead.phone);
         const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(fd).toString()});saved=saved||r.ok;}catch(_){}
     }
-    btn.disabled=false; btn.textContent="Book my free consultation";
-    $("#doneEyebrow").textContent=saved?"Request received":"Almost done";
-    $("#doneTitle").textContent=saved?"Thank you, "+name.split(" ")[0]+". We'll call you within 24 hours.":"Send your request on WhatsApp to confirm.";
-    $("#doneLede").textContent=saved?"Our team has your details. For an even faster reply, send them to us on WhatsApp too.":"Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.";
+    return saved;
+  }
+  function showDone(mode,saved,lead){
+    const first=lead.name.split(" ")[0], ph="+91 "+lead.phone.slice(0,5)+" "+lead.phone.slice(5);
+    const when=[lead.visitDate?fmtDay(lead.visitDate):"",lead.visitTime?lead.visitTime.replace(/ \(.*/,"").toLowerCase():""].filter(Boolean).join(", ");
+    const fd=$("#formDone"); fd.classList.toggle("wa",mode==="wa");
+    const T=(a,b,c)=>{$("#doneEyebrow").textContent=a;$("#doneTitle").textContent=b;$("#doneLede").textContent=c;};
+    if(mode==="call"&&saved){
+      T("Request received","Thank you, "+first+". We'll call you soon.","Expect a call on "+ph+" from the AURA team, usually within 24 hours"+(when?", to fix your visit for "+when:"")+".");
+      $("#ns1b").textContent="We call you"; $("#ns1s").textContent="Within 24 hours to confirm";
+      $("#doneWa").lastChild.textContent="Prefer WhatsApp? Message us";
+    } else if(mode==="wa"){
+      T("WhatsApp is opening","Just press Send in WhatsApp, "+first+".","Your details are already typed in. Our team replies on WhatsApp to fix your visit. If WhatsApp didn't open, tap the button below.");
+      $("#ns1b").textContent="We reply on WhatsApp"; $("#ns1s").textContent="And fix a time with you";
+      $("#doneWa").lastChild.textContent="Open WhatsApp again";
+    } else {
+      T("Almost done","Send your request on WhatsApp to confirm.","Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.");
+      $("#doneWa").lastChild.textContent="Send on WhatsApp";
+    }
     $("#doneRef").innerHTML=saved?"Your reference: <b></b>":""; if(saved) $("#doneRef b").textContent=refId;
-    $("#doneMsg").hidden=saved;
-    $("#formFields").hidden=true; $("#formDone").hidden=false; confetti();
-    $("#formDone").scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"});
+    $("#doneMsg").hidden=saved; $("#doneCopy").hidden=saved&&mode==="call";
+    $("#formFields").hidden=true; fd.hidden=false; confetti();
+    fd.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"});
+  }
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    if(step<3){if(stepOk(step))wizGo(step+1);return;}
+    if($("#fWebsite").value) return; // spam bot filled the hidden field
+    if(!stepOk(3)) return;
+    const lead=buildLead("Call back"), btn=$("#wizSubmit");
+    btn.classList.add("busy"); btn.querySelector("b").textContent="Sending…";
+    const saved=await saveLead(lead,false);
+    btn.classList.remove("busy"); btn.querySelector("b").textContent="Call me back";
+    showDone("call",saved,lead);
+  });
+  // WhatsApp: the link opens WhatsApp straight away; the request is saved to the sheet in the background
+  $("#wizWa").addEventListener("click",e=>{
+    if($("#fWebsite").value||!stepOk(3)){e.preventDefault();return;}
+    const lead=buildLead("WhatsApp"); e.currentTarget.href=waLink(lastMsg);
+    saveLead(lead,true).then(saved=>setTimeout(()=>showDone("wa",saved,lead),400));
   });
   $("#doneEdit").addEventListener("click",()=>{$("#formDone").hidden=true;$("#formFields").hidden=false;wizGo(3);});
   wizGo(0);
