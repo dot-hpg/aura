@@ -722,6 +722,151 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   .tour-guide span{display:none}.tour-guide{padding:0 6px}
   .demo.guiding .hud{opacity:0}
 }
+
+/* ---------- Consultation wizard (v10) ---------- */
+.book-side{position:sticky;top:96px}
+.plan{margin-top:30px;border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:18px 18px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.plan::before{content:"";position:absolute;left:0;top:0;height:3px;width:var(--pp,0%);background:linear-gradient(90deg,var(--cyan),var(--glow));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.plan header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.plan header b{font-family:var(--f-display);font-size:1.05rem;letter-spacing:-.01em}
+.plan header em{margin-left:auto;font-style:normal;font-family:var(--f-mono);font-size:.78rem;color:var(--cyan)}
+.plan-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 4px var(--cyan-soft)}
+.plan dl{margin:0;display:grid}
+.plan dl>div{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:10px 0;border-top:1px dashed var(--line);align-items:start}
+.plan dt{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.plan dt svg{width:16px;height:16px;color:var(--muted);transition:color .3s}
+.plan dd{margin:0;font-size:.92rem;color:var(--muted);line-height:1.45}
+.plan dl>div.set dd{color:var(--ink);font-weight:500}
+.plan dl>div.set dt svg{color:var(--cyan)}
+.plan dl>div.pop dd{animation:planPop .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes planPop{0%{opacity:.2;transform:translateY(4px)}}
+.plan footer{display:flex;gap:8px;align-items:center;margin-top:6px;padding-top:10px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted)}
+.plan footer svg{width:15px;height:15px;color:var(--cyan);flex:none}
+
+.wiz{position:relative;overflow:hidden}
+.wiz-top{display:grid;gap:12px;margin-bottom:22px}
+.wiz-meta{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.wiz-meta #wizCount{color:var(--cyan)}
+.wiz-bar{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.wiz-bar li{display:grid;gap:7px;font-size:.78rem;color:var(--muted);transition:color .3s}
+.wiz-bar i{display:block;height:4px;border-radius:4px;background:var(--line);overflow:hidden;position:relative}
+.wiz-bar i::after{content:"";position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--cyan),var(--glow));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.wiz-bar li.on,.wiz-bar li.done{color:var(--ink)}
+.wiz-bar li.on i::after{width:45%}
+.wiz-bar li.done i::after{width:100%}
+.wiz-steps{display:grid}
+.step{grid-area:1/1;border:0;margin:0;padding:0;min-width:0;display:grid;gap:12px;align-content:start;opacity:0;visibility:hidden;transform:translateX(24px);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1),visibility .35s}
+.step.on{opacity:1;visibility:visible;transform:none}
+.step.left{transform:translateX(-24px)}
+.step-q{padding:0;margin:0 0 4px;font-family:var(--f-display);font-size:clamp(1.3rem,2.2vw,1.65rem);font-weight:700;letter-spacing:-.02em;line-height:1.2;display:grid;gap:4px}
+.step-q small{font-family:var(--f-body);font-size:.92rem;font-weight:400;letter-spacing:0;color:var(--muted)}
+.sub{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+.sub em,.fld label em{font-style:normal;font-weight:400;text-transform:none;letter-spacing:0;opacity:.8}
+
+/* interest tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile-c{position:relative;display:grid;gap:3px;align-content:start;padding:14px 14px 13px;border:1px solid var(--line);border-radius:14px;background:var(--bg);cursor:pointer;transition:border-color .25s,background .25s,transform .2s,box-shadow .25s;user-select:none}
+.tile-c:hover{border-color:color-mix(in srgb,var(--cyan) 55%,var(--line));transform:translateY(-2px)}
+.tile-c input,.opt input,.seg input{position:absolute;opacity:0;pointer-events:none}
+.tc-ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--muted);margin-bottom:8px;transition:.25s}
+.tc-ic svg{width:20px;height:20px}
+.tile-c b{font-size:.95rem;line-height:1.25}
+.tile-c small{font-size:.78rem;color:var(--muted);line-height:1.3}
+.tc-ok{position:absolute;right:10px;top:10px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:.25s}
+.tc-ok svg{width:13px;height:13px;color:var(--on-accent);opacity:0;transform:scale(.4);transition:.25s cubic-bezier(.3,1.6,.5,1)}
+.tile-c:has(input:checked){border-color:var(--cyan);background:color-mix(in srgb,var(--cyan) 9%,var(--bg));box-shadow:0 0 0 1px var(--cyan),0 14px 30px -18px var(--cyan)}
+.tile-c:has(input:checked) .tc-ic{background:var(--cyan);border-color:transparent;color:var(--on-accent)}
+.tile-c:has(input:checked) .tc-ok{background:var(--cyan);border-color:var(--cyan)}
+.tile-c:has(input:checked) .tc-ok svg{opacity:1;transform:none}
+.tile-c:has(input:focus-visible),.opt:has(input:focus-visible),.seg label:has(input:focus-visible){outline:2px solid var(--cyan);outline-offset:2px}
+.tile-c.tc-full{background:linear-gradient(135deg,color-mix(in srgb,var(--cyan) 7%,var(--bg)),var(--bg))}
+
+/* option cards and segments */
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{position:relative;display:grid;gap:1px;justify-items:start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;transition:.22s}
+.opt:hover{border-color:color-mix(in srgb,var(--cyan) 55%,var(--line))}
+.opt svg{width:22px;height:22px;color:var(--cyan);margin-bottom:6px}
+.opt span{font-weight:700;font-size:1rem}
+.opt small{font-size:.76rem;color:var(--muted)}
+.opt:has(input:checked){border-color:var(--cyan);background:color-mix(in srgb,var(--cyan) 10%,var(--bg));box-shadow:0 0 0 1px var(--cyan)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
+.seg label{position:relative;display:grid;place-items:center;text-align:center;padding:10px 6px;border-radius:10px;cursor:pointer;font-size:.88rem;font-weight:600;color:var(--muted);transition:.22s;line-height:1.25}
+.seg label small{display:block;font-weight:400;font-size:.72rem;opacity:.8;margin-top:2px}
+.seg label:hover{color:var(--ink)}
+.seg label:has(input:checked){background:var(--ink);color:var(--bg)}
+.tip{margin:0;display:flex;gap:8px;align-items:flex-start;font-size:.86rem;color:var(--ink);background:var(--cyan-soft);border:1px solid color-mix(in srgb,var(--cyan) 30%,transparent);border-radius:10px;padding:9px 12px;animation:planPop .4s ease-out}
+.chips-s{display:flex;flex-wrap:wrap;gap:6px;margin-top:-4px}
+.chips-s button{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:99px;padding:5px 11px;font:inherit;font-size:.78rem;cursor:pointer;transition:.2s}
+.chips-s button:hover,.chips-s button.on{border-color:var(--cyan);color:var(--ink);background:var(--cyan-soft)}
+
+/* days strip */
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.day{flex:none;scroll-snap-align:start;display:grid;justify-items:center;gap:1px;width:66px;padding:9px 0 8px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;font:inherit;color:var(--ink);transition:.22s}
+.day small{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.day b{font-family:var(--f-display);font-size:1.35rem;line-height:1.1}
+.day em{font-style:normal;font-size:.7rem;color:var(--muted)}
+.day:hover{border-color:color-mix(in srgb,var(--cyan) 55%,var(--line))}
+.day[aria-checked="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.day[aria-checked="true"] small,.day[aria-checked="true"] em{color:inherit;opacity:.75}
+.day.sun{opacity:.55}
+
+/* contact */
+.inw{position:relative;display:flex;align-items:center}
+.inw input{padding-right:40px}
+.inw.ph input{padding-left:54px}
+.inw .cc{position:absolute;left:14px;font-weight:600;color:var(--muted);pointer-events:none}
+.inw .ok{position:absolute;right:12px;width:20px;height:20px;border-radius:50%;background:#2fb673;display:grid;place-items:center;opacity:0;transform:scale(.4);transition:.25s cubic-bezier(.3,1.6,.5,1)}
+.inw .ok svg{width:12px;height:12px;color:#fff}
+.fx.valid .ok{opacity:1;transform:none}
+.fx.valid input{border-color:#2fb673}
+.review{display:flex;flex-wrap:wrap;gap:6px;padding:12px;border-radius:12px;background:var(--bg);border:1px dashed var(--line)}
+.review:empty{display:none}
+.review span{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;padding:4px 10px;border-radius:99px;background:var(--surface);border:1px solid var(--line)}
+.review button{border:0;background:none;padding:0;font:inherit;font-size:.8rem;color:var(--cyan);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* nav */
+.wiz-nav{display:flex;align-items:center;gap:12px;margin-top:6px}
+.wiz-nav .btn svg{width:18px;height:18px}
+.wiz-skip{font-size:.78rem;color:var(--muted);margin-left:auto}
+.wiz-next,.wiz-go{min-width:180px}
+.wiz-go{background:linear-gradient(135deg,var(--glow),var(--cyan));color:var(--on-accent);box-shadow:0 14px 34px -14px var(--cyan)}
+.wiz-next[aria-disabled="true"]{opacity:.45}
+.wiz .err{min-height:0;margin:8px 0 0}
+.wiz .err:empty{display:none}
+.wiz.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+/* done */
+.done-badge{width:64px;height:64px}
+.done-badge svg{width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.done-badge circle{stroke:var(--cyan);stroke-width:3;stroke-dasharray:151;stroke-dashoffset:151;animation:drawC .7s ease-out forwards}
+.done-badge path{stroke:var(--cyan);stroke-width:4;stroke-dasharray:40;stroke-dashoffset:40;animation:drawC .4s .6s ease-out forwards}
+@keyframes drawC{to{stroke-dashoffset:0}}
+.done-ref{margin:0;font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.done-ref:empty{display:none}
+.done-ref b{color:var(--ink)}
+.next-steps{list-style:none;margin:4px 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;counter-reset:ns}
+.next-steps li{counter-increment:ns;display:grid;gap:2px;padding:12px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:.85rem}
+.next-steps li::before{content:"0" counter(ns);font-family:var(--f-mono);font-size:.7rem;color:var(--cyan)}
+.next-steps span{color:var(--muted);font-size:.78rem}
+.conf{position:absolute;width:8px;height:12px;top:-12px;z-index:5;pointer-events:none;border-radius:2px;animation:confF 1.6s cubic-bezier(.2,.6,.4,1) forwards}
+@keyframes confF{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+
+@media (max-width:900px){.book-side{position:static}.plan{display:none}}
+@media (max-width:600px){
+  .tiles{grid-template-columns:1fr 1fr;gap:8px}
+  .tile-c{padding:12px}
+  .tile-c.tc-full{grid-column:1/-1}
+  .opts{grid-template-columns:1fr 1fr}
+  .seg{grid-template-columns:1fr}
+  .seg label{padding:11px}
+  .next-steps{grid-template-columns:1fr}
+  .wiz-skip{display:none}
+  .wiz-next,.wiz-go{min-width:0;flex:1}
+  .wiz-bar span{font-size:.68rem}
+}
+@media (prefers-reduced-motion:reduce){.step{transition:none}.done-badge circle,.done-badge path{animation:none;stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -1265,53 +1410,116 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 <!-- BOOK -->
 <section class="sec book" id="book">
   <div class="wrap book-grid">
-    <div>
+    <div class="book-side">
       <span class="eyebrow">Free home consultation</span>
       <h2 style="font-size:var(--s4);margin-top:14px">Tell us about your home. We'll plan the rest.</h2>
-      <p class="lede" style="margin-top:14px">Share a few details and our team will call you to fix a site visit or showroom demo.</p>
+      <p class="lede" style="margin-top:14px">Four quick taps and our team will call you to fix a site visit or a showroom demo.</p>
       <ul class="book-points">
         <li><svg><use href="#i-check"/></svg><span>Free site visit in Hyderabad</span></li>
         <li><svg><use href="#i-check"/></svg><span>Clear, item-by-item quotation</span></li>
         <li><svg><use href="#i-check"/></svg><span>Live demo at our Hitech City experience centre</span></li>
       </ul>
+      <aside class="plan" id="plan" aria-label="Your request so far">
+        <header><span class="plan-dot"></span><b>Your smart home plan</b><em id="planPct">0%</em></header>
+        <dl>
+          <div data-k="ints"><dt><svg><use href="#i-bulb"/></svg>Products</dt><dd id="pInts">Not chosen yet</dd></div>
+          <div data-k="home"><dt><svg><use href="#i-home"/></svg>Home</dt><dd id="pHome">Not chosen yet</dd></div>
+          <div data-k="visit"><dt><svg><use href="#i-pin"/></svg>Visit</dt><dd id="pVisit">Not chosen yet</dd></div>
+          <div data-k="you"><dt><svg><use href="#i-phone"/></svg>Contact</dt><dd id="pYou">Not added yet</dd></div>
+        </dl>
+        <footer><svg><use href="#i-shield"/></svg>Your details go only to the AURA team. No spam.</footer>
+      </aside>
     </div>
-    <form class="card" id="bookForm" name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <form class="card wiz" id="bookForm" name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
       <input type="hidden" name="form-name" value="consultation">
-            <div id="formFields" style="display:grid;gap:16px">
-        <div class="row">
-          <div class="fld"><label for="fName">Your name</label><input id="fName" name="name" autocomplete="name" placeholder="e.g. Ravi Kumar" required></div>
-          <div class="fld"><label for="fPhone">Mobile number</label><input id="fPhone" name="phone" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile" required></div>
+      <div id="formFields">
+        <div class="wiz-top">
+          <div class="wiz-meta"><span id="wizCount">Step 1 of 4</span><span id="wizTime">About 30 seconds</span></div>
+          <ol class="wiz-bar" id="wizBar"><li class="on"><i></i><span>Products</span></li><li><i></i><span>Your home</span></li><li><i></i><span>Visit</span></li><li><i></i><span>Contact</span></li></ol>
         </div>
-        <div class="row">
-          <div class="fld"><label for="fArea">Area / locality</label><input id="fArea" name="area" placeholder="e.g. Kondapur"></div>
-          <div class="fld"><label for="fType">Property</label>
-            <select id="fType" name="type"><option>2 BHK apartment</option><option selected>3 BHK apartment</option><option>Villa / independent house</option><option>Office / hotel</option><option>Other</option></select></div>
+        <div class="wiz-steps" id="wizSteps">
+          <!-- 1 -->
+          <fieldset class="step on" data-step="0">
+            <legend class="step-q">What would you like to make smart?<small>Pick as many as you like.</small></legend>
+            <div class="tiles" id="fInterests">
+              <label class="tile-c"><input type="checkbox" name="interests" id="iSw" value="Smart switch boards"><span class="tc-ic"><svg><use href="#i-switch"/></svg></span><b>Smart switches</b><small>Touch panels, app &amp; voice</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c"><input type="checkbox" name="interests" id="iLock" value="Smart door lock"><span class="tc-ic"><svg><use href="#i-lock"/></svg></span><b>Door lock</b><small>Face, fingerprint, PIN</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c"><input type="checkbox" name="interests" id="iBell" value="Video door bell"><span class="tc-ic"><svg><use href="#i-bell"/></svg></span><b>Video door bell</b><small>See visitors on phone</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c"><input type="checkbox" name="interests" id="iCam" value="CCTV cameras"><span class="tc-ic"><svg><use href="#i-cam"/></svg></span><b>Cameras</b><small>Indoor &amp; outdoor</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c"><input type="checkbox" name="interests" id="iLight" value="Smart lighting"><span class="tc-ic"><svg><use href="#i-bulb"/></svg></span><b>Lighting</b><small>Track, COB, dimmable</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c"><input type="checkbox" name="interests" id="iCurt" value="Motorised curtains"><span class="tc-ic"><svg><use href="#i-curtain"/></svg></span><b>Curtains</b><small>Motorised, scheduled</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c"><input type="checkbox" name="interests" id="iCab" value="Smart cabinet locks"><span class="tc-ic"><svg><use href="#i-cab"/></svg></span><b>Cabinet locks</b><small>Wardrobes &amp; lockers</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c"><input type="checkbox" name="interests" id="iVoice" value="Voice control / home theatre"><span class="tc-ic"><svg><use href="#i-voice"/></svg></span><b>Voice &amp; theatre</b><small>Alexa, Google, projector</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+              <label class="tile-c tc-full"><input type="checkbox" name="interests" id="iFull" value="Full home automation"><span class="tc-ic"><svg><use href="#i-home"/></svg></span><b>Full home</b><small>Not sure? We'll guide you</small><i class="tc-ok"><svg><use href="#i-check"/></svg></i></label>
+            </div>
+          </fieldset>
+          <!-- 2 -->
+          <fieldset class="step" data-step="1">
+            <legend class="step-q">Tell us about your home<small>This helps us bring the right products to the visit.</small></legend>
+            <div class="sub">Property type</div>
+            <div class="opts" id="fType">
+              <label class="opt"><input type="radio" name="type" value="2 BHK apartment"><span>2 BHK</span><small>Apartment</small></label>
+              <label class="opt"><input type="radio" name="type" value="3 BHK apartment"><span>3 BHK</span><small>Apartment</small></label>
+              <label class="opt"><input type="radio" name="type" value="4 BHK+ apartment"><span>4 BHK+</span><small>Apartment</small></label>
+              <label class="opt"><input type="radio" name="type" value="Villa / independent house"><span>Villa</span><small>Independent house</small></label>
+              <label class="opt"><input type="radio" name="type" value="Office / hotel"><span>Office</span><small>Or hotel</small></label>
+              <label class="opt"><input type="radio" name="type" value="Other"><span>Other</span><small>Shop, clinic…</small></label>
+            </div>
+            <div class="sub">Stage of your home</div>
+            <div class="seg" id="fStage">
+              <label><input type="radio" name="stage" value="Under construction"><span>Under construction</span></label>
+              <label><input type="radio" name="stage" value="Interiors in progress"><span>Interiors in progress</span></label>
+              <label><input type="radio" name="stage" value="Ready / living in"><span>Ready / living in</span></label>
+            </div>
+            <p class="tip" id="stageTip" hidden></p>
+            <div class="fld"><label class="sub" for="fArea">Area / locality <em>optional</em></label><input id="fArea" name="area" placeholder="e.g. Kondapur" autocomplete="address-level2"></div>
+            <div class="chips-s" id="areaChips"><button type="button">Gachibowli</button><button type="button">Kondapur</button><button type="button">Kokapet</button><button type="button">Narsingi</button><button type="button">Madhapur</button><button type="button">Jubilee Hills</button><button type="button">Tellapur</button><button type="button">Manikonda</button></div>
+          </fieldset>
+          <!-- 3 -->
+          <fieldset class="step" data-step="2">
+            <legend class="step-q">When should we meet?<small>Pick what suits you. We'll confirm on a call.</small></legend>
+            <div class="sub">Where</div>
+            <div class="opts two" id="fVisit">
+              <label class="opt"><input type="radio" name="visit" value="Site visit at my home"><svg><use href="#i-home"/></svg><span>At my home</span><small>Free site visit</small></label>
+              <label class="opt"><input type="radio" name="visit" value="Demo at experience centre"><svg><use href="#i-store"/></svg><span>At your showroom</span><small>E-Galleria Mall, Hitech City</small></label>
+            </div>
+            <div class="sub">Day</div>
+            <div class="days" id="days" role="radiogroup" aria-label="Preferred day"></div>
+            <input type="hidden" id="fDate" name="date">
+            <div class="sub">Time</div>
+            <div class="seg" id="fTime">
+              <label><input type="radio" name="time" value="Morning (10 am to 1 pm)"><span>Morning<small>10 am to 1 pm</small></span></label>
+              <label><input type="radio" name="time" value="Afternoon (1 pm to 4 pm)"><span>Afternoon<small>1 pm to 4 pm</small></span></label>
+              <label><input type="radio" name="time" value="Evening (4 pm to 7 pm)"><span>Evening<small>4 pm to 7 pm</small></span></label>
+            </div>
+          </fieldset>
+          <!-- 4 -->
+          <fieldset class="step" data-step="3">
+            <legend class="step-q">Where can we reach you?<small>We'll call to confirm your visit. No spam, ever.</small></legend>
+            <div class="row">
+              <div class="fld fx"><label for="fName">Your name</label><div class="inw"><input id="fName" name="name" autocomplete="name" placeholder="e.g. Ravi Kumar" required><i class="ok"><svg><use href="#i-check"/></svg></i></div></div>
+              <div class="fld fx"><label for="fPhone">Mobile number</label><div class="inw ph"><span class="cc">+91</span><input id="fPhone" name="phone" inputmode="tel" autocomplete="tel-national" placeholder="98765 43210" maxlength="14" required><i class="ok"><svg><use href="#i-check"/></svg></i></div></div>
+            </div>
+            <div class="fld"><label for="fNote">Anything else? <em>optional</em></label><textarea id="fNote" name="note" placeholder="Number of rooms, timeline, questions…"></textarea></div>
+            <div class="review" id="review"></div>
+          </fieldset>
         </div>
-        <div class="row">
-          <div class="fld"><label for="fStage">Stage of your home</label>
-            <select id="fStage" name="stage"><option>Under construction</option><option>Interiors in progress</option><option selected>Ready / living in</option></select></div>
-          <div class="fld"><label for="fDate">Preferred visit date</label><input id="fDate" name="date" type="date"></div>
-        </div>
-        <fieldset class="fld"><legend>I'm interested in</legend>
-          <div class="checks" id="fInterests">
-            <label><input type="checkbox" name="interests" id="iSw" value="Smart switch boards">Smart switches</label>
-            <label><input type="checkbox" name="interests" id="iLock" value="Smart door lock">Door lock</label>
-            <label><input type="checkbox" name="interests" id="iBell" value="Video door bell">Video door bell</label>
-            <label><input type="checkbox" name="interests" id="iCam" value="CCTV cameras">Cameras</label>
-            <label><input type="checkbox" name="interests" id="iLight" value="Smart lighting">Lighting</label>
-            <label><input type="checkbox" name="interests" id="iCurt" value="Motorised curtains">Curtains</label>
-            <label><input type="checkbox" name="interests" id="iFull" value="Full home automation">Full home</label>
-          </div>
-        </fieldset>
-        <div class="fld"><label for="fNote">Anything else? (optional)</label><textarea id="fNote" name="note" placeholder="Number of rooms, budget, timeline…"></textarea></div>
         <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="fWebsite">Leave this empty</label><input id="fWebsite" name="bot-field" tabindex="-1" autocomplete="off"></div>
         <p class="err" id="fErr" role="alert"></p>
-        <button class="btn btn-primary" type="submit" style="justify-self:start">Request free consultation</button>
+        <div class="wiz-nav">
+          <button class="btn btn-ghost" type="button" id="wizBack" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Back</button>
+          <span class="wiz-skip" id="wizHint">Press Enter ↵ to continue</span>
+          <button class="btn btn-primary wiz-next" type="button" id="wizNext">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+          <button class="btn btn-primary wiz-go" type="submit" id="wizSubmit" hidden>Book my free consultation</button>
+        </div>
       </div>
       <div class="form-done" id="formDone" hidden>
+        <div class="done-badge" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg></div>
         <span class="eyebrow" id="doneEyebrow">Almost done</span>
         <h3 id="doneTitle">Send your request on WhatsApp to confirm.</h3>
         <p class="lede" id="doneLede">Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.</p>
+        <p class="done-ref" id="doneRef"></p>
+        <ol class="next-steps"><li><b>We call you</b><span>Within 24 hours to confirm</span></li><li><b>Visit or demo</b><span>On the day you picked</span></li><li><b>Plan &amp; quote</b><span>Item by item, no surprises</span></li></ol>
         <pre id="doneMsg"></pre>
         <div style="display:flex;flex-wrap:wrap;gap:10px">
           <a class="btn btn-wa" id="doneWa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Send on WhatsApp</a>
@@ -1350,7 +1558,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 
 <script>
 (function(){
-  // Paste your Google Apps Script web-app URL here (see google-sheets-setup.md).
+  // Paste your Google Apps Script web-app URL here (see google-sheets/SETUP.md).
   // While empty, the form falls back to sending enquiries through WhatsApp only.
   const SHEET_URL = "";
   const WA = "917386664612";
@@ -1928,62 +2136,152 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   })();
 
   // ---------- Quote links preselect interest ----------
-  const MAP={"Smart switch boards":"iSw","Smart door lock":"iLock","Video door bell":"iBell","CCTV cameras":"iCam","Smart lighting":"iLight","Motorised curtains":"iCurt"};
+  const MAP={"Smart switch boards":"iSw","Smart door lock":"iLock","Video door bell":"iBell","CCTV cameras":"iCam","Smart lighting":"iLight","Motorised curtains":"iCurt","Smart cabinet locks":"iCab","Voice control / home theatre":"iVoice"};
   $$("a[data-interest]").forEach(a=>a.addEventListener("click",()=>{
-    const v=a.dataset.interest, id=MAP[v]; if(id) document.getElementById(id).checked=true;
-    const n=$("#fNote"); if(!n.value) n.value="Interested in: "+v;
+    const v=a.dataset.interest, id=MAP[v];
+    if(id){document.getElementById(id).checked=true;} else {const n=$("#fNote"); if(!n.value) n.value="Interested in: "+v;}
+    if(typeof wizGo==="function") wizGo(0); if(typeof paintPlan==="function") paintPlan();
   }));
 
-  // ---------- Consultation form ----------
+  // ---------- Consultation form: a 4-step wizard ----------
   const form=$("#bookForm");
-  let lastMsg="";
+  const steps=$$("#wizSteps .step"), bar=$$("#wizBar li");
+  const STEP_TIME=["About 30 seconds","About 20 seconds","About 10 seconds","Last step"];
+  let step=0, lastMsg="", refId="";
+  const val=n=>{const r=form.querySelector('input[name="'+n+'"]:checked');return r?r.value:"";};
+  const ints=()=>$$("#fInterests input:checked").map(i=>i.value);
+  const phoneDigits=()=>$("#fPhone").value.replace(/\D/g,"").replace(/^(91|0)(?=\d{10}$)/,"");
+  const fmtDay=d=>d?new Date(d+"T00:00").toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"}):"";
+
+  // day chips: today + 13 days
+  (function(){
+    const box=$("#days"), now=new Date();
+    for(let k=0;k<14;k++){
+      const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+k);
+      const iso=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+      const b=document.createElement("button"); b.type="button"; b.className="day"+(d.getDay()===0?" sun":""); b.setAttribute("role","radio"); b.setAttribute("aria-checked","false"); b.dataset.d=iso;
+      b.innerHTML="<small></small><b></b><em></em>";
+      b.children[0].textContent=k===0?"Today":k===1?"Tmrw":d.toLocaleDateString("en-IN",{weekday:"short"});
+      b.children[1].textContent=d.getDate(); b.children[2].textContent=d.toLocaleDateString("en-IN",{month:"short"});
+      box.append(b);
+    }
+    box.addEventListener("click",e=>{const b=e.target.closest(".day");if(!b)return;
+      $$(".day").forEach(x=>x.setAttribute("aria-checked",x===b));$("#fDate").value=b.dataset.d;paintPlan();});
+  })();
+  $("#areaChips").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;$("#fArea").value=b.textContent;
+    $$("#areaChips button").forEach(x=>x.classList.toggle("on",x===b));paintPlan();});
+  const TIPS={"Under construction":"Best time to plan. We'll mark every point on your wiring plan with your builder.",
+    "Interiors in progress":"Good timing. We'll work with your interior designer so nothing gets redone.",
+    "Ready / living in":"No problem. Our smart switches fit your existing switch boxes, with no breaking of walls."};
+
+  function paintPlan(){
+    const set=(k,txt,empty)=>{const row=$('.plan [data-k="'+k+'"]'),dd=row.querySelector("dd"),nv=txt||empty;
+      if(dd.textContent!==nv){dd.textContent=nv;row.classList.remove("pop");void row.offsetWidth;if(txt)row.classList.add("pop");}
+      row.classList.toggle("set",!!txt);};
+    const I=ints();
+    set("ints",I.join(", "),"Not chosen yet");
+    set("home",[val("type"),val("stage"),$("#fArea").value.trim()].filter(Boolean).join(" · "),"Not chosen yet");
+    set("visit",[val("visit"),fmtDay($("#fDate").value),val("time").replace(/ \(.*/,"")].filter(Boolean).join(" · "),"Not chosen yet");
+    const nm=$("#fName").value.trim(), ph=phoneDigits();
+    set("you",[nm,ph.length===10?"+91 "+ph.slice(0,5)+" "+ph.slice(5):""].filter(Boolean).join(" · "),"Not added yet");
+    const done=[I.length>0,!!val("type"),!!val("stage"),!!val("visit"),!!$("#fDate").value,!!val("time"),nm.length>1,/^[6-9]\d{9}$/.test(ph)].filter(Boolean).length;
+    const pct=Math.round(done/8*100); $("#planPct").textContent=pct+"%"; $("#plan").style.setProperty("--pp",pct+"%");
+    const st=val("stage"), tip=$("#stageTip"); tip.hidden=!st; if(st) tip.textContent=TIPS[st];
+    $("#fName").closest(".fx").classList.toggle("valid",nm.length>1);
+    $("#fPhone").closest(".fx").classList.toggle("valid",/^[6-9]\d{9}$/.test(ph));
+    const ok=stepOk(step,true); $("#wizNext").setAttribute("aria-disabled",!ok);
+    if(ok&&step<3) $("#fErr").textContent="";
+  }
+  form.addEventListener("input",paintPlan); form.addEventListener("change",paintPlan);
+
+  function stepOk(i,quiet){
+    const err=m=>{if(!quiet){$("#fErr").textContent=m;form.classList.remove("shake");void form.offsetWidth;form.classList.add("shake");}return false;};
+    if(i===0&&!ints().length) return err("Pick at least one product, or choose Full home if you're not sure.");
+    if(i===1&&!val("type")) return err("Please choose your property type.");
+    if(i===1&&!val("stage")) return err("Please choose the stage of your home.");
+    if(i===3){
+      if($("#fName").value.trim().length<2){if(!quiet)$("#fName").focus();return err("Please enter your name.");}
+      if(!/^[6-9]\d{9}$/.test(phoneDigits())){if(!quiet)$("#fPhone").focus();return err("Please enter a valid 10-digit mobile number.");}
+    }
+    if(!quiet) $("#fErr").textContent="";
+    return true;
+  }
+  function wizGo(i){
+    i=Math.max(0,Math.min(3,i)); const back=i<step; step=i;
+    steps.forEach((s,k)=>{s.classList.toggle("on",k===i);s.classList.toggle("left",k<i);});
+    bar.forEach((b,k)=>{b.classList.toggle("on",k===i);b.classList.toggle("done",k<i);});
+    $("#wizCount").textContent="Step "+(i+1)+" of 4"; $("#wizTime").textContent=STEP_TIME[i];
+    $("#wizBack").hidden=i===0; $("#wizNext").hidden=i===3; $("#wizSubmit").hidden=i!==3;
+    $("#fErr").textContent="";
+    if(i===3) buildReview();
+    paintPlan();
+    if(wizGo.ran){const t=form.getBoundingClientRect().top;if(t<70)scrollTo({top:t+scrollY-84,behavior:reduce?"auto":"smooth"});}
+    wizGo.ran=true;
+    if(!back&&i===3&&matchMedia("(pointer:fine)").matches) setTimeout(()=>$("#fName").focus({preventScroll:true}),350);
+  }
+  function buildReview(){
+    const r=$("#review"); r.innerHTML="";
+    const add=(t,go)=>{if(!t)return;const s=document.createElement("span");s.textContent=t;const b=document.createElement("button");b.type="button";b.textContent="Edit";b.onclick=()=>wizGo(go);s.append(b);r.append(s);};
+    add(ints().join(", "),0); add([val("type"),val("stage")].filter(Boolean).join(", "),1);
+    add([val("visit"),fmtDay($("#fDate").value),val("time").replace(/ \(.*/,"")].filter(Boolean).join(", "),2);
+  }
+  $("#wizNext").addEventListener("click",()=>{if(stepOk(step))wizGo(step+1);});
+  $("#wizBack").addEventListener("click",()=>wizGo(step-1));
+  bar.forEach((b,k)=>{b.style.cursor="pointer";b.addEventListener("click",()=>{if(k<=step||[...Array(k).keys()].every(j=>stepOk(j,true)))wizGo(k);});});
+  form.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.tagName!=="TEXTAREA"&&step<3){e.preventDefault();if(stepOk(step))wizGo(step+1);}});
+  // phone: tidy formatting as they type
+  $("#fPhone").addEventListener("input",e=>{const d=e.target.value.replace(/\D/g,"").slice(-12);const t=d.replace(/^(91|0)(?=\d{10}$)/,"");
+    if(t.length<=10&&/^\d*$/.test(t)) e.target.value=t.length>5?t.slice(0,5)+" "+t.slice(5):t;});
+
+  function confetti(){
+    if(reduce) return; const cols=["#4FDCF5","#2BC6EA","#8af0b8","#FFD27A","#ffffff"];
+    for(let i=0;i<46;i++){const c=document.createElement("i");c.className="conf";c.style.left=(10+Math.random()*80)+"%";c.style.background=cols[i%cols.length];
+      c.style.setProperty("--dx",((Math.random()-.5)*160).toFixed(0)+"px");c.style.setProperty("--dy",(260+Math.random()*320).toFixed(0)+"px");c.style.setProperty("--r",(Math.random()*720-360).toFixed(0)+"deg");
+      c.style.animationDelay=(Math.random()*.25).toFixed(2)+"s";form.append(c);setTimeout(()=>c.remove(),2100);}
+  }
+
   form.addEventListener("submit",async e=>{
     e.preventDefault();
+    if(step<3){if(stepOk(step))wizGo(step+1);return;}
     if($("#fWebsite").value) return; // spam bot filled the hidden field
-    const name=$("#fName").value.trim(), phone=$("#fPhone").value.replace(/\D/g,"").replace(/^91(?=\d{10}$)/,"");
-    const err=$("#fErr");
-    if(!name){err.textContent="Please enter your name.";$("#fName").focus();return;}
-    if(!/^[6-9]\d{9}$/.test(phone)){err.textContent="Please enter a valid 10-digit mobile number.";$("#fPhone").focus();return;}
-    err.textContent="";
-    const ints=$$("#fInterests input:checked").map(i=>i.value);
-    const d=$("#fDate").value;
+    if(!stepOk(3)) return;
+    const name=$("#fName").value.trim(), phone=phoneDigits(), I=ints(), d=$("#fDate").value;
+    refId=refId||("AURA-"+new Date().toISOString().slice(2,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,6).toUpperCase());
+    const lead={id:refId,name,phone,area:$("#fArea").value.trim(),property:val("type"),stage:val("stage"),interests:I.join(", "),
+      visitType:val("visit"),visitDate:d,visitTime:val("time"),note:$("#fNote").value.trim(),
+      source:"Website form",page:location.href,referrer:document.referrer,device:innerWidth<700?"Mobile":"Desktop"};
     lastMsg=["Hi AURA, I'd like a free smart home consultation.",
       "Name: "+name,"Mobile: "+phone,
-      $("#fArea").value.trim()?"Area: "+$("#fArea").value.trim():null,
-      "Property: "+$("#fType").value,"Stage: "+$("#fStage").value,
-      d?"Preferred date: "+new Date(d+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}):null,
-      ints.length?"Interested in: "+ints.join(", "):null,
-      $("#fNote").value.trim()?"Note: "+$("#fNote").value.trim():null].filter(Boolean).join("\n");
-    $("#doneMsg").textContent=lastMsg;
-    $("#doneWa").href=waLink(lastMsg);
+      lead.area?"Area: "+lead.area:null,
+      "Property: "+lead.property,"Stage: "+lead.stage,
+      I.length?"Interested in: "+I.join(", "):null,
+      lead.visitType?"Visit: "+lead.visitType:null,
+      d?"Preferred date: "+fmtDay(d):null,
+      lead.visitTime?"Preferred time: "+lead.visitTime:null,
+      lead.note?"Note: "+lead.note:null,"Ref: "+refId].filter(Boolean).join("\n");
+    $("#doneMsg").textContent=lastMsg; $("#doneWa").href=waLink(lastMsg);
+    const btn=$("#wizSubmit"); btn.disabled=true; btn.textContent="Sending…";
     let saved=false;
-    const btn0=form.querySelector('button[type="submit"]'); btn0.disabled=true; btn0.textContent="Sending…";
-    // 1) Netlify Forms inbox (works automatically on the live Netlify site)
-    try{
-      const fd=new FormData(form); fd.set("interests",ints.join(", ")); fd.set("phone",phone);
-      const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(fd).toString()});
-      saved=r.ok;
-    }catch(_){}
-    btn0.disabled=false; btn0.textContent="Request free consultation";
-    // 2) Google Sheet (optional, once SHEET_URL is set)
+    // 1) Google Sheet (once SHEET_URL is set)
     if(SHEET_URL){
-      const btn=form.querySelector('button[type="submit"]'); btn.disabled=true; btn.textContent="Sending…";
-      const lead={name,phone,area:$("#fArea").value.trim(),property:$("#fType").value,stage:$("#fStage").value,
-        visitDate:d,interests:ints.join(", "),note:$("#fNote").value.trim(),
-        source:"Website form",page:location.href,referrer:document.referrer};
-      try{
-        await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});
-        saved=true;
-      }catch(_){}
-      btn.disabled=false; btn.textContent="Request free consultation";
+      try{await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});saved=true;}catch(_){}
     }
+    // 2) Netlify Forms inbox (only on the Netlify copy of the site)
+    if(/netlify\.app$/.test(location.hostname)){
+      try{const fd=new FormData(form);fd.set("interests",I.join(", "));fd.set("phone",phone);
+        const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(fd).toString()});saved=saved||r.ok;}catch(_){}
+    }
+    btn.disabled=false; btn.textContent="Book my free consultation";
     $("#doneEyebrow").textContent=saved?"Request received":"Almost done";
     $("#doneTitle").textContent=saved?"Thank you, "+name.split(" ")[0]+". We'll call you within 24 hours.":"Send your request on WhatsApp to confirm.";
-    $("#doneLede").textContent=saved?"Our team has your details. For a faster reply, you can also send them to us on WhatsApp.":"Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.";
-    $("#formFields").hidden=true; $("#formDone").hidden=false;
-    $("#formDone").scrollIntoView({behavior:"smooth",block:"center"});
+    $("#doneLede").textContent=saved?"Our team has your details. For an even faster reply, send them to us on WhatsApp too.":"Tap the button below. WhatsApp opens with your details filled in, and our team replies to fix a time.";
+    $("#doneRef").innerHTML=saved?"Your reference: <b></b>":""; if(saved) $("#doneRef b").textContent=refId;
+    $("#doneMsg").hidden=saved;
+    $("#formFields").hidden=true; $("#formDone").hidden=false; confetti();
+    $("#formDone").scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"});
   });
-  $("#doneEdit").addEventListener("click",()=>{$("#formDone").hidden=true;$("#formFields").hidden=false;});
+  $("#doneEdit").addEventListener("click",()=>{$("#formDone").hidden=true;$("#formFields").hidden=false;wizGo(3);});
+  wizGo(0);
   function copyText(txt,el){
     const fallback=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Selected. Press Ctrl+C to copy");};
     try{navigator.clipboard.writeText(txt).then(()=>toast("Copied"),fallback);}catch(_){fallback();}
