@@ -7,9 +7,9 @@
  */
 
 const SHEET_NAME = 'Enquiries';
-// Email alert for every new enquiry. 'owner' = the Google account that owns this sheet.
+// Email alert for every new enquiry goes to the AURA business inbox.
 // Put another address here to send alerts elsewhere, or '' to switch alerts off.
-const NOTIFY_EMAIL = 'owner';
+const NOTIFY_EMAIL = 'contact.smarthomesaura@gmail.com';
 
 const HEADERS = ['Received', 'Reference', 'Name', 'Mobile', 'Call / WhatsApp', 'Area', 'Property',
   'Home stage', 'Interested in', 'Visit type', 'Preferred date', 'Preferred time', 'Customer notes',
