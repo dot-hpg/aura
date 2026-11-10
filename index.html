@@ -343,33 +343,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media (max-width:560px){.why-list{grid-template-columns:1fr}}
 
 /* Projects */
-.proj-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto;gap:18px}
-.proj{position:relative;border-radius:var(--r);overflow:hidden;min-height:260px;display:flex;align-items:flex-end;color:#fff;background:#0f1a27;isolation:isolate}
-.proj:first-child{grid-row:span 2;min-height:540px}
-.proj canvas,.proj .art{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
-.proj::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(5,10,18,.92) 75%);z-index:-1}
-.proj-body{padding:22px;display:grid;gap:6px}
-.proj-body .mono{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#8FE6F7}
-.proj h3{font-size:var(--s2)}
-.proj p{color:#C9D4E0;font-size:.92rem;max-width:44ch}
-.proj-note{margin-top:14px;font-size:.85rem;color:var(--muted)}
-@media (max-width:900px){.proj-grid{grid-template-columns:1fr 1fr}.proj:first-child{grid-column:span 2;grid-row:auto;min-height:340px}}
-@media (max-width:560px){.proj-grid{grid-template-columns:1fr}.proj:first-child{grid-column:auto}}
 
 /* Experience centre */
-.visit{display:grid;grid-template-columns:1.1fr 1fr;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden}
-.visit-art{position:relative;min-height:340px;background:var(--panel)}
-.visit-art svg{position:absolute;inset:0;width:100%;height:100%}
-.visit-body{padding:clamp(28px,4vw,48px);display:grid;gap:18px;align-content:center}
-.visit-body h2{font-size:var(--s4)}
-.addr{display:grid;gap:12px;font-size:.98rem}
-.addr div{display:flex;gap:12px;align-items:flex-start}
-.addr svg{width:20px;height:20px;color:var(--cyan);flex:none;margin-top:3px}
-.addr b{display:block}
 .copy{background:none;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.75rem;cursor:pointer;margin-left:6px;color:var(--muted)}
 .copy:hover{border-color:var(--cyan);color:var(--ink)}
-.visit-ctas{display:flex;flex-wrap:wrap;gap:10px}
-@media (max-width:900px){.visit{grid-template-columns:1fr}.visit-art{min-height:240px}}
 
 /* FAQ */
 .faq-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(32px,6vw,80px);align-items:start}
@@ -467,10 +444,6 @@ fieldset.fld{border:0;padding:0;margin:0}
 @keyframes marq{to{transform:translateX(-50%)}}
 @media (max-width:720px){.strip .wrap{flex-direction:column;align-items:flex-start;gap:12px}.marquee{width:100%}}
 .sec-head h2{background:linear-gradient(180deg,var(--ink) 40%,color-mix(in srgb,var(--ink) 70%,var(--cyan)));-webkit-background-clip:text;background-clip:text;color:transparent}
-.proj{transition:transform .4s}
-.proj canvas{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
-.proj:hover canvas{transform:scale(1.06)}
-.proj:hover{transform:translateY(-4px)}
 .why-list div{padding:18px;border-radius:14px;border:1px solid transparent;transition:border-color .3s,background .3s}
 .why-list div:hover{border-color:var(--line);background:var(--bg)}
 .proc li::after{box-shadow:0 0 0 4px var(--cyan-soft)}
@@ -1122,6 +1095,123 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 }
 @media (max-width:420px){.px-sw button{width:20px;height:20px}.px-range input{width:96px}}
 @media (prefers-reduced-motion:reduce){.px-tab.run .pg{display:none}}
+
+/* ===== Project stories + experience centre (v14) ===== */
+.st-head{margin-bottom:clamp(20px,3vw,32px)}
+.st-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:18px;align-items:stretch}
+.st-main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.st-bubbles{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:4px 2px 2px}
+.st-bubbles::-webkit-scrollbar{display:none}
+.st-b{flex:none;display:grid;justify-items:center;gap:6px;width:76px;padding:0;border:0;background:none;cursor:pointer;color:var(--ink);text-decoration:none}
+.st-b small{font-size:.74rem;font-weight:500;line-height:1.2;text-align:center;color:var(--muted);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.st-b .ring{position:relative;width:64px;height:64px;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#4FDCF5,#2b6fd6,#9b5cff,#4FDCF5);transition:transform .2s}
+.st-b .ring::after{content:"";position:absolute;inset:3px;border-radius:50%;border:3px solid var(--bg);pointer-events:none}
+.st-b canvas{display:block;width:100%;height:100%;border-radius:50%}
+.st-b:hover .ring{transform:scale(1.06)}
+.st-b.seen .ring{background:var(--line)}
+.st-b[aria-selected="true"] .ring{background:conic-gradient(from 200deg,#4FDCF5,#2b6fd6,#9b5cff,#4FDCF5);transform:scale(1.08)}
+.st-b[aria-selected="true"] small{color:var(--ink);font-weight:600}
+.st-ig .ring{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+.st-ig .ring svg{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);padding:15px;border-radius:50%;background:var(--surface);color:var(--ink)}
+
+.st-stage{position:relative;flex:1;min-height:420px;aspect-ratio:16/11;border-radius:22px;overflow:hidden;background:#0a1420;color:#fff;isolation:isolate;user-select:none;-webkit-user-select:none;touch-action:pan-y;box-shadow:var(--shadow)}
+.st-stage:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.st-media{position:absolute;inset:0;z-index:0;overflow:hidden}
+.st-media canvas,.st-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1);transition:transform 12s linear,filter 1s}
+.st-stage.kb .st-media canvas,.st-stage.kb .st-media img{transform:scale(1.1)}
+.st-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,9,16,.55) 0%,transparent 26%,transparent 42%,rgba(4,9,16,.9) 100%);transition:background 1s}
+.st-stage[data-f="0"] .st-media canvas,.st-stage[data-f="0"] .st-media img{filter:brightness(.55) saturate(.8)}
+.st-stage[data-f="1"] .st-media canvas,.st-stage[data-f="1"] .st-media img{filter:brightness(.8)}
+.st-glow{position:absolute;inset:0;z-index:1;opacity:0;mix-blend-mode:screen;background:radial-gradient(40% 35% at 50% 40%,rgba(255,213,138,.45),transparent 70%),radial-gradient(30% 30% at 25% 30%,rgba(79,220,245,.25),transparent 70%),radial-gradient(30% 30% at 78% 32%,rgba(255,213,138,.3),transparent 70%);transition:opacity 1.4s}
+.st-stage[data-f="2"] .st-glow{opacity:1}
+
+.st-top{position:absolute;inset:0 0 auto;z-index:3;padding:12px 14px 0}
+.st-bars{display:flex;gap:4px}
+.st-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.28);overflow:hidden}
+.st-bars b{display:block;height:100%;width:100%;background:#fff;transform:scaleX(0);transform-origin:left}
+.st-bars i.done b{transform:none}
+.st-bars i.cur b{animation:stbar var(--fd,4.5s) linear forwards}
+.st-stage.paused .st-bars i.cur b{animation-play-state:paused}
+@keyframes stbar{to{transform:scaleX(1)}}
+.st-who{display:flex;align-items:center;gap:10px;margin-top:12px}
+.st-who b{display:block;font-size:.95rem;line-height:1.2}
+.st-who small{display:block;font-size:.75rem;color:rgba(255,255,255,.72);font-family:var(--f-mono);letter-spacing:.04em}
+.st-av{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;background:#0A0E13;border:1.5px solid rgba(79,220,245,.6)}
+.st-av svg{width:20px;height:20px;color:#4FDCF5}
+.st-pause{margin-left:auto;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;position:relative;z-index:4}
+.st-pause svg{width:16px;height:16px}
+.st-pause .pl{display:none}.st-stage.paused .st-pause .pl{display:block}.st-stage.paused .st-pause .pa{display:none}
+
+.st-tap{position:absolute;top:70px;bottom:0;z-index:2;width:42%;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.st-tap.prev{left:0;width:30%;cursor:w-resize}.st-tap.next{right:0;width:70%;cursor:e-resize}
+.st-tap:focus-visible{outline:none}
+
+.st-cap{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 clamp(16px,3vw,28px) clamp(16px,3vw,26px);pointer-events:none}
+.st-cap > *{pointer-events:auto}
+.st-cap .k{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#8FE6F7}
+.st-cap h3{font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.05;margin:8px 0 8px;text-wrap:balance}
+.st-cap p{color:#D5DEE8;font-size:1rem;max-width:46ch}
+.st-cap .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.st-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 8px;border-radius:999px;background:rgba(10,16,26,.62);border:1px solid rgba(79,220,245,.35);color:#fff;font-size:.86rem;font-weight:500;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .2s,border-color .2s}
+.st-chip:hover{background:rgba(79,220,245,.2);border-color:#4FDCF5}
+.st-chip svg{width:16px;height:16px;color:#4FDCF5}
+.st-chip em{font-style:normal;font-size:.72rem;color:#8FE6F7;margin-left:2px}
+.st-cap .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.st-cap .btns .btn{padding:.7em 1.15em;font-size:.92rem}
+.st-cap .btn-light{background:#fff;color:#0D1A2B}
+.st-cap .btn-glass{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.25)}
+.st-cap.in > *{animation:stin .6s cubic-bezier(.2,.7,.2,1) both}
+.st-cap.in > :nth-child(2){animation-delay:.08s}.st-cap.in > :nth-child(3){animation-delay:.16s}.st-cap.in > :nth-child(4){animation-delay:.24s}
+@keyframes stin{from{opacity:0;transform:translateY(14px)}}
+
+.st-dots{position:absolute;inset:0;z-index:2;pointer-events:none}
+.st-dot{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#4FDCF5;box-shadow:0 0 0 4px rgba(79,220,245,.25),0 0 18px #4FDCF5;opacity:0;transform:scale(.3);transition:opacity .4s,transform .5s cubic-bezier(.3,1.6,.5,1)}
+.st-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid #4FDCF5;animation:stping 1.8s ease-out infinite}
+.st-dot span{position:absolute;left:22px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:.76rem;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(10,16,26,.75);border:1px solid rgba(79,220,245,.35)}
+.st-dot.l span{left:auto;right:22px}
+.st-stage[data-f="1"] .st-dot{opacity:1;transform:none}
+@keyframes stping{from{transform:scale(.8);opacity:1}to{transform:scale(2);opacity:0}}
+
+/* experience centre card */
+.st-visit{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow);scroll-margin-top:90px}
+.sv-art{position:relative;height:150px;flex:none;background:#0A0E13}
+.sv-art svg{position:absolute;inset:0;width:100%;height:100%}
+.sv-leds circle{animation:pxblink 2.4s ease-in-out infinite}
+.sv-leds circle:nth-child(3n){animation-delay:.8s}.sv-leds circle:nth-child(3n+1){animation-delay:1.6s}
+.sv-live{position:absolute;left:14px;bottom:12px;display:inline-flex;align-items:center;gap:8px;padding:5px 11px;border-radius:999px;background:rgba(10,16,26,.7);border:1px solid rgba(79,220,245,.35);color:#E7EDF4;font-size:.75rem;font-family:var(--f-mono);letter-spacing:.06em}
+.sv-live i{width:7px;height:7px;border-radius:50%;background:#4FD38A;box-shadow:0 0 8px #4FD38A}
+.sv-body{flex:1;display:flex;flex-direction:column;gap:14px;padding:clamp(18px,2.4vw,26px)}
+.sv-body h2{font-size:clamp(1.5rem,2.4vw,1.9rem)}
+.sv-addr{display:flex;gap:10px;font-size:.93rem;color:var(--muted)}
+.sv-addr b{display:block;color:var(--ink);font-weight:600}
+.sv-addr svg,.sv-contact svg{width:18px;height:18px;flex:none;color:var(--cyan);margin-top:2px}
+.sv-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sv-acts a{display:grid;justify-items:center;gap:6px;padding:12px 6px;border:1px solid var(--line);border-radius:14px;background:var(--bg);text-decoration:none;font-size:.85rem;font-weight:600;transition:border-color .2s,transform .15s,background .2s}
+.sv-acts a:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.sv-acts svg{width:20px;height:20px;color:var(--cyan)}
+.sv-acts a:nth-child(3) svg{color:var(--wa)}
+.sv-contact{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.9rem}
+.sv-contact li{display:flex;align-items:center;gap:10px;min-width:0}
+.sv-contact a{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sv-contact .copy{margin-left:auto}
+.sv-book{margin-top:auto}
+
+@media (max-width:980px){
+  .st-grid{grid-template-columns:1fr}
+  .st-stage{aspect-ratio:4/5;min-height:0;max-height:78vh}
+  .st-visit{display:grid;grid-template-columns:1fr}
+}
+@media (min-width:600px) and (max-width:980px){.st-stage{aspect-ratio:4/3.4}.st-visit{grid-template-columns:.9fr 1.1fr}.sv-art{height:auto;min-height:100%}}
+@media (max-width:520px){
+  .st-b{width:66px}.st-b .ring{width:58px;height:58px}
+  .st-cap p{font-size:.94rem}
+  .st-chip{font-size:.8rem;padding:6px 10px 6px 7px}
+  .st-dot span{display:none}
+  .st-chip em{display:none}
+  .st-cap .chips{gap:6px}
+}
+@media (prefers-reduced-motion:reduce){.st-media canvas,.st-media img{transition:none;transform:none!important}}
+.st-stage.offscreen .st-bars i.cur b{animation-play-state:paused}
 </style>
 </head>
 <body>
@@ -1697,62 +1787,73 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 </section>
 
 <!-- PROJECTS -->
-<section class="sec" id="projects">
+<section class="sec st-sec" id="projects">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head st-head">
       <span class="eyebrow">Recent work</span>
-      <h2>Homes we've handed over across Hyderabad.</h2>
+      <h2>Real homes. Watch them come alive.</h2>
     </div>
-    <div class="proj-grid">
-      <article class="proj"><canvas class="art" data-art="0"></canvas>
-        <div class="proj-body"><span class="mono">Villa · Full automation</span><h3>Project Raaga Radhey</h3><p>Smart switches across every floor, smart main-door lock, lighting scenes and app control for the whole family.</p></div></article>
-      <article class="proj"><canvas class="art" data-art="1"></canvas>
-        <div class="proj-body"><span class="mono">Independent house · Handover</span><h3>"Another dream delivered"</h3><p>Smart switch boards, video door bell and CCTV, tested and tuned before handover.</p></div></article>
-      <article class="proj"><canvas class="art" data-art="2"></canvas>
-        <div class="proj-body"><span class="mono">Apartment · Lighting</span><h3>Magnetic track lights</h3><p>App-controlled track and spot lighting with dimming for a modern living room.</p></div></article>
-      <article class="proj"><canvas class="art" data-art="3"></canvas>
-        <div class="proj-body"><span class="mono">Home theatre</span><h3>Movie-room automation</h3><p>Projector, lights and curtains on one "Movie" scene.</p></div></article>
-      <article class="proj"><canvas class="art" data-art="4"></canvas>
-        <div class="proj-body"><span class="mono">Security</span><h3>Smart main-door locks</h3><p>Face-recognition and fingerprint locks fitted on premium wooden doors.</p></div></article>
+
+    <div class="st-grid">
+      <div class="st-main">
+        <div class="st-bubbles" id="stBubbles" role="tablist" aria-label="Projects">
+          <button type="button" class="st-b" role="tab" data-i="0"><span class="ring"><canvas class="art" data-art="0"></canvas></span><small>Raaga Radhey</small></button>
+          <button type="button" class="st-b" role="tab" data-i="1"><span class="ring"><canvas class="art" data-art="1"></canvas></span><small>Dream home</small></button>
+          <button type="button" class="st-b" role="tab" data-i="2"><span class="ring"><canvas class="art" data-art="2"></canvas></span><small>Track lights</small></button>
+          <button type="button" class="st-b" role="tab" data-i="3"><span class="ring"><canvas class="art" data-art="3"></canvas></span><small>Movie room</small></button>
+          <button type="button" class="st-b" role="tab" data-i="4"><span class="ring"><canvas class="art" data-art="4"></canvas></span><small>Door locks</small></button>
+          <a class="st-b st-ig" href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener"><span class="ring"><svg><use href="#i-insta"/></svg></span><small>More on Instagram</small></a>
+        </div>
+
+        <div id="stStage" class="st-stage offscreen" tabindex="0" aria-roledescription="Project story" aria-label="Project stories. Tap the right side for next, the left side for back.">
+          <div class="st-media"><canvas class="art st-art" id="stArt" data-art="0"></canvas><img id="stImg" alt="" hidden><div class="st-glow"></div></div>
+          <div class="st-dots" id="stDots" aria-hidden="true"></div>
+          <div class="st-top">
+            <div class="st-bars" id="stBars"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+            <div class="st-who"><span class="st-av"><svg><use href="#i-logo"/></svg></span><span><b id="stTitle">Project Raaga Radhey</b><small id="stType">Villa · Full automation</small></span>
+              <button type="button" class="st-pause" id="stPause" aria-label="Pause"><svg class="pa" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg><svg class="pl" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></button></div>
+          </div>
+          <div class="st-cap" id="stCap" aria-live="polite"></div>
+          <button type="button" class="st-tap prev" id="stPrev" aria-label="Previous"></button>
+          <button type="button" class="st-tap next" id="stNext" aria-label="Next"></button>
+        </div>
+      </div>
+
+      <aside class="st-visit" id="visit" aria-labelledby="visitH">
+        <div class="sv-art">
+          <svg viewBox="0 0 600 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><radialGradient id="vg" cx="50%" cy="10%" r="90%"><stop offset="0" stop-color="#16324a"/><stop offset="1" stop-color="#0A0E13"/></radialGradient></defs>
+            <rect width="600" height="260" fill="url(#vg)"/>
+            <rect y="210" width="600" height="50" fill="#0d141c"/>
+            <g fill="#1a2532"><rect x="40" y="60" width="110" height="150" rx="4"/><rect x="175" y="60" width="110" height="150" rx="4"/><rect x="310" y="60" width="110" height="150" rx="4"/><rect x="445" y="60" width="110" height="150" rx="4"/></g>
+            <g fill="#0A0E13" stroke="#2A323D"><rect x="60" y="100" width="70" height="40" rx="4"/><rect x="195" y="96" width="70" height="40" rx="4"/><rect x="355" y="84" width="20" height="80" rx="4"/><rect x="465" y="100" width="70" height="40" rx="4"/></g>
+            <g class="sv-leds" fill="#4FDCF5"><circle cx="78" cy="120" r="3"/><circle cx="95" cy="120" r="3"/><circle cx="112" cy="120" r="3"/><circle cx="213" cy="116" r="3"/><circle cx="230" cy="116" r="3"/><circle cx="247" cy="116" r="3"/><circle cx="365" cy="98" r="4"/><circle cx="483" cy="120" r="3"/><circle cx="500" cy="120" r="3"/><circle cx="517" cy="120" r="3"/></g>
+            <g stroke="#4FDCF5" stroke-width="2" opacity=".5"><path d="M40 52h110M175 52h110M310 52h110M445 52h110"/></g>
+            <text x="300" y="30" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" letter-spacing="6" fill="#7f8b98">SMART HOMES · TELANGANA</text>
+          </svg>
+          <span class="sv-live"><i></i>Working displays</span>
+        </div>
+        <div class="sv-body">
+          <span class="eyebrow">Experience centre</span>
+          <h2 id="visitH">Come touch it, try it, then decide.</h2>
+          <p class="sv-addr"><svg><use href="#i-pin"/></svg><span><b>Smart Homes Telangana · AURA Automation</b>E-Galleria Mall, Hitech City, Hyderabad</span></p>
+          <div class="sv-acts">
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=E-Galleria+Mall+Hitech+City+Hyderabad" target="_blank" rel="noopener"><svg><use href="#i-pin"/></svg>Directions</a>
+            <a href="tel:+917386664612"><svg><use href="#i-phone"/></svg>Call</a>
+            <a href="https://wa.me/917386664612?text=Hi%20AURA%2C%20I%27d%20like%20to%20visit%20your%20experience%20centre." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp</a>
+          </div>
+          <ul class="sv-contact">
+            <li><svg><use href="#i-phone"/></svg><span><b>Aravind Rao</b> <span class="num" id="phoneTxt">+91 73866 64612</span></span><button class="copy" data-copy="+91 7386664612">Copy</button></li>
+            <li><svg><use href="#i-mail"/></svg><a href="mailto:contact.smarthomesaura@gmail.com">contact.smarthomesaura@gmail.com</a></li>
+            <li><svg><use href="#i-insta"/></svg><a href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener">@smarthomes_aura</a></li>
+          </ul>
+          <a class="btn btn-primary sv-book" href="#book">Book a showroom visit</a>
+        </div>
+      </aside>
     </div>
-    <p class="proj-note">See more installations on <a href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener">Instagram @smarthomes_aura</a>.</p>
   </div>
 </section>
 
-<!-- VISIT -->
-<section class="sec" id="visit" style="padding-top:0">
-  <div class="wrap">
-    <div class="visit">
-      <div class="visit-art">
-        <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs><radialGradient id="vg" cx="50%" cy="20%" r="80%"><stop offset="0" stop-color="#16324a"/><stop offset="1" stop-color="#0A0E13"/></radialGradient></defs>
-          <rect width="600" height="400" fill="url(#vg)"/>
-          <rect y="300" width="600" height="100" fill="#0d141c"/>
-          <g fill="#1a2532"><rect x="60" y="90" width="110" height="210" rx="4"/><rect x="190" y="90" width="110" height="210" rx="4"/><rect x="320" y="90" width="110" height="210" rx="4"/><rect x="450" y="90" width="110" height="210" rx="4"/></g>
-          <g fill="#0A0E13" stroke="#2A323D"><rect x="80" y="140" width="70" height="40" rx="4"/><rect x="210" y="130" width="70" height="40" rx="4"/><rect x="345" y="120" width="20" height="90" rx="4"/><rect x="470" y="140" width="70" height="40" rx="4"/></g>
-          <g fill="#4FDCF5"><circle cx="98" cy="160" r="3"/><circle cx="115" cy="160" r="3"/><circle cx="132" cy="160" r="3" opacity=".4"/><circle cx="228" cy="150" r="3" opacity=".4"/><circle cx="245" cy="150" r="3"/><circle cx="262" cy="150" r="3"/><circle cx="355" cy="135" r="4"/><circle cx="488" cy="160" r="3"/><circle cx="505" cy="160" r="3"/><circle cx="522" cy="160" r="3"/></g>
-          <g stroke="#4FDCF5" stroke-width="2" opacity=".5"><path d="M60 82h110M190 82h110M320 82h110M450 82h110"/></g>
-          <text x="300" y="46" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" letter-spacing="6" fill="#7f8b98">SMART HOMES · TELANGANA</text>
-        </svg>
-      </div>
-      <div class="visit-body">
-        <span class="eyebrow">Experience centre</span>
-        <h2>Come touch it, try it, then decide.</h2>
-        <p class="lede">Walk through working displays of smart switches, door locks, video door bells, cameras and lighting at our showroom.</p>
-        <div class="addr">
-          <div><svg><use href="#i-pin"/></svg><span><b>Smart Homes Telangana · AURA Automation</b>E-Galleria Mall, Hitech City, Hyderabad, Telangana</span></div>
-          <div><svg><use href="#i-phone"/></svg><span><b>Aravind Rao</b><span class="num" id="phoneTxt">+91 73866 64612</span><button class="copy" data-copy="+91 7386664612">Copy</button></span></div>
-          <div><svg><use href="#i-mail"/></svg><span><b>Email</b><a href="mailto:contact.smarthomesaura@gmail.com">contact.smarthomesaura@gmail.com</a></span></div>
-          <div><svg><use href="#i-insta"/></svg><span><b>Instagram</b><a href="https://www.instagram.com/smarthomes_aura/" target="_blank" rel="noopener">@smarthomes_aura</a></span></div>
-        </div>
-        <div class="visit-ctas">
-          <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&amp;query=E-Galleria+Mall+Hitech+City+Hyderabad" target="_blank" rel="noopener"><svg><use href="#i-pin"/></svg>Get directions</a>
-          <a class="btn btn-ghost" href="#book">Book a showroom visit</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- FAQ -->
 <section class="sec" id="faq" style="padding-top:0">
@@ -2659,6 +2760,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
     });
     $("#pxPrev").addEventListener("click",()=>go(cur-1,true));
     $$("a[data-px]").forEach(a=>a.addEventListener("click",()=>go(+a.dataset.px,true)));
+    document.addEventListener("px:go",e=>go(+e.detail,true));
     $("#pxNext").addEventListener("click",()=>go(cur+1,true));
     // tap the drawing itself
     scenes.forEach(s=>s.addEventListener("click",e=>{
@@ -2925,6 +3027,93 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   const redraw=()=>arts.forEach(draw);
   redraw(); let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(redraw,150);});
 
+  // ---------- Project stories (Instagram-style) ----------
+  (function(){
+    const stage=$("#stStage"); if(!stage) return;
+    // px = product explorer index; photo = optional real photo path (assets/projects/...), used instead of the drawing
+    const S=[
+      {t:"Project Raaga Radhey",k:"Villa · Full automation",art:0,photo:"",
+       hook:"A whole villa, run from one phone.",
+       did:[["Smart switches","i-switch",0,30,42],["Main-door lock","i-lock",1,48,66],["Lighting scenes","i-bulb",4,66,30],["App control","i-phone",0,72,52,1]],
+       end:"Smart switches on every floor, a smart main-door lock, lighting scenes and app control for the whole family."},
+      {t:"Another dream delivered",k:"Independent house · Handover",art:1,photo:"",
+       hook:"Handed over with everything tested and tuned.",
+       did:[["Switch boards","i-switch",0,34,48],["Video door bell","i-bell",2,50,66],["CCTV","i-cam",3,74,24,1]],
+       end:"Smart switch boards, a video door bell and CCTV, all set up on the family's phones before handover."},
+      {t:"Magnetic track lights",k:"Apartment · Lighting",art:2,photo:"",
+       hook:"A living room that changes mood with a tap.",
+       did:[["Magnetic track","i-bulb",4,50,20],["Dimming","i-bulb",4,30,56],["App control","i-phone",4,70,58,1]],
+       end:"App-controlled track and spot lights with dimming, for a modern living room."},
+      {t:"Movie-room automation",k:"Home theatre",art:3,photo:"",
+       hook:"One word, and the room is ready for a film.",
+       did:[["Projector","i-voice",8,50,34],["Lights","i-bulb",4,18,20],["Curtains","i-curtain",5,86,46,1],["Movie scene","i-voice",8,50,62]],
+       end:"Projector, lights and curtains on a single “Movie” scene."},
+      {t:"Smart main-door locks",k:"Security",art:4,photo:"",
+       hook:"Premium wooden doors, opened by face.",
+       did:[["Face recognition","i-lock",1,62,32,1],["Fingerprint","i-lock",1,62,52,1],["Fitted on wood","i-home",1,36,62]],
+       end:"Face-recognition and fingerprint locks fitted on premium wooden doors."}
+    ];
+    const FD=[4200,5600,5200]; // time on each frame
+    const art=$("#stArt"), img=$("#stImg"), cap=$("#stCap"), dots=$("#stDots"), bars=$$("#stBars i"), bub=$$("#stBubbles .st-b[data-i]");
+    const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let p=0,f=0,timer=0,paused=false,visible=false,left=0,startT=0,heldBy="";
+    const seen=new Set();
+    const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    function media(){const s=S[p];
+      if(s.photo){img.src=s.photo;img.alt=s.t;img.hidden=false;art.hidden=true;}
+      else{img.hidden=true;art.hidden=false;art.dataset.art=s.art;if(typeof draw==="function")draw(art);}
+      stage.classList.remove("kb");void stage.offsetWidth;if(!RM)stage.classList.add("kb");}
+    function paint(){
+      const s=S[p];
+      stage.dataset.f=f;
+      $("#stTitle").textContent=s.t;$("#stType").textContent=s.k;
+      bars.forEach((b,i)=>{b.className=i<f?"done":i===f?"cur":"";b.style.setProperty("--fd",FD[i]+"ms");});
+      bub.forEach((b,i)=>{b.setAttribute("aria-selected",i===p);b.classList.toggle("seen",seen.has(i)&&i!==p);});
+      dots.innerHTML=s.did.map(d=>`<span class="st-dot${d[5]?" l":""}" style="left:${d[3]}%;top:${d[4]}%"><span>${esc(d[0])}</span></span>`).join("");
+      let h="";
+      if(f===0) h=`<span class="k">${esc(s.k)}</span><h3>${esc(s.t)}</h3><p>${esc(s.hook)}</p>`;
+      else if(f===1) h=`<span class="k">What we installed</span><div class="chips">${s.did.map(d=>`<button type="button" class="st-chip" data-px="${d[2]}"><svg><use href="#${d[1]}"/></svg>${esc(d[0])}<em>Try it</em></button>`).join("")}</div>`;
+      else h=`<span class="k">The result</span><p>${esc(s.end)}</p><div class="btns"><a class="btn btn-light" href="#book">Get this for my home</a><button type="button" class="btn btn-glass" data-next>${p<S.length-1?"Next project →":"Watch again ↺"}</button></div>`;
+      cap.innerHTML=h;cap.classList.remove("in");void cap.offsetWidth;cap.classList.add("in");
+      cap.querySelectorAll(".st-chip").forEach(c=>c.addEventListener("click",e=>{e.stopPropagation();
+        document.dispatchEvent(new CustomEvent("px:go",{detail:+c.dataset.px}));
+        const t=$("#products");if(t)t.scrollIntoView({behavior:RM?"auto":"smooth"});}));
+      const nx=cap.querySelector("[data-next]");if(nx)nx.addEventListener("click",()=>openP(p+1));
+      sched(FD[f]);
+    }
+    function sched(ms){clearTimeout(timer);left=ms;if(paused||!visible)return;startT=Date.now();timer=setTimeout(step,ms);}
+    function step(){ if(f<2){f++;paint();} else if(p<S.length-1){openP(p+1);} else {pause(true,"end");} }
+    function back(){ if(f>0){f--;paint();} else if(p>0){p--;seen.add(p);f=0;media();paint();} else paint(); }
+    function openP(i){ p=(i+S.length)%S.length; f=0; seen.add(p); media(); paint();
+      const b=bub[p]; if(b&&innerWidth<980) b.scrollIntoView({block:"nearest",inline:"center",behavior:RM?"auto":"smooth"}); if(heldBy==="end")pause(false); }
+    function pause(on,why){
+      if(on&&!paused){paused=true;heldBy=why||"";clearTimeout(timer);if(startT)left=Math.max(300,left-(Date.now()-startT));startT=0;stage.classList.add("paused");}
+      else if(!on&&paused){paused=false;heldBy="";stage.classList.remove("paused");if(visible){startT=Date.now();timer=setTimeout(step,left);}}
+      $("#stPause").setAttribute("aria-label",paused?"Play":"Pause");
+    }
+    $("#stNext").addEventListener("click",()=>{if(!held)step();});
+    $("#stPrev").addEventListener("click",()=>{if(!held)back();});
+    $("#stPause").addEventListener("click",()=>pause(!paused,"user"));
+    bub.forEach((b,i)=>b.addEventListener("click",()=>openP(i)));
+    stage.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();step();}else if(e.key==="ArrowLeft"){e.preventDefault();back();}else if(e.key===" "){e.preventDefault();pause(!paused,"user");}});
+    // press and hold to pause, swipe to change project
+    let held=false,ht=0,sx=null,sy=0;
+    stage.addEventListener("pointerdown",e=>{if(e.target.closest(".st-cap a,.st-cap button,.st-pause"))return;sx=e.clientX;sy=e.clientY;held=false;ht=setTimeout(()=>{held=true;if(!paused)pause(true,"hold");},380);});
+    const up=e=>{clearTimeout(ht);if(held&&heldBy==="hold")pause(false);
+      if(sx!=null){const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.4){held=true;openP(p+(dx<0?1:-1));}}
+      sx=null;setTimeout(()=>{held=false;},0);};
+    stage.addEventListener("pointerup",up);stage.addEventListener("pointercancel",up);stage.addEventListener("pointerleave",()=>{clearTimeout(ht);if(heldBy==="hold")pause(false);sx=null;});
+    if("IntersectionObserver" in window){
+      new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting;
+        if(visible){ if(!paused){startT=Date.now();clearTimeout(timer);timer=setTimeout(step,left||FD[f]);} stage.classList.toggle("paused",paused);}
+        else {clearTimeout(timer);if(!paused&&startT)left=Math.max(300,left-(Date.now()-startT));startT=0;}
+        bars.forEach(b=>b.style.animationPlayState="");stage.classList.toggle("offscreen",!visible);
+      }),{threshold:.5}).observe(stage);
+    } else visible=true;
+    seen.add(0); media(); paint();
+  })();
+
+
   // ---------- Polish: header state, scroll progress, active nav, reveal ----------
   document.documentElement.classList.add("js");
   const hdr=$(".hdr"), prog=$("#progress");
@@ -2936,7 +3125,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   if("IntersectionObserver" in window){
     const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));}),{rootMargin:"-45% 0px -50% 0px"});
     secs.forEach(x=>so.observe(x));
-    const groups=[".sec-head",".px",".proc li",".why > div",".why-list > div",".proj",".visit",".faq details",".book-grid > div",".f-copy",".f-visual"];
+    const groups=[".sec-head",".px",".proc li",".why > div",".why-list > div",".st-grid",".faq details",".book-grid > div",".f-copy",".f-visual"];
     const rvs=[];groups.forEach(g=>$$(g).forEach((el,i)=>{el.classList.add("rv");el.style.transitionDelay=(i%3)*90+"ms";rvs.push(el);}));
     const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target);}}),{rootMargin:"0px 0px -8% 0px"});
     rvs.forEach(el=>ro.observe(el));
