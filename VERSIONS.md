@@ -22,5 +22,6 @@ Every change to the site is saved as a numbered version. Each version is a branc
 | v16 | 2026-11-11 | Enquiry form now points at the new Google Sheet script link (redeployed with clearer error messages) |
 | v17 | 2026-11-11 | Enquiry form now sends to the brand-new AURA Enquiries sheet (Dashboard, Today to-do, colour-coded Enquiries, alert and morning summary emails). Sheet script in google-sheets/Code.gs |
 | v18 | 2026-11-11 | New private AURA Leads dashboard (folder leads/, its own Vercel link): live list of every Call me back / WhatsApp enquiry with an "act now" panel, key numbers, charts, filters, search, one-tap Call and WhatsApp, and status/priority/follow-up/notes/quote updates saved to the sheet. Owner password sign-in. Sheet script google-sheets/Code.gs v3 adds the private data link and the 🔑 Set dashboard password menu. Main website unchanged |
+| v19 | 2026-11-11 | The leads dashboard moved to its own repository (dot-hpg/aura-leads) and its own website, so the leads/ folder was removed from this site. The website itself looks and works exactly the same as v17/v18 |
 
 To go back to a version, ask Claude to "restore vN". The live site (main branch) is then reset to that version's files, and the result is saved as a new version.
