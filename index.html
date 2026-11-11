@@ -2032,9 +2032,8 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
 
 <script>
 (function(){
-  // Paste your Google Apps Script web-app URL here (see google-sheets/SETUP.md).
-  // While empty, the form falls back to sending enquiries through WhatsApp only.
-  const SHEET_URL = "https://script.google.com/macros/s/AKfycbxtgylYxU6-8qbRWLPtg31eIkzbvrg_wygrHbOiTcwzexEFNNEAVz3XuhwjNB-8yBW9JQ/exec";
+  // Every "Call me back" / WhatsApp enquiry goes straight to the private AURA Leads dashboard.
+  const LEADS_URL = "https://aura-leads.vercel.app/api/lead";
   const WA = "917386664612";
   const waLink = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
   const $ = s => document.querySelector(s);
@@ -2936,8 +2935,8 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
   }
   async function saveLead(lead,keep){
     let saved=false;
-    if(SHEET_URL){
-      try{const f=fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:!!keep,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});
+    if(LEADS_URL){
+      try{const f=fetch(LEADS_URL,{method:"POST",mode:"no-cors",keepalive:!!keep,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(lead)});
         if(keep) saved=true; else {await f; saved=true;}}catch(_){}
     }
     if(/netlify\.app$/.test(location.hostname)){
@@ -2979,7 +2978,7 @@ form.card{box-shadow:0 40px 80px -40px rgba(10,158,192,.35),var(--shadow)}
     btn.classList.remove("busy"); btn.querySelector("b").textContent="Call me back";
     showDone("call",saved,lead);
   });
-  // WhatsApp: the link opens WhatsApp straight away; the request is saved to the sheet in the background
+  // WhatsApp: the link opens WhatsApp straight away; the request is saved to AURA Leads in the background
   $("#wizWa").addEventListener("click",e=>{
     if($("#fWebsite").value||!stepOk(3)){e.preventDefault();return;}
     const lead=buildLead("WhatsApp"); e.currentTarget.href=waLink(lastMsg);
