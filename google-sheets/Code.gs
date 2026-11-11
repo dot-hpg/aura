@@ -10,7 +10,7 @@ const SHEET_NAME = 'Enquiries';
 // Leave empty when this script was opened from the sheet (Extensions > Apps Script).
 // If the script was made on script.google.com instead, paste the sheet's ID here:
 // the long code between /d/ and /edit in the sheet's address.
-const SHEET_ID = '';
+const SHEET_ID = '1S1T3CSQtKt8JvpoGV6V28uC_nqctA_flBWDVmAqeFmA';
 // Email alert for every new enquiry goes to the AURA business inbox.
 // Put another address here to send alerts elsewhere, or '' to switch alerts off.
 const NOTIFY_EMAIL = 'contact.smarthomesaura@gmail.com';
