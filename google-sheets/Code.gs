@@ -7,6 +7,10 @@
  */
 
 const SHEET_NAME = 'Enquiries';
+// Leave empty when this script was opened from the sheet (Extensions > Apps Script).
+// If the script was made on script.google.com instead, paste the sheet's ID here:
+// the long code between /d/ and /edit in the sheet's address.
+const SHEET_ID = '';
 // Email alert for every new enquiry goes to the AURA business inbox.
 // Put another address here to send alerts elsewhere, or '' to switch alerts off.
 const NOTIFY_EMAIL = 'contact.smarthomesaura@gmail.com';
@@ -37,6 +41,7 @@ function doPost(e) {
     notify_(d, phone);
     return json_({ ok: true, row: r });
   } catch (err) {
+    console.error('Enquiry not saved: ' + err);
     return json_({ ok: false, error: String(err) });
   } finally {
     lock.releaseLock();
@@ -48,8 +53,14 @@ function doGet() {
   return ContentService.createTextOutput('AURA enquiry form is connected to this sheet.');
 }
 
+function book_() {
+  const ss = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) throw new Error('This script is not linked to a sheet. Open it from the sheet (Extensions > Apps Script), or put the sheet ID in SHEET_ID.');
+  return ss;
+}
+
 function sheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = book_();
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);
@@ -78,7 +89,7 @@ function notify_(d, phone) {
     'Interested in: ' + (d.interests || '-'),
     'Visit: ' + [d.visitType, d.visitDate, d.visitTime].filter(String).join(', '),
     'Notes: ' + (d.note || '-'), '', 'WhatsApp: https://wa.me/91' + phone,
-    'Sheet: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl()
+    'Sheet: ' + book_().getUrl()
   ];
   try { MailApp.sendEmail(to, (d.prefer === 'WhatsApp' ? 'New AURA enquiry (WhatsApp): ' : 'Call back: new AURA enquiry: ') + d.name + ' (' + (d.id || '') + ')', lines.join('\n')); } catch (e) {}
 }
@@ -87,11 +98,13 @@ function json_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
 }
 
-// Optional: run this once from the editor to see a sample row arrive.
+// Run this once from the editor: choose testEnquiry at the top, click Run,
+// and read the Execution log. It says ok:true and the row number, or the exact problem.
 function testEnquiry() {
-  doPost({ postData: { contents: JSON.stringify({
+  const out = doPost({ postData: { contents: JSON.stringify({
     id: 'AURA-TEST', name: 'Test Customer', phone: '9876543210', area: 'Kondapur',
     property: '3 BHK apartment', stage: 'Ready / living in', interests: 'Smart switch boards, Smart door lock',
     visitType: 'Site visit at my home', visitDate: '', visitTime: 'Evening (4 pm to 7 pm)',
     note: 'Test row, safe to delete', device: 'Test', page: 'Apps Script editor' }) } });
+  console.log(out.getContent());
 }
