@@ -21,5 +21,6 @@ Every change to the site is saved as a numbered version. Each version is a branc
 | v15 | 2026-11-11 | Enquiry form connected to the Google Sheet (owned by contact.smarthomesaura@gmail.com). "Call me back" and "Chat on WhatsApp" both now add a row to the sheet |
 | v16 | 2026-11-11 | Enquiry form now points at the new Google Sheet script link (redeployed with clearer error messages) |
 | v17 | 2026-11-11 | Enquiry form now sends to the brand-new AURA Enquiries sheet (Dashboard, Today to-do, colour-coded Enquiries, alert and morning summary emails). Sheet script in google-sheets/Code.gs |
+| v18 | 2026-11-11 | New private AURA Leads dashboard (folder leads/, its own Vercel link): live list of every Call me back / WhatsApp enquiry with an "act now" panel, key numbers, charts, filters, search, one-tap Call and WhatsApp, and status/priority/follow-up/notes/quote updates saved to the sheet. Owner password sign-in. Sheet script google-sheets/Code.gs v3 adds the private data link and the 🔑 Set dashboard password menu. Main website unchanged |
 
 To go back to a version, ask Claude to "restore vN". The live site (main branch) is then reset to that version's files, and the result is saved as a new version.

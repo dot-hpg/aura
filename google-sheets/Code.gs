@@ -1,5 +1,5 @@
 /**
- * AURA Smart Homes · Enquiries sheet  (version 2, November 2026)
+ * AURA Smart Homes · Enquiries sheet  (version 3, November 2026: adds the private leads dashboard)
  * ---------------------------------------------------------------
  * Paste this whole file into a NEW, EMPTY Google Sheet:
  *   Extensions > Apps Script > delete what is there > paste > Save.
@@ -106,6 +106,7 @@ function doPost(e) {
     let d = {};
     try { d = raw ? JSON.parse(raw) : {}; } catch (_) { d = {}; }
     if (!d.name && e && e.parameter) d = Object.assign({}, e.parameter, d);
+    if (d.action) return json_(dashboardApi_(d)); // private owner dashboard
     const res = saveEnquiry_(d);
     if (!res.ok) log_('Rejected', res.error, raw);
     return json_(res);
@@ -305,6 +306,9 @@ function onOpen() {
     .addItem('📧 Email me today\'s summary now', 'sendSummaryNow')
     .addItem('🔗 Show my website link', 'showWebsiteLink')
     .addItem('🛠 Repair sheet design', 'setup')
+    .addSeparator()
+    .addItem('🔑 Set dashboard password', 'setDashboardPassword')
+    .addItem('🚪 Sign out all dashboard devices', 'signOutDashboardEverywhere')
     .addToUi();
 }
 
@@ -378,6 +382,172 @@ function testLead_(where) {
 
 // Run from the editor to test without the website: pick "testEnquiry", press Run, read the log.
 function testEnquiry() { console.log(JSON.stringify(saveEnquiry_(testLead_('Editor test')))); }
+
+// =================================================================================
+// 5) OWNER DASHBOARD  (the private web page that shows every lead)
+// =================================================================================
+// The dashboard page sends POST requests here. Nothing is returned without the
+// owner's password: the page swaps the password for a signed pass that lasts
+// 30 days (or 12 hours when "Remember this device" is off).
+// Set or change the password with 🏠 AURA > 🔑 Set dashboard password.
+
+const DASH_DAYS_REMEMBER = 30;
+const DASH_HOURS_SESSION = 12;
+const DASH_MAX_FAILS = 8;            // wrong passwords allowed per 15 minutes
+const DASH_EDITABLE = ['status', 'priority', 'followup', 'notes', 'assigned', 'quote'];
+
+function dashboardApi_(d) {
+  const action = String(d.action || '');
+  if (action === 'login') return dashLogin_(d);
+  if (!dashTokenOk_(d.token)) return { ok: false, auth: false, error: 'Please sign in again.' };
+  if (action === 'leads') return dashLeads_();
+  if (action === 'update') return dashUpdate_(d);
+  if (action === 'ping') return { ok: true };
+  return { ok: false, error: 'Unknown action' };
+}
+
+function dashLogin_(d) {
+  const cache = CacheService.getScriptCache();
+  const fails = Number(cache.get('dash_fails') || 0);
+  if (fails >= DASH_MAX_FAILS) return { ok: false, locked: true, error: 'Too many wrong tries. Wait 15 minutes and try again.' };
+  const salt = prop_('DASH_SALT'), hash = prop_('DASH_HASH');
+  if (!salt || !hash) return { ok: false, error: 'No dashboard password yet. In the sheet, use 🏠 AURA > 🔑 Set dashboard password.' };
+  Utilities.sleep(400); // slows down guessing
+  if (dashHash_(String(d.password || ''), salt) !== hash) {
+    cache.put('dash_fails', String(fails + 1), 900);
+    log_('Dashboard', 'Wrong password', '');
+    return { ok: false, error: 'That password is not right.' };
+  }
+  cache.remove('dash_fails');
+  const ms = d.remember ? DASH_DAYS_REMEMBER * 864e5 : DASH_HOURS_SESSION * 36e5;
+  const exp = String(Date.now() + ms);
+  return { ok: true, token: exp + '.' + dashSign_(exp), expires: Number(exp) };
+}
+
+function dashTokenOk_(t) {
+  const parts = String(t || '').split('.');
+  if (parts.length !== 2 || !/^\d+$/.test(parts[0])) return false;
+  if (Number(parts[0]) < Date.now()) return false;
+  return dashSign_(parts[0]) === parts[1];
+}
+
+function dashSign_(s) {
+  let key = prop_('DASH_KEY');
+  if (!key) { key = Utilities.getUuid() + Utilities.getUuid(); setProp_('DASH_KEY', key); }
+  return Utilities.base64EncodeWebSafe(Utilities.computeHmacSha256Signature(s, key)).replace(/=+$/, '');
+}
+
+function dashHash_(pw, salt) {
+  let h = pw;
+  for (let i = 0; i < 500; i++) h = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, salt + h, Utilities.Charset.UTF_8));
+  return h;
+}
+
+function dashLeads_() {
+  const ss = book_(), sh = enqSheet_(ss), n = sh.getLastRow() - 1;
+  const leads = [];
+  if (n > 0) {
+    const vals = sh.getRange(2, 1, n, COLS.length).getValues();
+    const iso = v => v instanceof Date && !isNaN(v) ? v.toISOString() : '';
+    vals.forEach((v, i) => {
+      if (!v[C.name - 1]) return;
+      leads.push({
+        row: i + 2, ref: String(v[C.ref - 1]), received: iso(v[C.received - 1]), name: String(v[C.name - 1]),
+        mobile: String(v[C.mobile - 1]).replace(/\D/g, '').slice(-10), status: String(v[C.status - 1]), priority: String(v[C.priority - 1]),
+        followup: iso(v[C.followup - 1]), notes: String(v[C.notes - 1]), assigned: String(v[C.assigned - 1]), wants: String(v[C.wants - 1]),
+        interests: String(v[C.interests - 1]), property: String(v[C.property - 1]), stage: String(v[C.stage - 1]), area: String(v[C.area - 1]),
+        visitType: String(v[C.visitType - 1]), visitDate: iso(v[C.visitDate - 1]), visitTime: String(v[C.visitTime - 1]),
+        custNote: String(v[C.custNote - 1]), quote: Number(v[C.quote - 1]) || 0, repeat: String(v[C.repeat - 1]),
+        updated: iso(v[C.updated - 1]), device: String(v[C.device - 1]), referrer: String(v[C.referrer - 1])
+      });
+    });
+  }
+  let team = [];
+  try { const r = ss.getRangeByName('cfg_team'); if (r) team = r.getValues().map(x => String(x[0]).trim()).filter(String); } catch (_) {}
+  return {
+    ok: true, now: new Date().toISOString(), leads: leads, team: team,
+    statuses: STATUS_STYLE.map(s => s[0]), priorities: PRIORITY_STYLE.map(s => s[0]),
+    greeting: String(cfg_('greeting') || ''), sheetUrl: ss.getUrl()
+  };
+}
+
+function dashUpdate_(d) {
+  const f = d.fields || {};
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const ss = book_(), sh = enqSheet_(ss), n = sh.getLastRow() - 1;
+    if (n < 1) return { ok: false, error: 'Lead not found' };
+    // Find the row by its reference (rows can move if someone sorts the sheet).
+    let r = Number(d.row) || 0;
+    if (!(r >= 2 && r <= n + 1 && sh.getRange(r, C.ref).getDisplayValue() === String(d.ref))) {
+      r = 0;
+      const refs = sh.getRange(2, C.ref, n, 1).getDisplayValues();
+      for (let i = 0; i < n; i++) if (refs[i][0] === String(d.ref)) { r = i + 2; break; }
+    }
+    if (!r) return { ok: false, error: 'Lead not found. It may have been deleted from the sheet.' };
+
+    const now = new Date(), today = startOfDay_(now);
+    const oldStatus = String(sh.getRange(r, C.status).getValue());
+    let followSet = false;
+    DASH_EDITABLE.forEach(k => {
+      if (!(k in f)) return;
+      let v = f[k];
+      if (k === 'status' && STATUS_STYLE.map(s => s[0]).indexOf(v) < 0) return;
+      if (k === 'priority' && v && PRIORITY_STYLE.map(s => s[0]).indexOf(v) < 0) return;
+      if (k === 'followup') { v = /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? new Date(v + 'T00:00:00+05:30') : ''; followSet = true; }
+      else if (k === 'quote') v = Math.max(0, Math.round(Number(String(v).replace(/[^\d.]/g, '')) || 0)) || '';
+      else v = clean_(v, k === 'notes' ? 2000 : 80);
+      sh.getRange(r, C[k]).setValue(v);
+    });
+
+    // Same helpers as editing in the sheet: next follow-up date when Status changes.
+    const status = String(sh.getRange(r, C.status).getValue());
+    if (status !== oldStatus && !followSet) {
+      const fu = sh.getRange(r, C.followup), old = fu.getValue();
+      if (status === ST.WON || status === ST.LOST) fu.clearContent();
+      else if (NEXT_FOLLOW_UP_DAYS[status] && (!(old instanceof Date) || old <= today)) {
+        let next = new Date(today.getTime() + NEXT_FOLLOW_UP_DAYS[status] * 864e5);
+        const pref = sh.getRange(r, C.visitDate).getValue();
+        if (status === ST.VISIT && pref instanceof Date && pref >= today) next = startOfDay_(pref);
+        fu.setValue(next);
+      }
+    }
+    sh.getRange(r, C.updated).setValue(now);
+    SpreadsheetApp.flush();
+    const v = sh.getRange(r, 1, 1, COLS.length).getValues()[0];
+    const iso = x => x instanceof Date && !isNaN(x) ? x.toISOString() : '';
+    return {
+      ok: true, lead: {
+        row: r, ref: String(d.ref), status: String(v[C.status - 1]), priority: String(v[C.priority - 1]), followup: iso(v[C.followup - 1]),
+        notes: String(v[C.notes - 1]), assigned: String(v[C.assigned - 1]), quote: Number(v[C.quote - 1]) || 0, updated: iso(v[C.updated - 1])
+      }
+    };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// 🏠 AURA > 🔑 Set dashboard password
+function setDashboardPassword() {
+  const ui = SpreadsheetApp.getUi();
+  const a = ui.prompt('🔑 Dashboard password', 'Type a new password for your private leads dashboard (at least 8 characters).\nAnyone with this password can see every lead, so keep it to yourself.', ui.ButtonSet.OK_CANCEL);
+  if (a.getSelectedButton() !== ui.Button.OK) return;
+  const pw = a.getResponseText().trim();
+  if (pw.length < 8) { ui.alert('Please use at least 8 characters. Nothing was changed.'); return; }
+  const salt = Utilities.getUuid();
+  setProp_('DASH_SALT', salt);
+  setProp_('DASH_HASH', dashHash_(pw, salt));
+  setProp_('DASH_KEY', Utilities.getUuid() + Utilities.getUuid()); // signs out every old device
+  CacheService.getScriptCache().remove('dash_fails');
+  ui.alert('✅ Password saved. Every device that was signed in has been signed out. Sign in on the dashboard with the new password.');
+}
+
+// 🏠 AURA > 🚪 Sign out all dashboard devices
+function signOutDashboardEverywhere() {
+  setProp_('DASH_KEY', Utilities.getUuid() + Utilities.getUuid());
+  toast_('Every phone and computer is now signed out of the dashboard.', '🚪 Signed out');
+}
 
 // =================================================================================
 // 4) SETUP: builds every tab. Safe to run again.
