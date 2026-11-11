@@ -1,52 +1,42 @@
-# Connect the website form to Google Sheets
+# AURA Enquiries sheet: setup (about 5 minutes)
 
-Every consultation request from the website is added as a new row in the
-**AURA Website Enquiries** Google Sheet (tab "Enquiries"), with the date and time,
-all details, a WhatsApp link and a Status dropdown. The "Summary" tab counts them.
+You paste one script into a new, empty Google Sheet and press Run once. The script then
+builds the whole sheet by itself: a Dashboard with live numbers and charts, a Today to-do
+list, the Enquiries table with colour-coded Status and Priority dropdowns, a Settings tab,
+and a Guide.
 
-The website's only email is **contact.smarthomesaura@gmail.com**. The sheet, the script
-and the enquiry alerts all belong to that account.
+## Step 1: Open a new sheet in the AURA account
+1. Open an **incognito window** (Ctrl+Shift+N, or Cmd+Shift+N on a Mac).
+2. Go to **sheets.new** and sign in **only** as `contact.smarthomesaura@gmail.com`.
+   A blank sheet opens.
 
-## One-time setup (about 5 minutes)
+## Step 2: Paste the script
+1. In the sheet's top menu click **Extensions → Apps Script**.
+2. Delete everything in the editor, paste **all** of `Code.gs`, and press **Save** (the disk icon).
 
-1. Open an **incognito window** (Ctrl+Shift+N, or Cmd+Shift+N on a Mac) and sign in
-   **only** as `contact.smarthomesaura@gmail.com`. Being signed into several Google
-   accounts at once is what causes the "Sorry, unable to open the file" error.
-2. Open the sheet that was shared with this account:
-   https://docs.google.com/spreadsheets/d/13T-HnxoNsVYnePYvM6HzykkvErzTiuOVZhFr5CUa_i4/edit
-   (or open the "shared with you" email in that inbox).
-3. Click **File → Make a copy**. Name it `AURA Website Enquiries` and click **Make a copy**.
-   The copy opens in a new tab and is owned by contact.smarthomesaura@gmail.com.
-   **Do all the next steps in that copy.**
-4. Click **Extensions → Apps Script** (the `{ }` icon; *not* AppSheet).
-   Delete the sample code, paste all of `Code.gs`, and click **Save**.
-5. Click **Deploy → New deployment**. Click the gear icon next to "Select type" and choose **Web app**.
-   - Description: `AURA website form`
-   - Execute as: **Me**
-   - Who has access: **Anyone**
-6. Click **Deploy**, then **Authorize access**, and choose contact.smarthomesaura@gmail.com.
-   If you see "Google hasn't verified this app", click **Advanced → Go to (project name) (unsafe)** → **Allow**.
-   (It's your own script, so this is expected.)
-7. Copy the **Web app URL** (it ends in `/exec`).
-8. In `index.html`, set `const SHEET_URL = "…/exec";` and push. (Or send the URL to Claude.)
+## Step 3: Build the sheet
+1. In the box at the top of the editor (next to "Debug"), choose **setup**, then press **Run**.
+2. Google asks for permission: **Review permissions →** choose contact.smarthomesaura@gmail.com →
+   **Advanced → Go to (project) (unsafe) → Allow**. This is normal for your own script.
+3. Wait about 30 seconds until the log says **"AURA enquiries sheet is ready"**.
+   Go back to the sheet tab: the Dashboard, Today, Enquiries, Settings and Guide tabs are there,
+   and a "Your enquiries sheet is ready" email arrives in the AURA inbox.
 
-To test: open the URL in a browser. It should say "AURA enquiry form is connected to this sheet."
-New-enquiry emails go to contact.smarthomesaura@gmail.com (set by `NOTIFY_EMAIL` in `Code.gs`).
+## Step 4: Connect it to the website
+1. Back in Apps Script, click **Deploy → New deployment**.
+2. Click the gear icon next to "Select type" and choose **Web app**.
+3. Set **Execute as: Me** and **Who has access: Anyone**.
+   (It must be "Anyone", not "Anyone with a Google account". This is the most common reason rows don't arrive.)
+4. Click **Deploy**, then copy the **Web app URL** (it ends in `/exec`).
+5. **Send that link to Claude.** Claude puts it into the website and saves a new website version.
 
-If you change `Code.gs` later, use **Deploy → Manage deployments → Edit → Version: New version**
-so the same URL keeps working.
+## Check it works
+- Open the `/exec` link in a browser: it should say **"Your AURA enquiries link is working."**
+- Add `?test=1` to the end of the link and open it: a test row appears in 📋 Enquiries and an alert email arrives.
+- Remove test rows any time with the **🏠 AURA** menu → **🧹 Remove test enquiries**.
 
-The original sheet in the old account can be deleted once the copy works.
-
-## Moving the website accounts to the same email
-
-Do these while signed in to each service. All are free and reversible.
-
-- **GitHub** (repo dot-hpg/aura): Settings → Emails → add contact.smarthomesaura@gmail.com,
-  click the link in the verification email, set it as **Primary email**, then remove the old one.
-- **Vercel** (aura-pnq6.vercel.app): Account Settings → Email → add
-  contact.smarthomesaura@gmail.com, verify it, make it primary, then remove the old one.
-- **Netlify** (sparkly-buttercream-f70f4e.netlify.app): User settings → change the email
-  to contact.smarthomesaura@gmail.com and confirm from that inbox.
-- **Google Business Profile / Instagram** (if they use another email): change the contact
-  email in their settings to contact.smarthomesaura@gmail.com.
+## Good to know
+- If you ever change the script, use **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy**
+  so the website link stays the same.
+- Lost the link? In the sheet, use **🏠 AURA → 🔗 Show my website link**.
+- Running **setup** again (or **🏠 AURA → 🛠 Repair sheet design**) fixes the design and never deletes enquiries.

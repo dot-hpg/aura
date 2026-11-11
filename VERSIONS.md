@@ -20,5 +20,6 @@ Every change to the site is saved as a numbered version. Each version is a branc
 | v14 | 2026-11-10 | "Recent work" is now Instagram-style project stories: tap a project bubble, and each project plays in three frames (the home, what we installed with glowing hotspots, the result). Tap to go forward or back, hold to pause, swipe between projects, and "Try it" jumps to that product in the explorer. The Experience centre is now a compact card beside it with Directions / Call / WhatsApp buttons. Ready for real project photos |
 | v15 | 2026-11-11 | Enquiry form connected to the Google Sheet (owned by contact.smarthomesaura@gmail.com). "Call me back" and "Chat on WhatsApp" both now add a row to the sheet |
 | v16 | 2026-11-11 | Enquiry form now points at the new Google Sheet script link (redeployed with clearer error messages) |
+| v17 | 2026-11-11 | Enquiry form now sends to the brand-new AURA Enquiries sheet (Dashboard, Today to-do, colour-coded Enquiries, alert and morning summary emails). Sheet script in google-sheets/Code.gs |
 
 To go back to a version, ask Claude to "restore vN". The live site (main branch) is then reset to that version's files, and the result is saved as a new version.
